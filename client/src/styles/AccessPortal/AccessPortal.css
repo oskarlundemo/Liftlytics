@@ -1,0 +1,58 @@
+
+
+
+.access-portal {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.access-portal-left-container {
+    width: 50%;
+    height: 100%;
+    background-image: url('/gym.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(2px);
+    z-index: -5;
+}
+
+.access-portal-right-container {
+    width: 50%;
+    height: 100%;
+    background-color: transparent;
+    box-shadow: 0 2px 3px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.motion-child {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.access-portal-box {
+    background-color: var(--color-surface);
+    align-self: center;
+    border-radius: 15px;
+    padding: 2rem 4rem;
+    box-shadow: var(--color-shadow);
+    border: var(--color-border)
+}
+
+
+.company-logo {
+    transform: translateY(-200%);
+}
