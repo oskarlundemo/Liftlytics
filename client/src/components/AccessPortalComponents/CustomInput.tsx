@@ -10,7 +10,7 @@ type InputFieldProps = {
     setState?: (value: string) => void;
 };
 
-export const InputField = ({ type = '', name = '', value = '', example = '', setState }: InputFieldProps) => {
+export const CustomInput = ({ type = '', name = '', value = '', example = '', setState }: InputFieldProps) => {
     return (
 
         <div
