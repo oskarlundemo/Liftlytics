@@ -1,0 +1,41 @@
+
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 60px;
+    background-color: #1a1a1a;
+    z-index: 1000;
+    border-top: 1px solid var(--color-border);
+
+}
+
+
+.navbar-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    h3 {
+        margin: 0;
+    }
+
+    &:hover {
+
+        cursor: pointer;
+
+        svg {
+            transition: var(--transition-fast);
+            fill: var(--color-accent);
+        }
+
+        h3 {
+            color: var(--color-accent);
+        }
+    }
+}
