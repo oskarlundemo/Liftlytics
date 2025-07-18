@@ -1,5 +1,6 @@
 import {useAuth} from "../contexts/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
+import {NavigationBar} from "../components/MiscComponents/NavigationBar.tsx";
 
 
 export const Home = () => {
@@ -17,6 +18,9 @@ export const Home = () => {
             <h1>You have logged in</h1>
 
             <button onClick={handleLogout}>Logout</button>
+
+
+            <NavigationBar/>
         </main>
     )
 }

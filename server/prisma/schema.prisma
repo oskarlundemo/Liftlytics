@@ -6,10 +6,66 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model workout {
+  id          String    @id @default(uuid())
+  start_time  DateTime?
+  end_time    DateTime?
+  notes       String?
+  body_weight Float?
+
+  workoutExcersizes workoutExcersizes[]
+}
+
+model workoutExcersizes {
+  id           String @id @default(uuid())
+  workout_id   String
+  excersize_id String
+
+  workout   workout           @relation(fields: [workout_id], references: [id])
+  excersize strengthExcersize @relation(fields: [excersize_id], references: [id])
+
+  metrics ExerciseMetric[]
+}
+
+model ExerciseMetric {
+  id                  String            @id @default(uuid())
+  workoutExcersize_id String
+  workoutExcersize    workoutExcersizes @relation(fields: [workoutExcersize_id], references: [id])
+
+  metricType MetricType
+
+  sets Int?
+  reps Int?
+
+  time Float?
+}
+
+enum MetricType {
+  WEIGHT_REPS
+  WEIGHT_TIME
+  BODYWEIGHT_TIME
+  REPS
+}
+
+model strengthExcersize {
+  id String @id @default(uuid())
+
+  musclegroup_id String
+  muscleGroup    musclegroup @relation(references: [id], fields: [musclegroup_id])
+
+  workoutExcersizes workoutExcersizes[]
+}
+
+model musclegroup {
+  id        String              @id @default(uuid())
+  name      String
+  excersize strengthExcersize[]
 }
