@@ -95,9 +95,12 @@
 .input-group {
   margin: 2rem 0;
   position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
 
   input {
-    width: 100%;
+    flex-grow: 1;
     padding: 1rem;
     font-size: 1rem;
     border: none;
@@ -115,7 +118,7 @@
 }
 
 .input-group.type-md input {
-  padding-left: 0;
+  padding: 1rem;
   border-bottom: 2px solid var(--color-text);
 }
 
@@ -162,6 +165,10 @@
 
 .input-group.type-md input:focus ~ .border {
   transform: scaleX(1);
+}
+
+.input-group type-md {
+  overflow: hidden !important;
 }
 
 

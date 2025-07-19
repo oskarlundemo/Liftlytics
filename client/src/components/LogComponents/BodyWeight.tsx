@@ -1,0 +1,28 @@
+
+type BodyWeightProps = {
+    weight: number;
+    setWeight: (weight: number) => void;
+}
+
+
+export const BodyWeight = ({weight, setWeight}: BodyWeightProps) => {
+
+
+    return (
+        <section
+            className="body-weight-wrapper">
+
+            <h2>Body weight (kg)</h2>
+
+            <input
+                type="number"
+                min="0"
+                step="0.1"
+                placeholder="Enter weight (kg)"
+                value={weight}
+                onChange={(e) => setWeight(Number(e.target.value))}
+            />
+        </section>
+    )
+
+}
