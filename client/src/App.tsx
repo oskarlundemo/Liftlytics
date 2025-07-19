@@ -11,7 +11,7 @@ import {LogPage} from "./pages/LogPage.tsx";
 import {ProfilePage} from "./pages/ProfilePage.tsx";
 import {StatisticsPage} from "./pages/StatisticsPage.tsx";
 import {LogProvider} from "./contexts/LogContext.tsx";
-import {NewWorkoutPage} from "./components/LogComponents/NewWorkoutSlide.tsx";
+import {NewWorkoutPage} from "./components/LogComponents/NewWorkoutPage.tsx";
 
 function App() {
 

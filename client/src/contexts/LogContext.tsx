@@ -3,17 +3,22 @@ import { createContext, useContext, useState } from "react";
 type LogContextType = {
     showNewWorkout: boolean;
     setShowNewWorkout: React.Dispatch<React.SetStateAction<boolean>>;
+    workoutName: string;
+    setWorkoutName: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const LogContext = createContext<LogContextType | undefined>(undefined);
 
 export const LogProvider = ({ children }: { children: React.ReactNode }) => {
     const [showNewWorkout, setShowNewWorkout] = useState(false);
+    const [workoutName, setWorkoutName] = useState("");
 
     return (
         <LogContext.Provider value={{
             showNewWorkout,
-            setShowNewWorkout
+            setShowNewWorkout,
+            workoutName,
+            setWorkoutName,
         }}>
             {children}
         </LogContext.Provider>
