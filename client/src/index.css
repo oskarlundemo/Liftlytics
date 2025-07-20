@@ -25,7 +25,7 @@
   /* Accent colors */
   --color-primary: hsl(280, 60%, 75%);       /* Purple accent (#c792ea) */
   --color-secondary: hsl(195, 100%, 75%);    /* Cyan (#89ddff) */
-  --color-accent: hsl(45, 100%, 70%);        /* Yellow highlight (#ffcb6b) */
+  --color-accent: hsl(195, 100%, 75%);        /* Yellow highlight (#ffcb6b) */
 
 
   /* Semantic */
@@ -38,10 +38,12 @@
   --color-shadow: hsla(240, 10%, 10%, 0.4);  /* Shadow for cards */
 
   /* Typography & spacing */
-  --font-family: 'JetBrains Mono', monospace;
-  --border-radius: 8px;
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+  Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;  --border-radius: 8px;
   --transition-fast: 0.2s;
   --transition-slow: 0.4s;
+
+  --max-context-width: 1200px;
 
 }
 
