@@ -3,11 +3,13 @@ import {useLog} from "../../contexts/LogContext.tsx";
 import {CustomTimePicker} from "./CustomTimePicker.tsx";
 import {NotesComponent} from "./Notes.tsx";
 import {BodyWeight} from "./BodyWeight.tsx";
+import {useState} from "react";
 
 
 export const WorkoutData = () => {
 
     const {workoutName, setWorkoutName} = useLog();
+    const [notes, setNotes] = useState<string>('');
 
     return (
             <section className="new-workout-data">
@@ -30,9 +32,9 @@ export const WorkoutData = () => {
 
                 <BodyWeight />
 
-
                 <NotesComponent
-
+                    notes={notes}
+                    setNotes={setNotes}
                 />
 
             </section>
