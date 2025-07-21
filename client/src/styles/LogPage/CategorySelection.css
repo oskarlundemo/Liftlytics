@@ -1,0 +1,21 @@
+
+
+
+.category-selection-header__title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    h1 {
+        margin: 0 auto;
+    }
+}
+
+
+.category-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

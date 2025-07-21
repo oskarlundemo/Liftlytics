@@ -24,5 +24,4 @@ export const BodyWeight = ({weight, setWeight}: BodyWeightProps) => {
             />
         </section>
     )
-
 }
