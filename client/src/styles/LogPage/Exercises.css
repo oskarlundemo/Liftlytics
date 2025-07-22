@@ -2,7 +2,20 @@
 
 
 
-.exercises {
+.exercises-container {
     display: flex;
     flex-direction: column;
+    max-width: var(--max-context-width);
+    margin: 0 auto;
+    width: 100%;
+}
+
+.exercises-wrapper {
+    max-width: var(--max-context-width);
+    margin: 0 auto;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 0 1rem;
+
 }

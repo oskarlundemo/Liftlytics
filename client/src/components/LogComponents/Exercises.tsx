@@ -1,21 +1,34 @@
-import {useLog} from "../../contexts/LogContext.tsx";
 import {ExerciseCard} from "./ExerciseCard.tsx";
 import '../../styles/LogPage/Exercises.css'
+import {MenuHeader} from "./MenuHeader.tsx";
+import {useLog} from "../../contexts/LogContext.tsx";
 
-export const Exercises = ({}) => {
 
-    const {setShowExerciseMenu} = useLog();
+
+
+export const Exercises = ({  }) => {
+
+    const { setShowExerciseMenu, selectedExercises, selectedMuscleGroupName} = useLog();
+
     return (
-        <section className="exercises">
+        <section className="exercises-container">
+            <div className="exercises-wrapper">
 
-            <button
-                onClick={() => setShowExerciseMenu(false)}
-            >Remove</button>
+                <MenuHeader
+                    search={false}
+                    setUI={setShowExerciseMenu}
+                    header={selectedMuscleGroupName}
+                    arrow={true}
+                />
 
-
-            <ExerciseCard
-                title={'Biceps curl'}/>
-
+                {selectedExercises.length === 0 ? (
+                    <p>No exercises found for this muscle group.</p>
+                ) : (
+                    selectedExercises.map((item) => (
+                        <ExerciseCard key={item.id} title={item.exercise.name || 'Unknown Exercise'} />
+                    ))
+                )}
+            </div>
         </section>
-    )
-}
+    );
+};

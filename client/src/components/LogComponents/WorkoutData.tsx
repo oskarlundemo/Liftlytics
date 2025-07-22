@@ -20,6 +20,7 @@ export const WorkoutData = () => {
     const [endTime, setEndTime] = useState<Date>(new Date());
     const [notes, setNotes] = useState<string>('');
     const {showAddExerciseMenu, showExerciseMenu} = useLog();
+    const {selectedMuscleGroupName} = useLog();
 
     return (
             <section className="new-workout-data">

@@ -14,7 +14,6 @@ type AuthContextType = {
     loading: boolean;
     token: string | null;
     logout: () => Promise<void>;
-    API_URL: string;
     loginWithEmail: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
     signUpWithEmail: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
     loginWithGoogle: () => Promise<{ success: boolean; error?: string }>;
@@ -23,13 +22,9 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
-
-    const API_URL =
-        import.meta.env.MODE === "production"
-            ? import.meta.env.VITE_API_PROD_URL
-            : "/api";
 
     useEffect(() => {
         const init = async () => {
@@ -130,7 +125,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 loading,
                 logout,
                 token: localStorage.getItem("token"),
-                API_URL,
             }}
         >
             {children}

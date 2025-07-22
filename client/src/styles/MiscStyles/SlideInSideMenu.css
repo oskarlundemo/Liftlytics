@@ -12,11 +12,4 @@
     background-color: var(--color-bg);
     border-radius: var(--border-radius);
     z-index: 999;
-
-    transform: translateX(100%);
-    transition: transform var(--transition-slow) ease-in-out;
-}
-
-.slide-in-side-menu.show {
-    transform: translateX(0%);
 }

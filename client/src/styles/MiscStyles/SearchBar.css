@@ -1,0 +1,31 @@
+
+
+
+.search-bar-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    background: var(--color-surface);
+    border-radius: 0.5rem;
+    transition: var(--transition-fast);
+
+    svg {
+        transition: var(--transition-fast);
+    }
+
+    &:has(input:focus-within) {
+        svg {
+            fill: var(--color-accent);
+        }
+    }
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--color-text);
+    width: 100%;
+}
