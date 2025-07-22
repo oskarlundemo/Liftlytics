@@ -241,6 +241,15 @@
 }
 
 
+.transparent-btn {
+  font-family: inherit;
+  color: var(--color-text);
+  border: none;
+  background-color: transparent;
+  font-size: inherit;
+  padding: 1rem;
+}
+
 .error-text {
   transition: var(--transition-fast);
   cursor: pointer;
@@ -249,3 +258,4 @@
     color: var(--color-error);
   }
 }
+

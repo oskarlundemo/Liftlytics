@@ -7,8 +7,8 @@ import {Overlay} from "../MiscComponents/Overlay.tsx";
 
 export const NewWorkoutPage = () => {
 
+    const {showAddExerciseMenu, setShowExerciseMenu, setAddExerciseMenu} = useLog();
 
-    const {showAddExerciseMenu, setAddExerciseMenu} = useLog();
 
     return (
         <main className="new-workout-container main-box">
@@ -21,12 +21,16 @@ export const NewWorkoutPage = () => {
                 <ExerciseSelection/>
 
                 <AddExcersize/>
+
             </section>
 
 
             <Overlay
                 showOverlay={showAddExerciseMenu}
-                setShowOverlay={setAddExerciseMenu}
+                setShowOverlay={() => {
+                    setAddExerciseMenu(false);
+                    setShowExerciseMenu(false);
+                }}
             />
 
         </main>

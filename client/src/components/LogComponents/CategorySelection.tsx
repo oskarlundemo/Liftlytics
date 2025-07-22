@@ -1,39 +1,54 @@
 import {CategoryCard} from "./CategoryCard.tsx";
-import {useLog} from "../../contexts/LogContext.tsx";
 import '../../styles/LogPage/CategorySelection.css'
+import {MenuHeader} from "./MenuHeader.tsx";
+import {useLog} from "../../contexts/LogContext.tsx";
+import {useLogs} from "../../hooks/useNewWorkout.ts";
+import {useEffect} from "react";
 
 export const CategorySelection = ({}) => {
 
     const {setAddExerciseMenu} = useLog();
+    const {data, isLoading } = useLogs();
+
+    useEffect(() => {
+        if (data) {
+            console.log("Workout data:", data);
+        }
+    }, [data]);
+
 
     return (
-        <section className="category-selection-wrapper">
-            <header className="category-selection-header">
+        <section className="category-selection-container">
 
-                <div className="category-selection-header__title">
+            <div className="category-wrapper">
 
-                    <p
-                        onClick={() => setAddExerciseMenu(false)}
-                        className="category-selection-header__btn error-text">
-                        Cancel
-                    </p>
-
-                    <h1>Select exercise</h1>
-
-                </div>
-
-            </header>
-
-
-            <article className="category-selection-body">
-
-                <CategoryCard
-                    title={'Arms'}
+                <MenuHeader
+                    search={true}
+                    setUI={setAddExerciseMenu}
+                    header={'Select muscle group'}
                 />
 
-            </article>
+                <article className="category-selection-body">
+
+                    {isLoading ? (
+                        <p>Loading...</p>
+                    ) : (
+                        data.muscleGroups.map((muscleGroup) => (
+                            <CategoryCard
+                                exercises={muscleGroup.exercises}
+                                key={muscleGroup.id}
+                                title={muscleGroup.name || ''}/>
+                        ))
+                    )}
+
+                    <CategoryCard
+                        title={'Arms'}
+                    />
+
+                </article>
+
+            </div>
 
         </section>
     )
-
 }

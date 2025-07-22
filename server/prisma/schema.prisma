@@ -14,38 +14,43 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model workout {
-  id          String    @id @default(uuid())
-  start_time  DateTime?
-  end_time    DateTime?
-  notes       String?
-  body_weight Float?
-
-  workoutExcersizes workoutExcersizes[]
+model User {
+  id        String             @id @default(uuid())
+  email     String             @unique
+  exercises StrengthExercise[]
+  workouts  Workout[]
 }
 
-model workoutExcersizes {
-  id           String @id @default(uuid())
-  workout_id   String
-  excersize_id String
+model Workout {
+  id         String            @id @default(uuid())
+  startTime  DateTime?
+  endTime    DateTime?
+  notes      String?
+  bodyWeight Float?
+  exercises  WorkoutExercise[]
+  User       User[]
+}
 
-  workout   workout           @relation(fields: [workout_id], references: [id])
-  excersize strengthExcersize @relation(fields: [excersize_id], references: [id])
+model WorkoutExercise {
+  id         String @id @default(uuid())
+  workoutId  String
+  exerciseId String
+
+  workout  Workout          @relation(fields: [workoutId], references: [id])
+  exercise StrengthExercise @relation(fields: [exerciseId], references: [id])
 
   metrics ExerciseMetric[]
 }
 
 model ExerciseMetric {
-  id                  String            @id @default(uuid())
-  workoutExcersize_id String
-  workoutExcersize    workoutExcersizes @relation(fields: [workoutExcersize_id], references: [id])
+  id                String          @id @default(uuid())
+  workoutExerciseId String
+  workoutExercise   WorkoutExercise @relation(fields: [workoutExerciseId], references: [id])
 
   metricType MetricType
-
-  sets Int?
-  reps Int?
-
-  time Float?
+  sets       Int?
+  reps       Int?
+  time       Float?
 }
 
 enum MetricType {
@@ -55,17 +60,29 @@ enum MetricType {
   REPS
 }
 
-model strengthExcersize {
-  id String @id @default(uuid())
+model StrengthExercise {
+  id        String  @id @default(uuid())
+  name      String
+  category  String?
+  isDefault Boolean @default(false)
+  userId    String?
 
-  musclegroup_id String
-  muscleGroup    musclegroup @relation(references: [id], fields: [musclegroup_id])
-
-  workoutExcersizes workoutExcersizes[]
+  user         User?                 @relation(fields: [userId], references: [id])
+  workouts     WorkoutExercise[]
+  muscleGroups ExerciseMuscleGroup[]
 }
 
-model musclegroup {
-  id        String              @id @default(uuid())
+model MuscleGroup {
+  id        String                @id @default(uuid())
   name      String
-  excersize strengthExcersize[]
+  exercises ExerciseMuscleGroup[]
+}
+
+model ExerciseMuscleGroup {
+  id            String @id @default(uuid())
+  exerciseId    String
+  muscleGroupId String
+
+  exercise    StrengthExercise @relation(fields: [exerciseId], references: [id])
+  muscleGroup MuscleGroup      @relation(fields: [muscleGroupId], references: [id])
 }
