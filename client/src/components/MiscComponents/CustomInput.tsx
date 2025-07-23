@@ -8,9 +8,10 @@ type InputFieldProps = {
     example?: string;
     name?: string;
     setState?: (value: string) => void;
+    isRequired?: boolean;
 };
 
-export const CustomInput = ({ type = '', name = '', value = '', example = '', setState }: InputFieldProps) => {
+export const CustomInput = ({ type = '', isRequired = true, name = '', value = '', example = '', setState }: InputFieldProps) => {
     return (
 
         <div
@@ -18,7 +19,7 @@ export const CustomInput = ({ type = '', name = '', value = '', example = '', se
 
             <input
                 id={name}
-                required={true}
+                required={isRequired}
                 className="default-input"
                 type={type}
                 value={value}

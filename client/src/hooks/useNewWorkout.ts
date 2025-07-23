@@ -1,6 +1,6 @@
 
 
-import { useQuery } from '@tanstack/react-query'
+import {useMutation, useQuery} from '@tanstack/react-query'
 import {fetchLogs, postNewWorkout} from '../api/newWorkout.ts'
 
 export const useLogs = () => {
@@ -11,10 +11,11 @@ export const useLogs = () => {
 }
 
 
-export const postWorkout = async () => {
-    return useQuery({
-        queryKey: ['logs'],
-        queryFn: postNewWorkout,
-    })
-}
+export const usePostWorkout = () => {
+    return useMutation({
+        mutationFn: postNewWorkout,
+    });
+};
+
+
 

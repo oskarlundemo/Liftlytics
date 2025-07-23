@@ -4,7 +4,6 @@ import {prisma} from "../clients/prismaClient";
 
 export const fetchCategories = async (req: Request, res: Response) => {
 
-
     try {
 
         const muscleGroups = await prisma.muscleGroup.findMany({

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {CustomInput} from "./CustomInput.tsx";
+import {CustomInput} from "../MiscComponents/CustomInput.tsx";
 import {useState} from "react";
 import '../../styles/AccessPortal/AccessPortal.css'
 import {OrDivider} from "./OrDivider.tsx";

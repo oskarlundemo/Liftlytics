@@ -4,11 +4,15 @@ import {MenuHeader} from "./MenuHeader.tsx";
 import {useLog} from "../../contexts/LogContext.tsx";
 import {useLogs} from "../../hooks/useNewWorkout.ts";
 import {useEffect} from "react";
+import { PulseLoader } from "react-spinners";
+
+
 
 export const CategorySelection = ({}) => {
 
     const {setAddExerciseMenu} = useLog();
     const {data, isLoading } = useLogs();
+
 
     useEffect(() => {
         if (data) {
@@ -31,7 +35,11 @@ export const CategorySelection = ({}) => {
                 <article className="category-selection-body">
 
                     {isLoading ? (
-                        <p>Loading...</p>
+                        <PulseLoader
+                            size={10}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                        />
                     ) : (
                         data.muscleGroups.map((muscleGroup) => (
                             <CategoryCard
@@ -40,10 +48,6 @@ export const CategorySelection = ({}) => {
                                 title={muscleGroup.name || ''}/>
                         ))
                     )}
-
-                    <CategoryCard
-                        title={'Arms'}
-                    />
 
                 </article>
 

@@ -83,6 +83,6 @@ model ExerciseMuscleGroup {
   exerciseId    String
   muscleGroupId String
 
-  exercise    StrengthExercise @relation(fields: [exerciseId], references: [id])
+  exercise    StrengthExercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
   muscleGroup MuscleGroup      @relation(fields: [muscleGroupId], references: [id])
 }
