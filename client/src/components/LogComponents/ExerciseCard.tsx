@@ -1,14 +1,15 @@
 
+
+
 type ExerciseCardProps = {
-    title: string,
-}
+    title: string;
+    onAddExercise: () => void;
+};
 
-
-export const ExerciseCard = ({title}: ExerciseCardProps) => {
-
+export const ExerciseCard = ({ title, onAddExercise }: ExerciseCardProps) => {
     return (
-            <div className={'exercise-card'}>
-                <h2>{title}</h2>
-            </div>
-        )
-}
+        <div onClick={onAddExercise} className="exercise-card">
+            <h3>{title}</h3>
+        </div>
+    );
+};

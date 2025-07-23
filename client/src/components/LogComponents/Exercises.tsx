@@ -5,10 +5,14 @@ import {useLog} from "../../contexts/LogContext.tsx";
 
 
 
+type ExercisesProps = {
+    setExercises: React.Dispatch<React.SetStateAction<any[]>>
+};
 
-export const Exercises = ({  }) => {
 
-    const { setShowExerciseMenu, selectedExercises, selectedMuscleGroupName} = useLog();
+export const Exercises = ({ setExercises }: ExercisesProps) => {
+    const { setShowExerciseMenu, setAddExerciseMenu, selectedExercises, selectedMuscleGroupName } = useLog();
+
 
     return (
         <section className="exercises-container">
@@ -25,7 +29,15 @@ export const Exercises = ({  }) => {
                     <p>No exercises found for this muscle group.</p>
                 ) : (
                     selectedExercises.map((item) => (
-                        <ExerciseCard key={item.id} title={item.exercise.name || 'Unknown Exercise'} />
+                        <ExerciseCard
+                            key={item.id}
+                            title={item.exercise.name || 'Unknown Exercise'}
+                            onAddExercise={() => {
+                                setExercises(prev => [...prev, item])
+                                setShowExerciseMenu(false);
+                                setAddExerciseMenu(false);
+                            }}
+                        />
                     ))
                 )}
             </div>

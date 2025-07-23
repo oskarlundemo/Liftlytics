@@ -1,16 +1,22 @@
-import {CustomInput} from "../AccessPortalComponents/CustomInput.tsx";
+import {CustomInput} from "../MiscComponents/CustomInput.tsx";
 import {CustomTimePicker} from "./CustomTimePicker.tsx";
 import {NotesComponent} from "./Notes.tsx";
 import {BodyWeight} from "./BodyWeight.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {SlideInBottomMenu} from "../MiscComponents/SlideInBottomMenu.tsx";
 import {useLog} from "../../contexts/LogContext.tsx";
 import {CategorySelection} from "./CategorySelection.tsx";
 import {SlideInSideMenu} from "../MiscComponents/SlideInSideMenu.tsx";
 import {Exercises} from "./Exercises.tsx";
+import {usePostWorkout} from "../../hooks/useNewWorkout.ts";
 
 
-export const WorkoutData = () => {
+type WorkoutProps = {
+    setExercises: React.Dispatch<React.SetStateAction<any[]>>
+};
+
+
+export const WorkoutData = ({setExercises}:WorkoutProps) => {
 
     const [workoutName, setWorkoutName] = useState("");
     const [startDate, setStartDate] = useState<Date>(new Date());
@@ -20,10 +26,29 @@ export const WorkoutData = () => {
     const [endTime, setEndTime] = useState<Date>(new Date());
     const [notes, setNotes] = useState<string>('');
     const {showAddExerciseMenu, showExerciseMenu} = useLog();
-    const {selectedMuscleGroupName} = useLog();
+
+    const { mutate: submitWorkout, isPending, isError } = usePostWorkout();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const workoutData = {
+            workoutName,
+            startDate,
+            endDate,
+            startTime,
+            endTime,
+            bodyWeight,
+            notes,
+            exercises,
+        };
+
+        submitWorkout(workoutData);
+    };
+
 
     return (
-            <section className="new-workout-data">
+            <form onSubmit={(e) => handleSubmit(e)} className="new-workout-data">
 
                 <CustomInput
                     type="text"
@@ -31,6 +56,7 @@ export const WorkoutData = () => {
                     example={'Name'}
                     value={workoutName}
                     name="workoutName"
+                    isRequired={true}
                 />
 
                 <CustomTimePicker
@@ -69,10 +95,14 @@ export const WorkoutData = () => {
                 <SlideInSideMenu
                     showMenu={showExerciseMenu}
                     children={
-                        <Exercises/>
+                        <Exercises
+                            setExercises={setExercises}
+                        />
                     }
                 />
 
-            </section>
+                <button type={"submit"}>Submit</button>
+
+            </form>
     )
 }

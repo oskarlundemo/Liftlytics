@@ -7,7 +7,7 @@ export const fetchLogs = async () => {
 }
 
 
-export const postNewWorkout = async () => {
-    const res = await axiosInstance.post('/logs/new')
-    return res.data
+export const postNewWorkout = async (workoutData:object) => {
+    const res = await axiosInstance.post('/logs/new', workoutData);
+    return res.data;
 }
