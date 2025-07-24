@@ -22,13 +22,18 @@ model User {
 }
 
 model Workout {
-  id         String            @id @default(uuid())
-  startTime  DateTime?
-  endTime    DateTime?
+  id        String    @id @default(uuid())
+  startTime DateTime?
+  endTime   DateTime?
+  startDate DateTime?
+  endDate   DateTime?
+
   notes      String?
   bodyWeight Float?
   exercises  WorkoutExercise[]
-  User       User[]
+  name       String?
+  userId     String
+  user       User              @relation(fields: [userId], references: [id])
 }
 
 model WorkoutExercise {

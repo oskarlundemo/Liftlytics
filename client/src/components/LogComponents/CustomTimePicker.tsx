@@ -5,7 +5,7 @@ import 'react-clock/dist/Clock.css';
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
+import '../../styles/Workout/NewWorkout.css'
 
 type CustomTimePickerProps = {
     title: string,

@@ -1,5 +1,5 @@
 
-
+import '../../styles/Workout/NewWorkout.css'
 
 type NoteProps = {
     notes: string

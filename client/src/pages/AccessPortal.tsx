@@ -25,9 +25,9 @@ export const AccessPortal = () => {
                             className="motion-child"
                             key="login"
                             custom={showLogin}
-                            initial={{ x: -300, opacity: 0 }}   // start off-screen left
-                            animate={{ x: 0, opacity: 1 }}      // animate into place
-                            exit={{ x: 300, opacity: 0 }}      // exit off-screen right
+                            initial={{ x: -300, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            exit={{ x: 300, opacity: 0 }}
                             transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
                         >
                             <Login setLogin={setShowLogin} />
@@ -37,9 +37,9 @@ export const AccessPortal = () => {
                             className="motion-child"
                             key="create-account"
                             custom={showLogin}
-                            initial={{ x: 300, opacity: 0 }}    // start off-screen right
-                            animate={{ x: 0, opacity: 1 }}      // animate into place
-                            exit={{ x: -300, opacity: 0 }}      // exit off-screen left
+                            initial={{ x: 300, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            exit={{ x: -300, opacity: 0 }}
                             transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
                         >
                             <CreateAccount setLogin={setShowLogin} />

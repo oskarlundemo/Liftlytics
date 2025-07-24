@@ -7,6 +7,9 @@ type LogContextType = {
     showExerciseMenu: boolean;
     setShowExerciseMenu: React.Dispatch<React.SetStateAction<boolean>>;
 
+    showConfigureExerciseMenu: boolean;
+    setShowConfigureExerciseMenu: React.Dispatch<React.SetStateAction<boolean>>;
+
     selectedExercises: object[];
     setSelectedExercises: React.Dispatch<React.SetStateAction<object[]>>;
 
@@ -19,6 +22,7 @@ const LogContext = createContext<LogContextType | undefined>(undefined);
 export const LogProvider = ({ children }: { children: React.ReactNode }) => {
     const [showAddExerciseMenu, setAddExerciseMenu] = useState<boolean>(false);
     const [showExerciseMenu, setShowExerciseMenu] = useState<boolean>(false);
+    const [showConfigureExerciseMenu, setShowConfigureExerciseMenu] = useState(false);
 
     const [selectedExercises, setSelectedExercises] = useState<object[]>([]);
     const [selectedMuscleGroupName, setSelectedMuscleGroupName] = useState<string>("");
@@ -36,7 +40,10 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
             setSelectedExercises,
 
             selectedMuscleGroupName,
-            setSelectedMuscleGroupName
+            setSelectedMuscleGroupName,
+
+            showConfigureExerciseMenu,
+            setShowConfigureExerciseMenu,
         }}>
             {children}
         </LogContext.Provider>
