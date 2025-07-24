@@ -53,6 +53,7 @@
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 
@@ -74,6 +75,8 @@
   user-select: none;
   text-align: center;
   text-decoration: none;
+  width: fit-content;
+  align-self: center;
 }
 
 .button-intellij:hover {
@@ -259,3 +262,11 @@
   }
 }
 
+
+.error-svg {
+  transition: var(--transition-fast);
+  &:hover {
+    cursor: pointer;
+    fill: var(--color-error);
+  }
+}

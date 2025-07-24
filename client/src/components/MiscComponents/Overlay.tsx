@@ -4,15 +4,16 @@ import '../../styles/MiscStyles/Overlay.css'
 
 type OverlayProps = {
     showOverlay: boolean,
-    setShowOverlay: () => void; // ✅ This is a callback now
+    setShowOverlay: () => void;
+    configureExercise: boolean
 }
 
 
-export const Overlay = ({showOverlay, setShowOverlay}: OverlayProps) => {
+export const Overlay = ({showOverlay, configureExercise = false, setShowOverlay}: OverlayProps) => {
 
     return (
         <div
             onClick={setShowOverlay}
-            className={`overlay ${showOverlay ? 'show' : ''}`}></div>
+            className={`overlay ${showOverlay || configureExercise ? 'show' : ''}`}></div>
     )
 }

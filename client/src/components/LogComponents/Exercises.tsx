@@ -11,8 +11,8 @@ type ExercisesProps = {
 
 
 export const Exercises = ({ setExercises }: ExercisesProps) => {
-    const { setShowExerciseMenu, setAddExerciseMenu, selectedExercises, selectedMuscleGroupName } = useLog();
 
+    const { setShowExerciseMenu, setAddExerciseMenu, selectedExercises, selectedMuscleGroupName } = useLog();
 
     return (
         <section className="exercises-container">
@@ -33,7 +33,12 @@ export const Exercises = ({ setExercises }: ExercisesProps) => {
                             key={item.id}
                             title={item.exercise.name || 'Unknown Exercise'}
                             onAddExercise={() => {
-                                setExercises(prev => [...prev, item])
+                                const newEntry = {
+                                    ...item,
+                                    localId: crypto.randomUUID()
+                                };
+
+                                setExercises(prev => [...prev, newEntry]);
                                 setShowExerciseMenu(false);
                                 setAddExerciseMenu(false);
                             }}
