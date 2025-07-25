@@ -1,7 +1,7 @@
 
 
 import {useMutation, useQuery} from '@tanstack/react-query'
-import {fetchLogs, postNewWorkout} from '../api/newWorkout.ts'
+import {fetchLogs, postNewWorkout} from '../api/logCalls.ts'
 
 export const useLogs = () => {
     return useQuery({

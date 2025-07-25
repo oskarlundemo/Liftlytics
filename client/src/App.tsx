@@ -12,6 +12,7 @@ import {ProfilePage} from "./pages/ProfilePage.tsx";
 import {StatisticsPage} from "./pages/StatisticsPage.tsx";
 import {LogProvider} from "./contexts/LogContext.tsx";
 import {NewWorkoutPage} from "./components/LogComponents/NewWorkoutPage.tsx";
+import {CallbackPage} from "./components/AccessPortalComponents/CallbackPage.tsx";
 
 function App() {
 
@@ -38,6 +39,16 @@ function App() {
                             </LogProvider>
                         </PrivateRoute>
                     }
+                />
+
+
+                <Route
+                    path="/callback"
+                    element={
+                    <PrivateRoute>
+                        <CallbackPage/>
+                    </PrivateRoute>
+                }
                 />
 
                 <Route

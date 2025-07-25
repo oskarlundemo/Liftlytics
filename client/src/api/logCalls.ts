@@ -2,7 +2,7 @@
 import { axiosInstance } from '../services/axios.ts'
 
 export const fetchLogs = async () => {
-    const res = await axiosInstance.get('/logs')
+    const res = await axiosInstance.get('/logs/fetch')
     return res.data
 }
 

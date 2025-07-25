@@ -6,8 +6,10 @@ import React, {
     useContext,
 } from "react";
 import type { ReactNode } from "react";
-import { supabase } from "../services/supabase"; // Adjust path if needed
+import { supabase } from "../services/supabase";
 import type { User } from "@supabase/supabase-js";
+import {useNavigate} from "react-router-dom";
+
 
 type AuthContextType = {
     user: User | null;
@@ -25,6 +27,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const init = async () => {
@@ -68,6 +71,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         await supabase.auth.signOut();
         setUser(null);
         localStorage.removeItem("token");
+        navigate('/')
     };
 
     const loginWithEmail = async (email: string , password: string): Promise<{ success: boolean; error?: string }> => {
@@ -84,30 +88,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
-    const signUpWithEmail = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    const signUpWithEmail = async (email: string, password: string): Promise<{ success: boolean; error?: string; user?: User }> => {
         const { data, error } = await supabase.auth.signUp({
-            email: email,
-            password: password,
+            email,
+            password,
         });
+
         if (error) {
             return { success: false, error: error.message };
         } else {
             console.log('Signed in:', data);
-            return { success: true };
+            return { success: true, user: data?.user ?? data?.session?.user };
         }
-    }
+    };
 
     const loginWithGoogle = async (): Promise<{ success: boolean; error?: string }> => {
 
         const { data, error } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
+            provider: "google",
             options: {
-                redirectTo: `${window.location.origin}/home`,
+                redirectTo: `${window.location.origin}/callback`,
             },
         });
 
         if (error) {
-            console.error('Google sign-in error:', error.message);
+            console.error('Google sign-in error:');
             return { success: false, error: error.message };
         } else {
             console.log('Redirecting to Google login...', data);

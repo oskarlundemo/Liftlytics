@@ -6,7 +6,7 @@ import {useLog} from "../../contexts/LogContext.tsx";
 import {Overlay} from "../MiscComponents/Overlay.tsx";
 import {useEffect, useState} from "react";
 import { motion } from 'framer-motion';
-import {usePostWorkout} from "../../hooks/useNewWorkout.ts";
+import {usePostWorkout} from "../../hooks/logHook.ts";
 import toast from "react-hot-toast";
 
 

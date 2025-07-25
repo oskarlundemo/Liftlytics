@@ -13,6 +13,7 @@ app.use(cors({
     credentials: true,
 }));
 
+app.use(express.json());
 app.use('/api/authorization', authorizationRoute);
 app.use(express.json());
 app.use('/api/logs', logRoute);

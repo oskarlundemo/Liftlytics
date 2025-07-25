@@ -7,6 +7,7 @@ import {AuthOption} from "./AuthOption.tsx";
 import toast from "react-hot-toast";
 import {useAuth} from "../../contexts/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
+import {useAuthorization} from "../../hooks/useAuthorzation.ts";
 
 
 type LoginProps = {
@@ -19,6 +20,8 @@ export const Login = ({setLogin}: LoginProps) => {
     const [password, setPassword] = useState<string>("");
     const navigate = useNavigate();
     const {loginWithGoogle, loginWithEmail} = useAuth();
+    const { mutate: syncUser } = useAuthorization();
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
