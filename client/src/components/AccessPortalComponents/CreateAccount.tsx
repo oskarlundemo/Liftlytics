@@ -6,6 +6,8 @@ import {OrDivider} from "./OrDivider.tsx";
 import {AuthOption} from "./AuthOption.tsx";
 import toast from "react-hot-toast";
 import {useAuth} from "../../contexts/AuthContext.tsx";
+import {useAuthorization} from "../../hooks/useAuthorzation.ts";
+
 
 
 type CreateAccountProps = {
@@ -18,17 +20,24 @@ export const CreateAccount = ({setLogin} : CreateAccountProps) => {
 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const { mutate: syncUser } = useAuthorization();
 
-    const handleSubmit = async () => {
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         const result = await signUpWithEmail(email, password);
-        if (!result.success) {
-            toast.error(result.error || "Sign-in failed.");
-        } else {
-            toast.loading("Redirecting to start page...");
-        }
-    }
 
-    const handleGoogleSignUp = async () => {
+        if (result.success && result.user) {
+            syncUser({ id: result.user.id, email: result.user.email });
+
+            toast.loading("Redirecting to start page...");
+        } else {
+            toast.error(result.error || "Sign-in failed.");
+        }
+    };
+
+    const handleGoogleSignUp = async (event:React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         const result = await loginWithGoogle();
         if (!result.success) {
             toast.error(result.error || "Google sign-in failed.");

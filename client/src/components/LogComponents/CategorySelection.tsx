@@ -2,7 +2,7 @@ import {CategoryCard} from "./CategoryCard.tsx";
 import '../../styles/LogPage/CategorySelection.css'
 import {MenuHeader} from "./MenuHeader.tsx";
 import {useLog} from "../../contexts/LogContext.tsx";
-import {useLogs} from "../../hooks/useNewWorkout.ts";
+import {useLogs} from "../../hooks/logHook.ts";
 import {useEffect} from "react";
 import { PulseLoader } from "react-spinners";
 

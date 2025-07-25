@@ -3,10 +3,10 @@
 
 
 import {Router} from 'express';
-import {addUserToDB} from "../controllers/authorizationController";
+import {syncUserWithDb} from "../controllers/authorizationController";
 
 const authorizationRoute = Router();
 
-authorizationRoute.post('/', addUserToDB);
+authorizationRoute.post('/sync-user', syncUserWithDb);
 
 export default authorizationRoute;

@@ -1,8 +1,8 @@
-import {addUserToDB} from '../api/authorization.ts'
+import {syncUser} from '../api/authorization.ts'
 import {useMutation} from "@tanstack/react-query";
 
-export const useAuthorzation = () => {
+export const useAuthorization = () => {
     return useMutation({
-        mutationFn: addUserToDB,
+        mutationFn: syncUser,
     });
 };

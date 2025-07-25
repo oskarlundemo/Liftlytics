@@ -11,3 +11,43 @@
     margin: 0;
     padding: 1rem;
 }
+
+
+.log-card {
+    background-color: var(--color-surface);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 1rem;
+    gap: 1rem;
+
+    h4 {
+        margin: 0;
+    }
+}
+
+
+.calender-ui {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+
+    p:first-of-type {
+        padding: 1rem;
+        background-color: var(--color-bg);
+        color: var(--color-accent);
+    }
+
+    p:last-of-type {
+        margin: 5px;
+    }
+
+    p {
+        font-weight: bold;
+        margin: 0;
+    }
+}

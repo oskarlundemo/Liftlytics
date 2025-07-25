@@ -26,8 +26,6 @@ export const ExerciseSelection = ({exercises, setExercises}: ExerciseSelectionPr
         setExercises(prev => prev.filter(x => x.localId !== id));
     }
 
-    console.log(exercises);
-
     return (
             <section className="exercise-selection-wrapper">
                 {exercises.map((exercise, index) => {

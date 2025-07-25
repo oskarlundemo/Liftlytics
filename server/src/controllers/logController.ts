@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import {prisma} from "../clients/prismaClient";
-
+import {AuthenticatedRequest} from "../middleware/supabase";
 
 export const fetchCategories = async (req: Request, res: Response) => {
 
@@ -37,24 +37,45 @@ export const fetchCategories = async (req: Request, res: Response) => {
 }
 
 
-export const saveWorkout = async (req: Request, res: Response) => {
-
+export const fetchLogs = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
 
+        const logs = await prisma.workout.findMany({
+            where: {
+                userId: req.user.id
+            }
+        })
+
+        res.status(200).json({
+            logs,
+            message: 'Logs retrieved successfully'
+        })
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+          message: 'An error occurred while fetching logs',
+          errorCode: 500,
+        })
+    }
+}
+
+
+export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
+
+    try {
+
+        console.log(req.user);
+
         const {
             workoutName,
-            startDate,
-            endDate,
             startTime,
             endTime,
             bodyWeigth,
             notes,
             exercises
         } = req.body;
-
-        const testUser = await prisma.user.create({
-        });
 
 
         const newWorkout = await prisma.workout.create({
@@ -64,17 +85,13 @@ export const saveWorkout = async (req: Request, res: Response) => {
                 endTime: endTime,
                 bodyWeight: bodyWeigth,
                 notes: notes,
-                startDate: startDate,
-                endDate: endDate,
-
                 user: {
-                    connect: { id: testUser.id}
+                    connect: { id: req.user?.id },
                 }
             }
         })
 
 
-        console.log(newWorkout);
 
         res.status(200).json({
             success: true,
