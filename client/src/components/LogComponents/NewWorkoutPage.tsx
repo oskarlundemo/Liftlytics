@@ -4,10 +4,11 @@ import {AddExcersize} from "./AddExcersize.tsx";
 import {ExerciseSelection} from "./ExerciseSelection.tsx";
 import {useLog} from "../../contexts/LogContext.tsx";
 import {Overlay} from "../MiscComponents/Overlay.tsx";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import { motion } from 'framer-motion';
 import {usePostWorkout} from "../../hooks/logHook.ts";
 import toast from "react-hot-toast";
+import {WorkoutHeader} from "./WorkoutHeader.tsx";
 
 
 type NewWorkoutProps = {
@@ -43,6 +44,7 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
     const { mutate: submitWorkout, isPending, isError } = usePostWorkout();
 
     const handleSubmit = (e) => {
+
         e.preventDefault();
 
         const workoutData = {
@@ -73,6 +75,11 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
             exit={{ x: '100vw', opacity: 0 }}
             transition={{ type: 'spring', stiffness: 60, damping: 20 }}
         >
+
+            <WorkoutHeader
+                title={'17 juni'}
+            />
+
             <form onSubmit={handleSubmit} className="new-workout-container main-box">
 
                 <section className={'exercise-selection-container'}>
@@ -104,8 +111,6 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
 
                     <AddExcersize/>
 
-                    <button className={'button-intellij'} type={"submit"}>Submit</button>
-
                 </section>
 
                 <Overlay
@@ -117,6 +122,8 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
                         setShowConfigureExerciseMenu(false);
                     }}
                 />
+
+                <button className={'button-intellij'} type={"submit"}>Submit</button>
 
             </form>
         </motion.main>

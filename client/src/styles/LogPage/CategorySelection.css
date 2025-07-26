@@ -40,8 +40,10 @@
 
 .category-wrapper {
     max-width: var(--max-context-width);
-    margin: 0 auto;
-    padding: 0 1rem;
+    margin: 0 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .category-card {
@@ -56,4 +58,20 @@
         }
     }
 
+}
+
+
+.category-selection-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.category-selection-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex-grow: 1;
+    width: 100%;
 }

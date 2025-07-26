@@ -2,11 +2,14 @@ import '../../styles/LogPage/Exercises.css'
 import {ExerciseModuleHeader} from "./ExerciseModuleHeader.tsx";
 import {ExerciseDataRow} from "./ExerciseDataRow.tsx";
 import {ExerciseModuleFooter} from "./ExerciseModuleFooter.tsx";
+import { v4 as uuidv4 } from 'uuid';
+
 
 type ExerciseSet = {
-    id: number;
+    id: string;
     reps?: number;
     weight?: number;
+    notes?: string;
 };
 
 type ExerciseModuleProps = {
@@ -21,15 +24,18 @@ type ExerciseModuleProps = {
 export const ExerciseModule = ({id, title, sets, localId, updateSets, deleteExercise}: ExerciseModuleProps) => {
 
     const addSet = () => {
-        const newId = sets && sets.length > 0
-            ? Math.max(...sets.map(s => s.id)) + 1
-            : 1;
+        const newSet: ExerciseSet = {
+            id: uuidv4(),
+            reps: undefined,
+            weight: undefined,
+            notes: ''
+        };
 
-        updateSets(id, [...(sets || []), { id: newId }]);
+        updateSets(localId, [...(sets || []), newSet]);
     };
 
-    const removeSet = (setId: number) => {
-        updateSets(id, sets.filter(s => s.id !== setId));
+    const removeSet = (setId: string) => {
+        updateSets(localId, sets.filter(s => s.id !== setId));
     };
 
     return (
@@ -37,7 +43,7 @@ export const ExerciseModule = ({id, title, sets, localId, updateSets, deleteExer
 
             <ExerciseModuleHeader localId={localId} deleteExercise={deleteExercise} title={title} />
 
-            {(sets || []).map((set, index) => (
+            {(sets).map((set, index) => (
                 <ExerciseDataRow
                     key={set.id}
                     index={index + 1}
@@ -49,7 +55,7 @@ export const ExerciseModule = ({id, title, sets, localId, updateSets, deleteExer
                         const updatedSets = sets.map(s =>
                             s.id === set.id ? { ...s, reps, weight, notes } : s
                         );
-                        updateSets(id, updatedSets);
+                        updateSets(localId, updatedSets);
                     }}
                     removeSet={() => removeSet(set.id)}
                 />

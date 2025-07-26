@@ -1,4 +1,4 @@
-
+import '../../styles/LogPage/LogPage.css'
 type CalenderUIProps = {
     startTime: string;
 }
@@ -8,7 +8,7 @@ export const CalenderUI = ({ startTime }: CalenderUIProps) => {
 
     return (
         <div className="calender-ui">
-            <p>{date.toLocaleDateString(undefined, { weekday: 'long' })}</p>
+            <p>{date.toLocaleDateString('en-Us', { weekday: 'short'  })}</p>
             <p>{date.getDate()}</p>
         </div>
     );

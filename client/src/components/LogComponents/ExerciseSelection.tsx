@@ -12,16 +12,18 @@ type ExerciseSet = {
 };
 
 
-
 export const ExerciseSelection = ({exercises, setExercises}: ExerciseSelectionProps) => {
 
 
-    const updateSets = (exerciseId: string, newSets: ExerciseSet[]) => {
+    const updateSets = (exerciseLocalId: string, newSets: ExerciseSet[]) => {
         setExercises(prev =>
-            prev.map(ex => ex.id === exerciseId ? {...ex, sets: newSets} : ex)
+            prev.map(ex =>
+                ex.localId === exerciseLocalId
+                    ? { ...ex, sets: newSets }
+                    : ex
+            )
         );
     };
-
     const deleteExercise = (id: string) => {
         setExercises(prev => prev.filter(x => x.localId !== id));
     }
@@ -29,13 +31,14 @@ export const ExerciseSelection = ({exercises, setExercises}: ExerciseSelectionPr
     return (
             <section className="exercise-selection-wrapper">
                 {exercises.map((exercise, index) => {
+                    console.log(exercise);
                   return (
                       <ExerciseModule
                           deleteExercise={deleteExercise}
                           localId={exercise.localId}
                           key={index}
                           id={exercise.id}
-                          title={exercise.exercise.name}
+                          title={exercise?.name || 'Unknown Exercise'}
                           sets={exercise.sets}
                           updateSets={updateSets}
                     />
