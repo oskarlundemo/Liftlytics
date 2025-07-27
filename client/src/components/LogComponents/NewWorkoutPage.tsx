@@ -4,7 +4,7 @@ import {AddExcersize} from "./AddExcersize.tsx";
 import {ExerciseSelection} from "./ExerciseSelection.tsx";
 import {useLog} from "../../contexts/LogContext.tsx";
 import {Overlay} from "../MiscComponents/Overlay.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { motion } from 'framer-motion';
 import {usePostWorkout} from "../../hooks/logHook.ts";
 import toast from "react-hot-toast";
@@ -35,11 +35,16 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
     const [exercises, setExercises] = useState<ExerciseEntry[]>([]);
     const [workoutName, setWorkoutName] = useState("");
     const [startDate, setStartDate] = useState<Date>(new Date());
-    const [endDate, setEndDate] = useState<Date>(new Date());
+    const [endDate, setEndDate] = useState<null>(null);
     const [bodyWeight, setBodyWeight] = useState<null>(null);
     const [startTime, setStartTime] = useState<Date>(new Date());
-    const [endTime, setEndTime] = useState<Date>(new Date());
+    const [endTime, setEndTime] = useState<null>(null);
     const [notes, setNotes] = useState<string>('');
+    const [disabled, setDisabled] = useState<boolean>(true);
+
+    useEffect(() => {
+        setDisabled(exercises.length === 0);
+    }, [exercises]);
 
     const { mutate: submitWorkout, isPending, isError } = usePostWorkout();
 
@@ -61,7 +66,7 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
         submitWorkout(workoutData);
 
         if (isError)
-            console.log(isError);
+            toast.error("Error creating workout");
         else
             toast.success("Workout was successfully saved!");
     };
@@ -123,9 +128,10 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
                     }}
                 />
 
-                <button className={'button-intellij'} type={"submit"}>Submit</button>
+                <button disabled={disabled} className={'button-intellij'} type={"submit"}>Submit</button>
 
             </form>
+
         </motion.main>
     )
 }

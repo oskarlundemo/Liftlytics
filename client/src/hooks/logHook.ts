@@ -1,7 +1,13 @@
 
 
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
-import {deleteExerciseLog, fetchExerciseCategories, fetchLogs, postNewWorkout} from '../api/logCalls.ts'
+import {
+    deleteExerciseLog,
+    fetchExerciseCategories,
+    fetchLogs,
+    postNewWorkout,
+    searchForExercise
+} from '../api/logCalls.ts'
 
 export const useLogs = () => {
     return useQuery({
@@ -35,3 +41,11 @@ export const useFetchExercises = () => {
     })
 }
 
+
+export const useSearchExercises = (query: string) => {
+    return useQuery({
+        queryKey: ['search-exercises', query],
+        queryFn: () => searchForExercise(query),
+        enabled: !!query && query.length > 1,
+    });
+};

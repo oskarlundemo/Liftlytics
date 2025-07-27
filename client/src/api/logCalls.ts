@@ -22,3 +22,22 @@ export const deleteExerciseLog = async (id:string) => {
     const res = await axiosInstance.delete(`/logs/delete/${id}`)
     return res.data
 }
+
+
+export const searchForExercise = async (query: string) => {
+    if (!query || query.trim() === '') {
+        return [];
+    }
+
+    try {
+        const res = await axiosInstance.get('logs/fetch/search', {
+            params: {
+                query: query.trim(),
+            },
+        });
+        return res.data || [];
+    } catch (error) {
+        console.error('Error searching for exercises:', error);
+        return [];
+    }
+};

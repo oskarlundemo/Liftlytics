@@ -14,7 +14,6 @@ type ExerciseSet = {
 
 export const ExerciseSelection = ({exercises, setExercises}: ExerciseSelectionProps) => {
 
-
     const updateSets = (exerciseLocalId: string, newSets: ExerciseSet[]) => {
         setExercises(prev =>
             prev.map(ex =>

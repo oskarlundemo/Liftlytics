@@ -17,6 +17,11 @@
     padding: 1rem;
 }
 
+.new-workout-container {
+    display: flex;
+    gap: 1rem;
+}
+
 
 .log-card {
     background-color: var(--color-surface);

@@ -9,6 +9,7 @@ import {Overlay} from "../components/MiscComponents/Overlay.tsx";
 import {useLog} from "../contexts/LogContext.tsx";
 import {DeleteButtonContainer} from "../components/LogComponents/DeleteButtonContainer.tsx";
 import {Link} from "react-router-dom";
+import {PulseLoader} from "react-spinners";
 
 
 export const LogPage = () => {
@@ -26,7 +27,14 @@ export const LogPage = () => {
 
             <section className="log-body">
                     {isPending ? (
-                        <p>Loading...</p>
+                        <div className="loader-wrapper">
+                            <PulseLoader
+                                size={50}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                                color="var(--color-accent)"
+                            />
+                        </div>
                     ) : isError ? (
                         <p>Oops, something went wrong!</p>
                    ) : data && data.logs && data.logs.length > 0 ? (

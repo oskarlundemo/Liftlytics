@@ -122,6 +122,46 @@ export const deleteLog = async (req: AuthenticatedRequest, res: Response) => {
             errorCode: error.code || 'UNKNOWN_ERROR',
         });
     }
+}
+
+
+export const searchForExercises = async (req: AuthenticatedRequest, res: Response) => {
+
+    try {
+
+        const searchQuery = req.query.query;
+        const searchTerm = typeof searchQuery === 'string' ? searchQuery : '';
+
+        const searchResults = await prisma.strengthExercise.findMany({
+            where: {
+                OR: [
+                    { userId: req.user.id },
+                    { isDefault: true },
+                ],
+                name: {
+                    contains: searchTerm,
+                    mode: 'insensitive',
+                },
+            },
+        });
+
+        res.status(200).json({
+            results: searchResults,
+            message: 'Search results successfully',
+            success: true,
+        })
+
+
+    } catch (error : any) {
+        console.error(error);
+        res.status(error.code || 500).json({
+            success: false,
+            message: 'Internal server error',
+            errorCode: 500,
+            error: error
+        })
+    }
+
 
 }
 
@@ -153,7 +193,6 @@ export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
             }
         })
 
-        console.log(exercises)
 
         await Promise.all(
             exercises.map(async (exercise: any) => {
