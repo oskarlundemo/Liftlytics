@@ -4,7 +4,7 @@ import '../../styles/LogPage/Exercises.css'
 
 type ExerciseDataRowProps = {
     index: number;
-    setId: number;
+    setId: string;
     reps?: number;
     weight?: number;
     notes?: string;

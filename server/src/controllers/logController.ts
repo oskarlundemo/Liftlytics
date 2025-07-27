@@ -16,6 +16,8 @@ export const fetchCategories = async (req: Request, res: Response) => {
             }
         })
 
+        // Fetch alla som är deafult eller userId == req.user.id
+
         res.status(200).json({
             muscleGroups,
             message: 'Muscle groups retrieved successfully'
@@ -23,9 +25,6 @@ export const fetchCategories = async (req: Request, res: Response) => {
 
     } catch (err: any) {
         console.error(err);
-        console.error('[Fetch Categories Error]', err);
-
-        const statusCode = err.statusCode || 500;
 
         res.status(err.statusCode || 500).json({
             success: false,
@@ -43,9 +42,20 @@ export const fetchLogs = async (req: AuthenticatedRequest, res: Response) => {
 
         const logs = await prisma.workout.findMany({
             where: {
-                userId: req.user.id
-            }
-        })
+                userId: req.user.id,
+            },
+            orderBy: {
+                startTime: 'desc',
+            },
+            include: {
+                exercises: {
+                    include: {
+                        exercise: true,
+                        metrics: true,
+                    },
+                },
+            },
+        });
 
         res.status(200).json({
             logs,
@@ -62,11 +72,103 @@ export const fetchLogs = async (req: AuthenticatedRequest, res: Response) => {
 }
 
 
-export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
+export const deleteLog = async (req: AuthenticatedRequest, res: Response) => {
+
+    try {
+        console.log('Deleting log');
+
+        const logId = req.params.id;
+        const userId = req.user.id;
+
+        if (!logId) {
+            res.status(400).json({
+                success: false,
+                message: 'Invalid log id',
+            })
+        }
+
+        const isUserWorkout = await prisma.workout.findUnique({
+            where: {
+                id: logId,
+                userId: userId,
+            }
+        })
+
+        if (!isUserWorkout) {
+            res.status(403).json({
+                success: false,
+                message: 'Unauthorized action',
+            })
+        }
+
+
+        await prisma.workout.delete({
+            where: {
+                id: logId,
+                userId: userId,
+            }
+        })
+
+        res.status(200).json({
+            success: true,
+            message: 'Deleted log successfully',
+        })
+
+    } catch (error: any) {
+        console.error(error);
+        res.status(error.statusCode || 500).json({
+            success: false,
+            message: error.message || 'Internal server error while saving workout',
+            errorCode: error.code || 'UNKNOWN_ERROR',
+        });
+    }
+}
+
+
+export const searchForExercises = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
 
-        console.log(req.user);
+        const searchQuery = req.query.query;
+        const searchTerm = typeof searchQuery === 'string' ? searchQuery : '';
+
+        const searchResults = await prisma.strengthExercise.findMany({
+            where: {
+                OR: [
+                    { userId: req.user.id },
+                    { isDefault: true },
+                ],
+                name: {
+                    contains: searchTerm,
+                    mode: 'insensitive',
+                },
+            },
+        });
+
+        res.status(200).json({
+            results: searchResults,
+            message: 'Search results successfully',
+            success: true,
+        })
+
+
+    } catch (error : any) {
+        console.error(error);
+        res.status(error.code || 500).json({
+            success: false,
+            message: 'Internal server error',
+            errorCode: 500,
+            error: error
+        })
+    }
+
+
+}
+
+
+export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
+
+    try {
 
         const {
             workoutName,
@@ -92,18 +194,40 @@ export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
         })
 
 
+        await Promise.all(
+            exercises.map(async (exercise: any) => {
+                const exerciseInWorkout = await prisma.workoutExercise.create({
+                    data: {
+                        workoutId: newWorkout.id,
+                        exerciseId: exercise.id,
+                    },
+                });
+
+                if (exercise.sets.length > 0) {
+                    exercise.sets.map(async (eachExercise: any) => {
+                        await prisma.workingSetData.create({
+                            data: {
+                                workoutExerciseId: exerciseInWorkout.id,
+                                reps: eachExercise.reps,
+                                weight: eachExercise.weight,
+                                notes: eachExercise.notes,
+                            },
+                        });
+                    })
+                }
+            })
+        );
 
         res.status(200).json({
             success: true,
             message: 'Workout saved successfully'
         })
 
-
     } catch (err: any) {
         console.error(err);
         res.status(err.statusCode || 500).json({
             success: false,
-            message: err.message || 'Internal server error',
+            message: err.message || 'Internal server error while saving workout',
             errorCode: err.code || 'UNKNOWN_ERROR',
             details: process.env.NODE_ENV === 'development' ? err.stack : undefined,
         });

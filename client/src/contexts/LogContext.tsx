@@ -10,6 +10,13 @@ type LogContextType = {
     showConfigureExerciseMenu: boolean;
     setShowConfigureExerciseMenu: React.Dispatch<React.SetStateAction<boolean>>;
 
+
+    deleteLogId: string;
+    setDeleteLogId: React.Dispatch<React.SetStateAction<string>>;
+
+    showDeleteMenu: boolean;
+    setShowDeleteMenu: React.Dispatch<React.SetStateAction<boolean>>;
+
     selectedExercises: object[];
     setSelectedExercises: React.Dispatch<React.SetStateAction<object[]>>;
 
@@ -23,6 +30,8 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
     const [showAddExerciseMenu, setAddExerciseMenu] = useState<boolean>(false);
     const [showExerciseMenu, setShowExerciseMenu] = useState<boolean>(false);
     const [showConfigureExerciseMenu, setShowConfigureExerciseMenu] = useState(false);
+    const [showDeleteMenu, setShowDeleteMenu] = useState(false);
+    const [deleteLogId, setDeleteLogId] = useState<string>('');
 
     const [selectedExercises, setSelectedExercises] = useState<object[]>([]);
     const [selectedMuscleGroupName, setSelectedMuscleGroupName] = useState<string>("");
@@ -30,6 +39,12 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <LogContext.Provider value={{
+            showDeleteMenu,
+            setShowDeleteMenu,
+
+            deleteLogId,
+            setDeleteLogId,
+
             showAddExerciseMenu,
             setAddExerciseMenu,
 

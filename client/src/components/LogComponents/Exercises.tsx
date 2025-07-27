@@ -3,8 +3,6 @@ import '../../styles/LogPage/Exercises.css'
 import {MenuHeader} from "./MenuHeader.tsx";
 import {useLog} from "../../contexts/LogContext.tsx";
 
-
-
 type ExercisesProps = {
     setExercises: React.Dispatch<React.SetStateAction<any[]>>
 };
@@ -31,10 +29,12 @@ export const Exercises = ({ setExercises }: ExercisesProps) => {
                     selectedExercises.map((item) => (
                         <ExerciseCard
                             key={item.id}
-                            title={item.exercise.name || 'Unknown Exercise'}
+                            title={item?.exercise.name || 'Unknown Exercise'}
                             onAddExercise={() => {
                                 const newEntry = {
-                                    ...item,
+                                    id: item.exercise.id,
+                                    name: item.exercise.name || 'Unknown Exercise',
+                                    sets: [],
                                     localId: crypto.randomUUID()
                                 };
 

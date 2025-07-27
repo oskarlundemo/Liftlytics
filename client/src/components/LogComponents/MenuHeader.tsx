@@ -7,12 +7,18 @@ type CategoryHeaderProps = {
     header: string;
     setUI: (value: boolean) => void;
     arrow?: boolean;
+    searchQuery?: string;
+    setSearchQuery?: (query: string) => void;
 }
 
 
-export const MenuHeader = ({search = false, header, arrow = false, setUI}:CategoryHeaderProps) => {
+export const MenuHeader = ({search = false,
+                                                            header,
+                                                            searchQuery = '',
+                                                            setSearchQuery = () => {},
+                                                            arrow = false,
+                                                            setUI}:CategoryHeaderProps) => {
 
-    const [searchString, setSearchString] = useState("");
     const [inputFocus, setInputFocus] = useState(false);
 
     return (
@@ -22,6 +28,7 @@ export const MenuHeader = ({search = false, header, arrow = false, setUI}:Catego
 
                 <button
                     onClick={() => setUI(false)}
+                    type="button"
                     className="category-selection-header__btn error-text transparent-btn">
 
                     {arrow ? (
@@ -38,12 +45,11 @@ export const MenuHeader = ({search = false, header, arrow = false, setUI}:Catego
 
             {search && (
                 <SearchBar
-                    query={searchString}
-                    setQuery={setSearchString}
+                    query={searchQuery}
+                    setQuery={setSearchQuery}
                     setInputFocus={setInputFocus}
                 />
             )}
-
         </header>
     )
 }

@@ -39,19 +39,20 @@ model WorkoutExercise {
   workoutId  String
   exerciseId String
 
-  workout  Workout          @relation(fields: [workoutId], references: [id])
+  workout  Workout          @relation(fields: [workoutId], references: [id], onDelete: Cascade)
   exercise StrengthExercise @relation(fields: [exerciseId], references: [id])
 
-  metrics ExerciseMetric[]
+  metrics WorkingSetData[]
 }
 
-model ExerciseMetric {
+model WorkingSetData {
   id                String          @id @default(uuid())
   workoutExerciseId String
-  workoutExercise   WorkoutExercise @relation(fields: [workoutExerciseId], references: [id])
+  workoutExercise   WorkoutExercise @relation(fields: [workoutExerciseId], references: [id], onDelete: Cascade)
 
-  metricType MetricType
-  sets       Int?
+  notes      String?
+  metricType MetricType? @default(WEIGHT_REPS)
+  weight     Float?
   reps       Int?
   time       Float?
 }

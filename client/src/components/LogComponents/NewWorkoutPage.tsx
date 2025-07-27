@@ -8,6 +8,7 @@ import {useEffect, useState} from "react";
 import { motion } from 'framer-motion';
 import {usePostWorkout} from "../../hooks/logHook.ts";
 import toast from "react-hot-toast";
+import {WorkoutHeader} from "./WorkoutHeader.tsx";
 
 
 type NewWorkoutProps = {
@@ -34,15 +35,21 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
     const [exercises, setExercises] = useState<ExerciseEntry[]>([]);
     const [workoutName, setWorkoutName] = useState("");
     const [startDate, setStartDate] = useState<Date>(new Date());
-    const [endDate, setEndDate] = useState<Date>(new Date());
+    const [endDate, setEndDate] = useState<null>(null);
     const [bodyWeight, setBodyWeight] = useState<null>(null);
     const [startTime, setStartTime] = useState<Date>(new Date());
-    const [endTime, setEndTime] = useState<Date>(new Date());
+    const [endTime, setEndTime] = useState<null>(null);
     const [notes, setNotes] = useState<string>('');
+    const [disabled, setDisabled] = useState<boolean>(true);
+
+    useEffect(() => {
+        setDisabled(exercises.length === 0);
+    }, [exercises]);
 
     const { mutate: submitWorkout, isPending, isError } = usePostWorkout();
 
     const handleSubmit = (e) => {
+
         e.preventDefault();
 
         const workoutData = {
@@ -59,7 +66,7 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
         submitWorkout(workoutData);
 
         if (isError)
-            console.log(isError);
+            toast.error("Error creating workout");
         else
             toast.success("Workout was successfully saved!");
     };
@@ -73,6 +80,11 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
             exit={{ x: '100vw', opacity: 0 }}
             transition={{ type: 'spring', stiffness: 60, damping: 20 }}
         >
+
+            <WorkoutHeader
+                title={'17 juni'}
+            />
+
             <form onSubmit={handleSubmit} className="new-workout-container main-box">
 
                 <section className={'exercise-selection-container'}>
@@ -104,8 +116,6 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
 
                     <AddExcersize/>
 
-                    <button className={'button-intellij'} type={"submit"}>Submit</button>
-
                 </section>
 
                 <Overlay
@@ -118,7 +128,10 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
                     }}
                 />
 
+                <button disabled={disabled} className={'button-intellij'} type={"submit"}>Submit</button>
+
             </form>
+
         </motion.main>
     )
 }
