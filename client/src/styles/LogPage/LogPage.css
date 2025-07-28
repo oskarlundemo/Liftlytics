@@ -32,9 +32,22 @@
     padding: 1rem;
     gap: 1rem;
     border-radius: var(--border-radius);
+    transition: var(--transition-fast);
+
+    &:hover {
+        background-color: var(--color-surface);
+        box-shadow: var(--default-box-shadow);
+        cursor: pointer;
+        scale: 1.01;
+    }
+
 
     h4 {
         margin: 0;
+    }
+
+    svg:last-of-type {
+        margin-left: auto;
     }
 }
 

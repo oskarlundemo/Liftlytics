@@ -44,6 +44,9 @@
   --transition-slow: 0.4s;
 
   --max-context-width: 1200px;
+  --default-box-shadow:  0 1px 3px hsla(240, 10%, 10%, 0.4),
+  0 0 8px hsla(280, 60%, 75%, 0.15);
+
 
 }
 

@@ -2,13 +2,18 @@ import {useNavigate} from "react-router-dom";
 
 
 type WorkoutHederProps = {
-    title: string;
+    date: Date;
 }
 
 
-export const WorkoutHeader = ({title} : WorkoutHederProps) => {
+export const WorkoutHeader = ({date} : WorkoutHederProps) => {
 
     const navigate = useNavigate();
+
+    const formattedDate = date.toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+    });
 
     return (
         <header
@@ -44,7 +49,7 @@ export const WorkoutHeader = ({title} : WorkoutHederProps) => {
                 }}
                 className="workout-title"
             >
-                {title}
+                {formattedDate}
             </h1>
         </header>
     )

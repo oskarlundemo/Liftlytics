@@ -13,6 +13,12 @@ export const postNewWorkout = async (workoutData:object) => {
 }
 
 
+export const updateWorkout = async (workoutData:object, id:string) => {
+    const res = await axiosInstance.post(`/logs/update/${id}`, workoutData);
+    return res.data;
+}
+
+
 export const fetchExerciseCategories = async () => {
     const res = await axiosInstance.get('/logs/exercises/categories')
     return res.data
@@ -20,6 +26,12 @@ export const fetchExerciseCategories = async () => {
 
 export const deleteExerciseLog = async (id:string) => {
     const res = await axiosInstance.delete(`/logs/delete/${id}`)
+    return res.data
+}
+
+
+export const getLogById = async (id: string) => {
+    const res = await axiosInstance.get(`/logs/fetch/log/${id}`)
     return res.data
 }
 

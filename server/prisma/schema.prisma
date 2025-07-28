@@ -26,6 +26,9 @@ model Workout {
   startTime DateTime?
   endTime   DateTime?
 
+  endDate   DateTime?
+  startDate DateTime
+
   notes      String?
   bodyWeight Float?
   exercises  WorkoutExercise[]
