@@ -22,7 +22,7 @@ export const CustomTimePicker = ({title, setTime, time, setDate, date}:CustomTim
             <h2>{title}</h2>
             <DatePicker selected={date} onChange={(date) => setDate(date)} />
             <TimePicker
-                onChange={setTime}
+                onChange={() => setTime(date)}
                 value={time}
                 disableClock={true}
                 clearIcon={null}

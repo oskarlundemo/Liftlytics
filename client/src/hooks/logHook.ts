@@ -1,12 +1,10 @@
-
-
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import {
     deleteExerciseLog,
     fetchExerciseCategories,
-    fetchLogs,
+    fetchLogs, getLogById,
     postNewWorkout,
-    searchForExercise
+    searchForExercise, updateWorkout
 } from '../api/logCalls.ts'
 
 export const useLogs = () => {
@@ -15,7 +13,6 @@ export const useLogs = () => {
         queryFn: fetchLogs,
     })
 }
-
 
 export const useDeleteLog = () => {
     const queryClient = useQueryClient();
@@ -27,12 +24,28 @@ export const useDeleteLog = () => {
     });
 };
 
-
 export const usePostWorkout = () => {
     return useMutation({
         mutationFn: postNewWorkout,
     });
 };
+
+
+export const useUpdateWorkout = (id: string) => {
+    return useMutation({
+        mutationFn: (workoutData:any) => updateWorkout(workoutData, id),
+    });
+};
+
+
+export const useFetchLogById = (id: string) => {
+    return useQuery({
+        queryKey: ['log', id],
+        queryFn: () => getLogById(id),
+        enabled: !!id,
+    });
+};
+
 
 export const useFetchExercises = () => {
     return useQuery({
@@ -40,7 +53,6 @@ export const useFetchExercises = () => {
         queryFn: fetchExerciseCategories,
     })
 }
-
 
 export const useSearchExercises = (query: string) => {
     return useQuery({

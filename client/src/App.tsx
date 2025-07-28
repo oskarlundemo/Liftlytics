@@ -63,6 +63,17 @@ function App() {
                 />
 
                 <Route
+                    path="/log/:log_id"
+                    element={
+                        <PrivateRoute>
+                            <LogProvider>
+                                <NewWorkoutPage />
+                            </LogProvider>
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
                     path="/workouts"
                     element={
                         <PrivateRoute>

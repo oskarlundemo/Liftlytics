@@ -161,7 +161,152 @@ export const searchForExercises = async (req: AuthenticatedRequest, res: Respons
             error: error
         })
     }
+}
 
+
+export const fetchLogById = async (req: AuthenticatedRequest, res: Response) => {
+
+    try {
+        const logId = req.params.id;
+        console.log('I fetch med ID ' + logId);
+
+        if (!logId) {
+            res.status(400).json({
+                success: false,
+                message: 'Invalid log id',
+            })
+        }
+
+        const workout = await prisma.workout.findUnique({
+            where: {
+                id: logId,
+                userId: req.user.id,
+            }, include: {
+                exercises: {
+                    include: {
+                        exercise: true,
+                        metrics: true
+                    }
+                },
+            }
+        })
+
+        if (!workout) {
+            res.status(404).json({
+                success: false,
+                message: 'Workout does not exist',
+            })
+        }
+
+        if (!workout?.userId ! === req.user.id) {
+            res.status(403).json({
+                success: false,
+                message: 'Unauthorized action',
+            })
+        }
+
+        res.status(200).json({
+            workout: workout,
+            message: 'Workout successfully retrieved',
+        })
+
+    } catch (err: any) {
+        console.error(err);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server while fetching log',
+            errorCode: err.code || 'UNKNOWN_ERROR',
+        })
+    }
+}
+
+
+
+export const updateWorkout = async (req: AuthenticatedRequest, res: Response) => {
+
+
+    try {
+
+        const logId = req.params.id;
+        const userId = req.user.id;
+
+        const {
+            workoutName,
+            startTime,
+            startDate,
+            endDate,
+            endTime,
+            bodyWeight,
+            notes,
+            exercises
+        } = req.body;
+
+
+        const updatedWorkout = await prisma.workout.update({
+            data: {
+                name: workoutName,
+                startTime: startTime,
+                endDate: endDate,
+                startDate: startDate,
+                endTime: endTime,
+                bodyWeight: bodyWeight,
+                notes: notes,
+
+                user: {
+                    connect: { id: req.user?.id },
+                },
+            },
+            where: {
+                id: logId,
+                userId: userId,
+            },
+        });
+
+
+        const deletePreviousExercises = await prisma.workoutExercise.deleteMany({
+            where: {
+                workoutId: updatedWorkout.id
+            }
+        })
+
+        await Promise.all(
+            exercises.map(async (exercise: any) => {
+                const exerciseInWorkout = await prisma.workoutExercise.create({
+                    data: {
+                        workoutId: updatedWorkout.id,
+                        exerciseId: exercise.id,
+                    },
+                });
+
+                if (exercise.sets.length > 0) {
+                    exercise.sets.map(async (eachExercise: any) => {
+                        await prisma.workingSetData.create({
+                            data: {
+                                workoutExerciseId: exerciseInWorkout.id,
+                                reps: eachExercise.reps,
+                                weight: eachExercise.weight,
+                                notes: eachExercise.notes,
+                            },
+                        });
+                    })
+                }
+            })
+        );
+
+
+        res.status(200).json({
+            message: 'Workout successfully updated',
+        })
+
+
+    } catch (err: any) {
+        console.error(err);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server while fetching log',
+            errorCode: err.code || 'UNKNOWN_ERROR',
+        })
+    }
 
 }
 
@@ -173,19 +318,25 @@ export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
         const {
             workoutName,
             startTime,
+            startDate,
+            endDate,
             endTime,
-            bodyWeigth,
+            bodyWeight,
             notes,
             exercises
         } = req.body;
+
+        console.log(req.body)
 
 
         const newWorkout = await prisma.workout.create({
             data: {
                 name: workoutName,
                 startTime: startTime,
+                endDate: endDate,
+                startDate: startDate,
                 endTime: endTime,
-                bodyWeight: bodyWeigth,
+                bodyWeight: bodyWeight,
                 notes: notes,
                 user: {
                     connect: { id: req.user?.id },

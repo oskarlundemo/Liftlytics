@@ -30,7 +30,6 @@ export const ExerciseSelection = ({exercises, setExercises}: ExerciseSelectionPr
     return (
             <section className="exercise-selection-wrapper">
                 {exercises.map((exercise, index) => {
-                    console.log(exercise);
                   return (
                       <ExerciseModule
                           deleteExercise={deleteExercise}

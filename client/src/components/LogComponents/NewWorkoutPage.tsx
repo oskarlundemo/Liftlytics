@@ -6,9 +6,11 @@ import {useLog} from "../../contexts/LogContext.tsx";
 import {Overlay} from "../MiscComponents/Overlay.tsx";
 import {useEffect, useState} from "react";
 import { motion } from 'framer-motion';
-import {usePostWorkout} from "../../hooks/logHook.ts";
+import {useFetchLogById, usePostWorkout, useUpdateWorkout} from "../../hooks/logHook.ts";
 import toast from "react-hot-toast";
 import {WorkoutHeader} from "./WorkoutHeader.tsx";
+import {useParams} from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
 
 
 type NewWorkoutProps = {
@@ -42,11 +44,50 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
     const [notes, setNotes] = useState<string>('');
     const [disabled, setDisabled] = useState<boolean>(true);
 
+    const {log_id} = useParams();
+    const {data} = useFetchLogById(log_id)
+
+    useEffect(() => {
+        if (data?.workout) {
+            const workout = data.workout;
+
+            setWorkoutName(workout.name || '');
+            setStartDate(new Date(workout.startTime));
+            setStartTime(new Date(workout.startTime));
+
+            if (workout.endTime) {
+                // @ts-ignore
+                setEndDate(new Date(workout.endTime));
+                // @ts-ignore
+                setEndTime(new Date(workout.endTime));
+            }
+
+            setBodyWeight(workout.bodyWeight);
+            setNotes(workout.notes || '');
+
+            const transformedExercises: ExerciseEntry[] = workout.exercises.map((exerciseEntry: { exercise: { name: any; }; metrics: any[]; }) => ({
+                id: uuidv4(),
+                name: exerciseEntry.exercise.name,
+                sets: exerciseEntry.metrics.map((metric) => ({
+                    id: metric.id,
+                    reps: metric.reps || 0,
+                    weight: metric.weight || 0,
+                })),
+            }));
+
+            setExercises(transformedExercises);
+        }
+
+    }, [data]);
+
     useEffect(() => {
         setDisabled(exercises.length === 0);
     }, [exercises]);
 
-    const { mutate: submitWorkout, isPending, isError } = usePostWorkout();
+
+    const { mutate: submitWorkout, isPending: isCreating, isError: isCreateError } = usePostWorkout();
+    const { mutate: updateWorkout, isPending: isUpdating, isError: isUpdateError } = useUpdateWorkout(log_id);
+
 
     const handleSubmit = (e) => {
 
@@ -63,9 +104,18 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
             exercises,
         };
 
-        submitWorkout(workoutData);
+        if (log_id) {
+            updateWorkout(workoutData, log_id);
+        } else
+            submitWorkout(workoutData);
 
-        if (isError)
+        if (isUpdateError) {
+            toast.error("Error updating workout");
+        } else {
+            toast.success("Workout was successfully updated!");
+        }
+
+        if (isCreateError)
             toast.error("Error creating workout");
         else
             toast.success("Workout was successfully saved!");
@@ -82,7 +132,7 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
         >
 
             <WorkoutHeader
-                title={'17 juni'}
+                date={startDate}
             />
 
             <form onSubmit={handleSubmit} className="new-workout-container main-box">
@@ -128,7 +178,15 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
                     }}
                 />
 
-                <button disabled={disabled} className={'button-intellij'} type={"submit"}>Submit</button>
+                <button disabled={disabled} className={'button-intellij'} type={"submit"}>{log_id ? (
+                    <p style={{
+                        margin: '0'
+                    }}>Save</p>
+                ) : (
+                    <p style={{
+                        margin: '0'
+                    }}>Submit</p>
+                )}</button>
 
             </form>
 
