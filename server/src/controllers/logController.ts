@@ -2,21 +2,30 @@ import { Request, Response } from 'express';
 import {prisma} from "../clients/prismaClient";
 import {AuthenticatedRequest} from "../middleware/supabase";
 
-export const fetchCategories = async (req: Request, res: Response) => {
+export const fetchCategories = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
+
+
+        const userId = req.user.id;
 
         const muscleGroups = await prisma.muscleGroup.findMany({
             include: {
                 exercises: {
                     include: {
-                        exercise: true
+                        exercise: true,
+                    },
+                    where: {
+                        exercise: {
+                            OR: [
+                                { isDefault: true },
+                                { userId: userId }
+                            ]
+                        }
                     }
                 }
             }
-        })
-
-        // Fetch alla som är deafult eller userId == req.user.id
+        });
 
         res.status(200).json({
             muscleGroups,
@@ -75,7 +84,6 @@ export const fetchLogs = async (req: AuthenticatedRequest, res: Response) => {
 export const deleteLog = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
-        console.log('Deleting log');
 
         const logId = req.params.id;
         const userId = req.user.id;
@@ -168,7 +176,6 @@ export const fetchLogById = async (req: AuthenticatedRequest, res: Response) => 
 
     try {
         const logId = req.params.id;
-        console.log('I fetch med ID ' + logId);
 
         if (!logId) {
             res.status(400).json({
@@ -230,6 +237,13 @@ export const updateWorkout = async (req: AuthenticatedRequest, res: Response) =>
         const logId = req.params.id;
         const userId = req.user.id;
 
+        if (!logId) {
+            res.status(400).json({
+                success: false,
+                message: 'Invalid log id',
+            })
+        }
+
         const {
             workoutName,
             startTime,
@@ -263,36 +277,42 @@ export const updateWorkout = async (req: AuthenticatedRequest, res: Response) =>
         });
 
 
-        const deletePreviousExercises = await prisma.workoutExercise.deleteMany({
-            where: {
-                workoutId: updatedWorkout.id
-            }
-        })
+        await prisma.$transaction(async (tx) => {
+            await tx.workoutExercise.deleteMany({
+                where: {
+                    workoutId: updatedWorkout.id,
+                },
+            });
 
-        await Promise.all(
-            exercises.map(async (exercise: any) => {
-                const exerciseInWorkout = await prisma.workoutExercise.create({
+            for (const exercise of exercises) {
+
+                const existingExercise = await prisma.strengthExercise.findUnique({
+                    where: { id: exercise.id },
+                });
+
+                if (!existingExercise) {
+                    throw new Error(`Exercise with id ${exercise.id} does not exist`);
+                }
+
+                const exerciseInWorkout = await tx.workoutExercise.create({
                     data: {
                         workoutId: updatedWorkout.id,
                         exerciseId: exercise.id,
                     },
                 });
 
-                if (exercise.sets.length > 0) {
-                    exercise.sets.map(async (eachExercise: any) => {
-                        await prisma.workingSetData.create({
-                            data: {
-                                workoutExerciseId: exerciseInWorkout.id,
-                                reps: eachExercise.reps,
-                                weight: eachExercise.weight,
-                                notes: eachExercise.notes,
-                            },
-                        });
-                    })
+                for (const eachSet of exercise.sets || []) {
+                    await tx.workingSetData.create({
+                        data: {
+                            workoutExerciseId: exerciseInWorkout.id,
+                            reps: eachSet.reps,
+                            weight: eachSet.weight,
+                            notes: eachSet.notes,
+                        },
+                    });
                 }
-            })
-        );
-
+            }
+        });
 
         res.status(200).json({
             message: 'Workout successfully updated',
@@ -307,6 +327,68 @@ export const updateWorkout = async (req: AuthenticatedRequest, res: Response) =>
             errorCode: err.code || 'UNKNOWN_ERROR',
         })
     }
+}
+
+
+export const createCustomExercise = async (req: AuthenticatedRequest, res: Response) => {
+
+    try {
+
+        const muscleGroupId = req.body.musclegroup.id;
+        const exerciseName = req.body.name;
+        const userId = req.user.id;
+
+        if (!muscleGroupId) {
+            res.status(400).json({
+                success: false,
+                message: 'Invalid muscle group',
+            })
+        }
+
+        if (!exerciseName) {
+            res.status(400).json({
+                success: false,
+                message: 'Invalid exercise name',
+            })
+        }
+
+        const customExercise = await prisma.$transaction(async (tx) => {
+            const customExercise = await tx.strengthExercise.create({
+                data: {
+                    name: exerciseName,
+                    category: muscleGroupId,
+                    isDefault: false,
+                    userId: userId,
+                },
+            });
+
+            await tx.exerciseMuscleGroup.create({
+                data: {
+                    exerciseId: customExercise.id,
+                    muscleGroupId: muscleGroupId,
+                },
+            });
+
+            return customExercise;
+        });
+
+        console.log(customExercise)
+
+        res.status(200).json({
+            message: 'Exercise created',
+            exercise: customExercise,
+        })
+
+    } catch (err: any) {
+        console.error(err);
+        res.status(err.statusCode || 500).json({
+            success: false,
+            message: err.message || 'Internal server error while saving workout',
+            errorCode: err.code || 'UNKNOWN_ERROR',
+            details: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+        });
+    }
+
 
 }
 
@@ -326,9 +408,6 @@ export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
             exercises
         } = req.body;
 
-        console.log(req.body)
-
-
         const newWorkout = await prisma.workout.create({
             data: {
                 name: workoutName,
@@ -344,30 +423,42 @@ export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
             }
         })
 
+        await prisma.$transaction(async (tx) => {
+            await tx.workoutExercise.deleteMany({
+                where: {
+                    workoutId: newWorkout.id,
+                },
+            });
 
-        await Promise.all(
-            exercises.map(async (exercise: any) => {
-                const exerciseInWorkout = await prisma.workoutExercise.create({
+            for (const exercise of exercises) {
+
+                const existingExercise = await prisma.strengthExercise.findUnique({
+                    where: { id: exercise.id },
+                });
+
+                if (!existingExercise) {
+                    throw new Error(`Exercise with id ${exercise.id} does not exist`);
+                }
+
+                const exerciseInWorkout = await tx.workoutExercise.create({
                     data: {
                         workoutId: newWorkout.id,
                         exerciseId: exercise.id,
                     },
                 });
 
-                if (exercise.sets.length > 0) {
-                    exercise.sets.map(async (eachExercise: any) => {
-                        await prisma.workingSetData.create({
-                            data: {
-                                workoutExerciseId: exerciseInWorkout.id,
-                                reps: eachExercise.reps,
-                                weight: eachExercise.weight,
-                                notes: eachExercise.notes,
-                            },
-                        });
-                    })
+                for (const eachSet of exercise.sets || []) {
+                    await tx.workingSetData.create({
+                        data: {
+                            workoutExerciseId: exerciseInWorkout.id,
+                            reps: eachSet.reps,
+                            weight: eachSet.weight,
+                            notes: eachSet.notes,
+                        },
+                    });
                 }
-            })
-        );
+            }
+        });
 
         res.status(200).json({
             success: true,

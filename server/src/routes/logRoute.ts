@@ -1,6 +1,7 @@
 
 import {Router} from 'express';
 import {
+    createCustomExercise,
     deleteLog,
     fetchCategories,
     fetchLogById,
@@ -14,7 +15,9 @@ const logRoute = Router();
 
 logRoute.delete('/delete/:id', authenticateUser, deleteLog);
 
-logRoute.get('/exercises/categories', fetchCategories);
+logRoute.post('/create/custom-exercise', authenticateUser, createCustomExercise);
+
+logRoute.get('/exercises/categories', authenticateUser, fetchCategories);
 
 logRoute.post('/new', authenticateUser, saveWorkout);
 

@@ -7,7 +7,7 @@
     bottom: 0;
     left: 0;
     height: 60px;
-    background-color: #1a1a1a;
+    background-color: var(--color-surface);
     z-index: 10;
     border-top: 1px solid var(--color-border);
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.7);
@@ -48,5 +48,20 @@
             color: var(--color-accent);
             text-shadow: 0 0 6px var(--color-accent);
         }
+    }
+}
+
+.active {
+    cursor: pointer;
+    color: var(--color-accent);
+
+    svg {
+        fill: var(--color-accent);
+        filter: drop-shadow(0 0 6px var(--color-accent));
+    }
+
+    h3 {
+        color: var(--color-accent);
+        text-shadow: 0 0 6px var(--color-accent);
     }
 }

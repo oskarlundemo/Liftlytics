@@ -93,3 +93,10 @@
         width: 25px;
     }
 }
+
+
+.custom-exercise {
+    max-width: var(--max-context-width);
+    width: 100%;
+    margin: 0 auto;
+}
