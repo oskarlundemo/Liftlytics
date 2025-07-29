@@ -1,11 +1,13 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import {
+    createCustomExercise,
     deleteExerciseLog,
     fetchExerciseCategories,
     fetchLogs, getLogById,
     postNewWorkout,
     searchForExercise, updateWorkout
 } from '../api/logCalls.ts'
+import toast from "react-hot-toast";
 
 export const useLogs = () => {
     return useQuery({
@@ -13,6 +15,27 @@ export const useLogs = () => {
         queryFn: fetchLogs,
     })
 }
+
+
+export const useCustomExercise = () => {
+    return useMutation({
+        mutationFn: ({ muscleGroup, name }: { muscleGroup: object; name: string }) =>
+            createCustomExercise(muscleGroup, name),
+        onMutate: () => {
+            toast.dismiss();
+            toast.loading('Creating custom exercise...');
+        },
+        onSuccess: () => {
+            toast.dismiss();
+            toast.success('Exercises successfully created!');
+        },
+        onError: () => {
+            toast.dismiss();
+            toast.error('Error creating custom exercise');
+        },
+    });
+};
+
 
 export const useDeleteLog = () => {
     const queryClient = useQueryClient();
@@ -27,6 +50,18 @@ export const useDeleteLog = () => {
 export const usePostWorkout = () => {
     return useMutation({
         mutationFn: postNewWorkout,
+        onMutate: () => {
+            toast.dismiss();
+            toast.loading('Creating a new workout....');
+        },
+        onSuccess: () => {
+            toast.dismiss();
+            toast.success('Workout was successfully created!');
+        },
+        onError: () => {
+            toast.dismiss();
+            toast.error('Error creating workout');
+        },
     });
 };
 
@@ -34,6 +69,17 @@ export const usePostWorkout = () => {
 export const useUpdateWorkout = (id: string) => {
     return useMutation({
         mutationFn: (workoutData:any) => updateWorkout(workoutData, id),
+        onMutate: () => {
+            toast.loading('Updating workout...');
+        },
+        onSuccess: () => {
+            toast.dismiss();
+            toast.success('Workout was successfully updated!');
+        },
+        onError: () => {
+            toast.dismiss();
+            toast.error('Error updating workout');
+        },
     });
 };
 

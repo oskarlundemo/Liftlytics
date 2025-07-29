@@ -6,20 +6,20 @@ type NavbarProps = {
     svg: any
     redirect: string
     subTitle: string
+    isActive: boolean
 }
 
 
-export const NavbarIcon = ({redirect, svg, subTitle}:NavbarProps) => {
+export const NavbarIcon = ({redirect, svg, subTitle, isActive}:NavbarProps) => {
 
     const navigate = useNavigate();
 
     return (
         <div onClick={() => {
             navigate(redirect);
-        }} className="navbar-icon">
+        }} className={`navbar-icon ${isActive ? 'active' : ''}`}>
             {svg}
             <h3>{subTitle}</h3>
         </div>
     )
-
 }

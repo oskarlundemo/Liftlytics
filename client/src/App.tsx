@@ -11,7 +11,7 @@ import {LogPage} from "./pages/LogPage.tsx";
 import {ProfilePage} from "./pages/ProfilePage.tsx";
 import {StatisticsPage} from "./pages/StatisticsPage.tsx";
 import {LogProvider} from "./contexts/LogContext.tsx";
-import {NewWorkoutPage} from "./components/LogComponents/NewWorkoutPage.tsx";
+import {WorkoutForm} from "./components/LogComponents/WorkoutForm.tsx";
 import {CallbackPage} from "./components/AccessPortalComponents/CallbackPage.tsx";
 
 function App() {
@@ -56,7 +56,7 @@ function App() {
                     element={
                         <PrivateRoute>
                             <LogProvider>
-                                <NewWorkoutPage />
+                                <WorkoutForm />
                             </LogProvider>
                         </PrivateRoute>
                     }
@@ -67,7 +67,7 @@ function App() {
                     element={
                         <PrivateRoute>
                             <LogProvider>
-                                <NewWorkoutPage />
+                                <WorkoutForm />
                             </LogProvider>
                         </PrivateRoute>
                     }

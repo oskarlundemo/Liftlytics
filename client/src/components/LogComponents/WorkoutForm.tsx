@@ -5,12 +5,12 @@ import {ExerciseSelection} from "./ExerciseSelection.tsx";
 import {useLog} from "../../contexts/LogContext.tsx";
 import {Overlay} from "../MiscComponents/Overlay.tsx";
 import {useEffect, useState} from "react";
-import { motion } from 'framer-motion';
+import {AnimatePresence, motion} from 'framer-motion';
 import {useFetchLogById, usePostWorkout, useUpdateWorkout} from "../../hooks/logHook.ts";
-import toast from "react-hot-toast";
 import {WorkoutHeader} from "./WorkoutHeader.tsx";
 import {useParams} from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
+import {LoadingPage} from "../MiscComponents/LoadingPage.tsx";
 
 
 type NewWorkoutProps = {
@@ -31,9 +31,13 @@ export type ExerciseEntry = {
 };
 
 
-export const NewWorkoutPage = ({} : NewWorkoutProps) => {
+export const WorkoutForm = ({} : NewWorkoutProps) => {
 
-    const {showAddExerciseMenu, setShowExerciseMenu, setAddExerciseMenu, showConfigureExerciseMenu, setShowConfigureExerciseMenu} = useLog();
+    const {showAddExerciseMenu, setShowExerciseMenu,
+        setAddExerciseMenu, showConfigureExerciseMenu,
+        setShowConfigureExerciseMenu, setShowCustomExerciseMenu
+    } = useLog();
+
     const [exercises, setExercises] = useState<ExerciseEntry[]>([]);
     const [workoutName, setWorkoutName] = useState("");
     const [startDate, setStartDate] = useState<Date>(new Date());
@@ -45,7 +49,7 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
     const [disabled, setDisabled] = useState<boolean>(true);
 
     const {log_id} = useParams();
-    const {data} = useFetchLogById(log_id)
+    const {data, isLoading: isLoadingFetch} = useFetchLogById(log_id)
 
     useEffect(() => {
         if (data?.workout) {
@@ -66,7 +70,8 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
             setNotes(workout.notes || '');
 
             const transformedExercises: ExerciseEntry[] = workout.exercises.map((exerciseEntry: { exercise: { name: any; }; metrics: any[]; }) => ({
-                id: uuidv4(),
+                id: exerciseEntry.exercise.id,
+                localId: uuidv4(),
                 name: exerciseEntry.exercise.name,
                 sets: exerciseEntry.metrics.map((metric) => ({
                     id: metric.id,
@@ -105,20 +110,10 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
         };
 
         if (log_id) {
-            updateWorkout(workoutData, log_id);
-        } else
-            submitWorkout(workoutData);
-
-        if (isUpdateError) {
-            toast.error("Error updating workout");
+            updateWorkout(workoutData);
         } else {
-            toast.success("Workout was successfully updated!");
+            submitWorkout(workoutData);
         }
-
-        if (isCreateError)
-            toast.error("Error creating workout");
-        else
-            toast.success("Workout was successfully saved!");
     };
 
     return (
@@ -131,64 +126,61 @@ export const NewWorkoutPage = ({} : NewWorkoutProps) => {
             transition={{ type: 'spring', stiffness: 60, damping: 20 }}
         >
 
-            <WorkoutHeader
-                date={startDate}
-            />
-
-            <form onSubmit={handleSubmit} className="new-workout-container main-box">
-
-                <section className={'exercise-selection-container'}>
-
-                    <WorkoutData
-                        workoutName={workoutName}
-                        setWorkoutName={setWorkoutName}
-                        startDate={startDate}
-                        setStartDate={setStartDate}
-                        endDate={endDate}
-                        setEndDate={setEndDate}
-                        startTime={startTime}
-                        setStartTime={setStartTime}
-                        endTime={endTime}
-                        setEndTime={setEndTime}
-                        bodyWeight={bodyWeight}
-                        setBodyWeight={setBodyWeight}
-                        notes={notes}
-                        setNotes={setNotes}
-                        setExercises={setExercises}
-                    />
-
-                    {exercises && (
-                        <ExerciseSelection
-                            exercises={exercises}
-                            setExercises={setExercises}
-                        />
-                    )}
-
-                    <AddExcersize/>
-
-                </section>
-
-                <Overlay
-                    showOverlay={showAddExerciseMenu }
-                    configureExercise={showConfigureExerciseMenu}
-                    setShowOverlay={() => {
-                        setAddExerciseMenu(false);
-                        setShowExerciseMenu(false);
-                        setShowConfigureExerciseMenu(false);
-                    }}
-                />
-
-                <button disabled={disabled} className={'button-intellij'} type={"submit"}>{log_id ? (
-                    <p style={{
-                        margin: '0'
-                    }}>Save</p>
+            {isLoadingFetch ? (
+                <LoadingPage title="Loading workout data..." />
                 ) : (
-                    <p style={{
-                        margin: '0'
-                    }}>Submit</p>
-                )}</button>
+                <>
+                    <WorkoutHeader date={startDate} />
 
-            </form>
+                    <form onSubmit={handleSubmit} className="new-workout-container main-box">
+                        <section className="exercise-selection-container">
+                            <WorkoutData
+                                workoutName={workoutName}
+                                setWorkoutName={setWorkoutName}
+                                startDate={startDate}
+                                setStartDate={setStartDate}
+                                endDate={endDate}
+                                setEndDate={setEndDate}
+                                startTime={startTime}
+                                setStartTime={setStartTime}
+                                endTime={endTime}
+                                setEndTime={setEndTime}
+                                bodyWeight={bodyWeight}
+                                setBodyWeight={setBodyWeight}
+                                notes={notes}
+                                setNotes={setNotes}
+                                setExercises={setExercises}
+                                exercises={exercises}
+                            />
+
+                            {exercises && (
+                                <ExerciseSelection
+                                    exercises={exercises}
+                                    setExercises={setExercises}
+                                />
+                            )}
+
+                            <AddExcersize />
+                        </section>
+
+                        <Overlay
+                            showOverlay={showAddExerciseMenu}
+                            configureExercise={showConfigureExerciseMenu}
+                            setShowOverlay={() => {
+                                setAddExerciseMenu(false);
+                                setShowExerciseMenu(false);
+                                setShowConfigureExerciseMenu(false);
+                                setShowCustomExerciseMenu(false);
+                            }}
+                        />
+
+                        <button disabled={disabled} className="button-intellij" type="submit">
+                            <p style={{ margin: 0 }}>{log_id ? 'Save' : 'Submit'}</p>
+                        </button>
+                    </form>
+                </>
+            )}
+
 
         </motion.main>
     )

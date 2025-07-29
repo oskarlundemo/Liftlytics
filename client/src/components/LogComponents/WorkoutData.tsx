@@ -8,6 +8,7 @@ import {SlideInSideMenu} from "../MiscComponents/SlideInSideMenu.tsx";
 import {Exercises} from "./Exercises.tsx";
 import '../../styles/Workout/Workout.css'
 import {useLog} from "../../contexts/LogContext.tsx";
+import {CustomExercise} from "./CustomExercise.tsx";
 
 
 type WorkoutDataProps = {
@@ -33,6 +34,7 @@ type WorkoutDataProps = {
     setNotes: React.Dispatch<React.SetStateAction<string>>;
 
     setExercises: React.Dispatch<React.SetStateAction<any[]>>;
+    exercises: object
 };
 
 
@@ -52,10 +54,11 @@ export const WorkoutData = ({
                                 setBodyWeight,
                                 notes,
                                 setNotes,
-                                setExercises
+                                setExercises,
+                                exercises
                             }: WorkoutDataProps) => {
 
-    const {showAddExerciseMenu, showExerciseMenu} = useLog();
+    const {showAddExerciseMenu, showCustomExerciseMenu, showExerciseMenu} = useLog();
 
     return (
             <section className="new-workout-data">
@@ -98,7 +101,10 @@ export const WorkoutData = ({
                 <SlideInBottomMenu
                     showMenu={showAddExerciseMenu}
                     children={
-                        <CategorySelection/>
+                        <CategorySelection
+                            exercises={exercises}
+                            setExercises={setExercises}
+                        />
                     }
                 />
 
@@ -109,6 +115,15 @@ export const WorkoutData = ({
                             setExercises={setExercises}
                         />
                     }
+                />
+
+
+                <SlideInSideMenu
+                    showMenu={showCustomExerciseMenu}
+                    children={
+                        <CustomExercise/>
+                    }
+                    fromLeft={true}
                 />
 
             </section>

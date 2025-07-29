@@ -10,7 +10,7 @@ type ExercisesProps = {
 
 export const Exercises = ({ setExercises }: ExercisesProps) => {
 
-    const { setShowExerciseMenu, setAddExerciseMenu, selectedExercises, selectedMuscleGroupName } = useLog();
+    const { setShowExerciseMenu, setAddExerciseMenu, selectedExercises, selectedMuscleGroup } = useLog();
 
     return (
         <section className="exercises-container">
@@ -19,8 +19,9 @@ export const Exercises = ({ setExercises }: ExercisesProps) => {
                 <MenuHeader
                     search={false}
                     setUI={setShowExerciseMenu}
-                    header={selectedMuscleGroupName}
+                    header={selectedMuscleGroup.name || 'Undefined'}
                     arrow={true}
+                    addExercise={true}
                 />
 
                 {selectedExercises.length === 0 ? (

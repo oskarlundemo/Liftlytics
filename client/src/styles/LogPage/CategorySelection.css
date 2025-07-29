@@ -26,6 +26,20 @@
     gap: 1rem;
 }
 
+.category-selection-header__title {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    h1 {
+        grid-area: 1 / 2 / 2 / 3;
+        text-align: center;
+    }
+
+    button {
+        width: fit-content;
+    }
+}
+
 
 .category-card {
     display: flex;
@@ -39,6 +53,8 @@
 }
 
 .category-wrapper {
+    align-self: center;
+    width: 100%;
     max-width: var(--max-context-width);
     margin: 0 1rem;
     height: 100%;

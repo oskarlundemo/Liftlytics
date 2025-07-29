@@ -30,6 +30,13 @@ export const deleteExerciseLog = async (id:string) => {
 }
 
 
+export const createCustomExercise = async (musclegroup: object, name: string) => {
+    const res = await axiosInstance.post(`/logs/create/custom-exercise`, {
+        musclegroup: musclegroup,
+        name: name,
+    });    return res.data
+}
+
 export const getLogById = async (id: string) => {
     const res = await axiosInstance.get(`/logs/fetch/log/${id}`)
     return res.data

@@ -10,19 +10,19 @@ import {ExerciseCard} from "./ExerciseCard.tsx";
 
 
 
-export const CategorySelection = ({}) => {
+type CategorySelectionProps = {
+    exercises: object
+    setExercises: React.Dispatch<React.SetStateAction<any[]>>
+}
 
-    const {setAddExerciseMenu} = useLog();
+export const CategorySelection = ({exercises, setExercises} : CategorySelectionProps) => {
+
+    const {setAddExerciseMenu, setShowExerciseMenu, selectedMuscleGroup} = useLog();
     const {data, isLoading, isError } = useFetchExercises();
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [debouncedQuery] = useDebounce(searchQuery, 400);
-    const { data: searchResults, isLoading: isSearchLoading } = useSearchExercises(debouncedQuery);
+    const { data: searchResults, isPending: isSearchPending } = useSearchExercises(debouncedQuery);
     const [showSearchResults, setShowSearchResults] = useState<boolean>(true);
-
-
-    useEffect(() => {
-        console.log(searchResults);
-    }, [searchResults]);
 
     useEffect(() => {
         setShowSearchResults(searchQuery.trim().length > 0);
@@ -55,19 +55,46 @@ export const CategorySelection = ({}) => {
                         <p>No muscle groups available.</p>
                     ) : (
                         showSearchResults ? (
-                            searchResults?.results && searchResults.results.length > 0 ? (
-                                searchResults.results.map((item, index) => (
-                                    <ExerciseCard title = {item.name} key={item.id} onAddExercise={() => console.log('oksar')} />
+                                (isSearchPending  ? (
+                                    <div className="loader-wrapper">
+                                        <PulseLoader
+                                            size={20}
+                                            aria-label="Loading Spinner"
+                                            data-testid="loader"
+                                            color="var(--color-accent)"
+                                        />
+                                    </div>
+                                ) : (
+                                    searchResults?.results && searchResults.results.length > 0 ? (
+                                    searchResults.results.map((item, index) => (
+                                        <ExerciseCard
+                                            title = {item.name}
+                                            key={item.id}
+                                            onAddExercise={() => {
+                                                const newEntry = {
+                                                    id: item.id,
+                                                    name: item.name || 'Unknown Exercise',
+                                                    sets: [],
+                                                    localId: crypto.randomUUID()
+                                                };
+
+                                                setExercises(prev => [...prev, newEntry]);
+                                                setShowExerciseMenu(false);
+                                                setAddExerciseMenu(false);
+                                            }}
+                                        />
+                                    ))
+                                ) : (
+                                    <p>No exercises found for your search</p>
+                                )
                                 ))
-                            ) : (
-                                <p>No exercises found for your search.</p>
-                            )
                         ) : (
                             data.muscleGroups.map((muscleGroup: any) => (
                                 <CategoryCard
                                     key={muscleGroup.id}
                                     title={muscleGroup.name || ''}
                                     exercises={muscleGroup.exercises}
+                                    muscleGroup={muscleGroup}
                                 />
                             ))
                         )

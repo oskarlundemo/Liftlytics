@@ -3,7 +3,6 @@ import '../styles/LogPage/LogPage.css'
 import {LogPageHeader} from "../components/LogComponents/LogPageHeader.tsx";
 import {useLogs} from "../hooks/logHook.ts";
 import {LogCard} from "../components/LogComponents/LogCard.tsx";
-import {useEffect} from "react";
 import {SlideInBottomMenu} from "../components/MiscComponents/SlideInBottomMenu.tsx";
 import {Overlay} from "../components/MiscComponents/Overlay.tsx";
 import {useLog} from "../contexts/LogContext.tsx";
@@ -14,7 +13,7 @@ import {PulseLoader} from "react-spinners";
 
 export const LogPage = () => {
 
-    const { data, isPending, isError } = useLogs();
+    const { data, isPending, isLoading, isError } = useLogs();
     const {showDeleteMenu, setShowDeleteMenu} = useLog();
 
     return (
@@ -26,7 +25,7 @@ export const LogPage = () => {
             <LogPageHeader/>
 
             <section className="log-body">
-                    {isPending ? (
+                    {isPending || isLoading ? (
                         <div className="loader-wrapper">
                             <PulseLoader
                                 size={50}
