@@ -1,0 +1,23 @@
+
+
+.categories-form {
+    width: 100%;
+}
+
+.stats-page-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 60px;
+}
+
+
+.statistics-main-box {
+    width: 100%;
+    height: 100%;
+    max-width: var(--max-context-width);
+    margin: 0 auto;
+    padding-bottom: 60px;
+    overflow-y: scroll;
+}

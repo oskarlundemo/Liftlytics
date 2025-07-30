@@ -8,7 +8,6 @@ export const LogPageHeader = () => {
         <header className="log-page-header">
 
             <div
-
                 style={{
                     display: 'flex',
                     flexDirection: 'row',

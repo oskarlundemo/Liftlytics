@@ -20,7 +20,8 @@ export const SlideInBottomMenu = ({children, showMenu, height = ''}: SlideInBott
                     animate={{ y: 0 }}
                     exit={{ y: '100%' }}
                     transition={{ type: 'tween', duration: 0.3 }}
-                    className="slide-in-bottom-menu">
+                    className="slide-in-bottom-menu"
+                >
                     {children}
                 </motion.div>
             )}

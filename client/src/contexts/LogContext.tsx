@@ -24,8 +24,11 @@ type LogContextType = {
     selectedExercises: object[];
     setSelectedExercises: React.Dispatch<React.SetStateAction<object[]>>;
 
-    selectedMuscleGroup: object | null;
-    setSelectedMuscleGroup: React.Dispatch<React.SetStateAction<object | null>>;
+    selectedMuscleGroup: object;
+    setSelectedMuscleGroup: React.Dispatch<React.SetStateAction<object>>;
+
+    muscleGroupCategories: object;
+    setMuscleGroupCategories: React.Dispatch<React.SetStateAction<object>>;
 };
 
 const LogContext = createContext<LogContextType | undefined>(undefined);
@@ -37,12 +40,17 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
     const [showDeleteMenu, setShowDeleteMenu] = useState(false);
     const [deleteLogId, setDeleteLogId] = useState<string>('');
     const [showCustomExerciseMenu, setShowCustomExerciseMenu] = useState<boolean>(false);
-    const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<object>(null);
-    const [selectedExercises, setSelectedExercises] = useState<object[]>([]);
+    const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<object>([]);
+
+    const [selectedExercises, setSelectedExercises] = useState<object>([]);
+    const [muscleGroupCategories, setMuscleGroupCategories] = useState<any>([]);
 
 
     return (
         <LogContext.Provider value={{
+
+            muscleGroupCategories,
+            setMuscleGroupCategories,
 
             selectedMuscleGroup,
             setSelectedMuscleGroup,
@@ -73,7 +81,7 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-export const useLog = (): LogContextType => {
+export const useLogContext = (): LogContextType => {
     const context = useContext(LogContext);
     if (context === undefined) {
         throw new Error("useLog must be used within a LogProvider");

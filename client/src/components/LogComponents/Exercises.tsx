@@ -1,7 +1,7 @@
 import {ExerciseCard} from "./ExerciseCard.tsx";
 import '../../styles/LogPage/Exercises.css'
 import {MenuHeader} from "./MenuHeader.tsx";
-import {useLog} from "../../contexts/LogContext.tsx";
+import {useLogContext} from "../../contexts/LogContext.tsx";
 
 type ExercisesProps = {
     setExercises: React.Dispatch<React.SetStateAction<any[]>>
@@ -10,7 +10,7 @@ type ExercisesProps = {
 
 export const Exercises = ({ setExercises }: ExercisesProps) => {
 
-    const { setShowExerciseMenu, setAddExerciseMenu, selectedExercises, selectedMuscleGroup } = useLog();
+    const { setShowExerciseMenu, setAddExerciseMenu, selectedExercises, selectedMuscleGroup } = useLogContext();
 
     return (
         <section className="exercises-container">

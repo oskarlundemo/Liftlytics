@@ -2,7 +2,7 @@ import {WorkoutData} from "./WorkoutData.tsx";
 import '../../styles/Workout/NewWorkout.css'
 import {AddExcersize} from "./AddExcersize.tsx";
 import {ExerciseSelection} from "./ExerciseSelection.tsx";
-import {useLog} from "../../contexts/LogContext.tsx";
+import {useLogContext} from "../../contexts/LogContext.tsx";
 import {Overlay} from "../MiscComponents/Overlay.tsx";
 import {useEffect, useState} from "react";
 import {AnimatePresence, motion} from 'framer-motion';
@@ -36,7 +36,7 @@ export const WorkoutForm = ({} : NewWorkoutProps) => {
     const {showAddExerciseMenu, setShowExerciseMenu,
         setAddExerciseMenu, showConfigureExerciseMenu,
         setShowConfigureExerciseMenu, setShowCustomExerciseMenu
-    } = useLog();
+    } = useLogContext();
 
     const [exercises, setExercises] = useState<ExerciseEntry[]>([]);
     const [workoutName, setWorkoutName] = useState("");
@@ -50,6 +50,7 @@ export const WorkoutForm = ({} : NewWorkoutProps) => {
 
     const {log_id} = useParams();
     const {data, isLoading: isLoadingFetch} = useFetchLogById(log_id)
+
 
     useEffect(() => {
         if (data?.workout) {
@@ -121,7 +122,7 @@ export const WorkoutForm = ({} : NewWorkoutProps) => {
         <motion.main
             className="new-workout-container main-box"
             initial={{ x: '100vw', opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
+            animate={{ x: 1, opacity: 1 }}
             exit={{ x: '100vw', opacity: 0 }}
             transition={{ type: 'spring', stiffness: 60, damping: 20 }}
         >

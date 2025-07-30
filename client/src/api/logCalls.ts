@@ -34,7 +34,8 @@ export const createCustomExercise = async (musclegroup: object, name: string) =>
     const res = await axiosInstance.post(`/logs/create/custom-exercise`, {
         musclegroup: musclegroup,
         name: name,
-    });    return res.data
+    });
+    return res.data
 }
 
 export const getLogById = async (id: string) => {

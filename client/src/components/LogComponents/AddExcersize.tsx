@@ -1,9 +1,9 @@
-import {useLog} from "../../contexts/LogContext.tsx";
+import {useLogContext} from "../../contexts/LogContext.tsx";
 
 
 export const AddExcersize = ({}) => {
 
-    const {setAddExerciseMenu} = useLog();
+    const {setAddExerciseMenu} = useLogContext();
 
     return (
         <div
