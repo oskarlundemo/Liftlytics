@@ -7,7 +7,7 @@ import {CategorySelection} from "./CategorySelection.tsx";
 import {SlideInSideMenu} from "../MiscComponents/SlideInSideMenu.tsx";
 import {Exercises} from "./Exercises.tsx";
 import '../../styles/Workout/Workout.css'
-import {useLog} from "../../contexts/LogContext.tsx";
+import {useLogContext} from "../../contexts/LogContext.tsx";
 import {CustomExercise} from "./CustomExercise.tsx";
 
 
@@ -58,7 +58,7 @@ export const WorkoutData = ({
                                 exercises
                             }: WorkoutDataProps) => {
 
-    const {showAddExerciseMenu, showCustomExerciseMenu, showExerciseMenu} = useLog();
+    const {showAddExerciseMenu, showCustomExerciseMenu, showExerciseMenu} = useLogContext();
 
     return (
             <section className="new-workout-data">
@@ -121,7 +121,9 @@ export const WorkoutData = ({
                 <SlideInSideMenu
                     showMenu={showCustomExerciseMenu}
                     children={
-                        <CustomExercise/>
+                        <CustomExercise
+                            setExercises={setExercises}
+                        />
                     }
                     fromLeft={true}
                 />

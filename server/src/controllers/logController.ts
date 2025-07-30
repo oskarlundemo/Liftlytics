@@ -352,7 +352,7 @@ export const createCustomExercise = async (req: AuthenticatedRequest, res: Respo
             })
         }
 
-        const customExercise = await prisma.$transaction(async (tx) => {
+        const {customExercise, exerciseMuscleGroup } = await prisma.$transaction(async (tx) => {
             const customExercise = await tx.strengthExercise.create({
                 data: {
                     name: exerciseName,
@@ -362,22 +362,34 @@ export const createCustomExercise = async (req: AuthenticatedRequest, res: Respo
                 },
             });
 
-            await tx.exerciseMuscleGroup.create({
+            const exerciseMuscleGroup = await tx.exerciseMuscleGroup.create({
                 data: {
                     exerciseId: customExercise.id,
                     muscleGroupId: muscleGroupId,
                 },
             });
 
-            return customExercise;
+            return { customExercise, exerciseMuscleGroup };
         });
 
         console.log(customExercise)
 
         res.status(200).json({
             message: 'Exercise created',
-            exercise: customExercise,
-        })
+            exercise: {
+                id: exerciseMuscleGroup.id,
+                exerciseId: customExercise.id,
+                muscleGroupId: muscleGroupId,
+                exercise: {
+                    id: customExercise.id,
+                    name: customExercise.name,
+                    isDefault: customExercise.isDefault,
+                    userId: customExercise.userId,
+                    category: muscleGroupId,
+                },
+            },
+        });
+
 
     } catch (err: any) {
         console.error(err);

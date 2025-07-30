@@ -1,12 +1,12 @@
 import {useDeleteLog} from "../../hooks/logHook.ts";
 import toast from "react-hot-toast";
-import {useLog} from "../../contexts/LogContext.tsx";
+import {useLogContext} from "../../contexts/LogContext.tsx";
 import '../../styles/MiscStyles/DeleteButtonContainer.css'
 
 export const DeleteButtonContainer = ({}) => {
 
     const { mutate: deleteLog, isPending, isError } = useDeleteLog();
-    const {setShowDeleteMenu, deleteLogId} = useLog();
+    const {setShowDeleteMenu, deleteLogId} = useLogContext();
 
     const handleDelete = () => {
         if (!deleteLogId) return;

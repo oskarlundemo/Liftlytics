@@ -1,6 +1,6 @@
 
 import '../../styles/LogPage/CategorySelection.css'
-import {useLog} from "../../contexts/LogContext.tsx";
+import {useLogContext} from "../../contexts/LogContext.tsx";
 
 type CategoryProps = {
     title: string,
@@ -10,7 +10,7 @@ type CategoryProps = {
 
 export const CategoryCard = ({title, exercises, muscleGroup}:CategoryProps) => {
 
-    const {setShowExerciseMenu, setSelectedExercises, setSelectedMuscleGroup} = useLog();
+    const {setShowExerciseMenu, setSelectedExercises, setSelectedMuscleGroup} = useLogContext();
 
     return (
         <div

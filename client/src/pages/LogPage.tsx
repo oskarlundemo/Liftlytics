@@ -5,18 +5,27 @@ import {useLogs} from "../hooks/logHook.ts";
 import {LogCard} from "../components/LogComponents/LogCard.tsx";
 import {SlideInBottomMenu} from "../components/MiscComponents/SlideInBottomMenu.tsx";
 import {Overlay} from "../components/MiscComponents/Overlay.tsx";
-import {useLog} from "../contexts/LogContext.tsx";
+import {useLogContext} from "../contexts/LogContext.tsx";
 import {DeleteButtonContainer} from "../components/LogComponents/DeleteButtonContainer.tsx";
 import {Link} from "react-router-dom";
 import {PulseLoader} from "react-spinners";
+import { motion } from "framer-motion";
 
 
 export const LogPage = () => {
 
     const { data, isPending, isLoading, isError } = useLogs();
-    const {showDeleteMenu, setShowDeleteMenu} = useLog();
+    const {showDeleteMenu, setShowDeleteMenu} = useLogContext();
 
     return (
+
+        <motion.main
+            className="new-workout-container main-box"
+            initial={{ x: '-100vw', opacity: 0 }}
+            animate={{ x: 1, opacity: 1 }}
+            exit={{ x: '-100vw', opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 60, damping: 20 }}
+        >
 
         <div className={'log-page-container'}>
 
@@ -64,5 +73,7 @@ export const LogPage = () => {
 
             <NavigationBar/>
         </div>
-)
+
+        </motion.main>
+    )
 }

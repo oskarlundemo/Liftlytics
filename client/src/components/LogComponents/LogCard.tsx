@@ -1,6 +1,6 @@
 import {CalenderUI} from "./CalenderUI.tsx";
 import '../../styles/LogPage/LogPage.css'
-import {useLog} from "../../contexts/LogContext.tsx";
+import {useLogContext} from "../../contexts/LogContext.tsx";
 import {useNavigate} from "react-router-dom";
 
 
@@ -15,7 +15,7 @@ type LogCardProps = {
 
 export const LogCard = ({startTime, id, workoutName, exercises}: LogCardProps) => {
 
-    const {setShowDeleteMenu, setDeleteLogId} = useLog();
+    const {setShowDeleteMenu, setDeleteLogId} = useLogContext();
     const navigate = useNavigate();
 
     const deleteWorkout = (id:string) => {

@@ -17,7 +17,7 @@ export const useLogs = () => {
 }
 
 
-export const useCustomExercise = () => {
+export const useCustomExercise = (options: any) => {
     return useMutation({
         mutationFn: ({ muscleGroup, name }: { muscleGroup: object; name: string }) =>
             createCustomExercise(muscleGroup, name),
@@ -25,16 +25,24 @@ export const useCustomExercise = () => {
             toast.dismiss();
             toast.loading('Creating custom exercise...');
         },
-        onSuccess: () => {
+        onSuccess: (data, variables, context) => {
             toast.dismiss();
-            toast.success('Exercises successfully created!');
+            toast.success('Exercise successfully created!');
+
+            if (options?.onSuccess) {
+                options.onSuccess(data, variables, context);
+            }
         },
-        onError: () => {
+        onError: (error) => {
             toast.dismiss();
             toast.error('Error creating custom exercise');
+            if (options?.onError) {
+                options.onError(error);
+            }
         },
     });
 };
+
 
 
 export const useDeleteLog = () => {

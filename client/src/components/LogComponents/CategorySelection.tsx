@@ -1,7 +1,7 @@
 import {CategoryCard} from "./CategoryCard.tsx";
 import '../../styles/LogPage/CategorySelection.css'
 import {MenuHeader} from "./MenuHeader.tsx";
-import {useLog} from "../../contexts/LogContext.tsx";
+import {useLogContext} from "../../contexts/LogContext.tsx";
 import {useFetchExercises, useSearchExercises} from "../../hooks/logHook.ts";
 import { PulseLoader } from "react-spinners";
 import {useEffect, useState} from "react";
@@ -15,10 +15,10 @@ type CategorySelectionProps = {
     setExercises: React.Dispatch<React.SetStateAction<any[]>>
 }
 
-export const CategorySelection = ({exercises, setExercises} : CategorySelectionProps) => {
+export const CategorySelection = ({setExercises} : CategorySelectionProps) => {
 
-    const {setAddExerciseMenu, setShowExerciseMenu, selectedMuscleGroup} = useLog();
-    const {data, isLoading, isError } = useFetchExercises();
+    const {setAddExerciseMenu, setShowExerciseMenu} = useLogContext();
+    const {data: muscleData, isLoading, isError } = useFetchExercises();
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [debouncedQuery] = useDebounce(searchQuery, 400);
     const { data: searchResults, isPending: isSearchPending } = useSearchExercises(debouncedQuery);
@@ -51,7 +51,7 @@ export const CategorySelection = ({exercises, setExercises} : CategorySelectionP
                         </div>
                     ) : isError ? (
                         <p className="error-text">Failed to load muscle groups. Please try again later.</p>
-                    ) : data?.muscleGroups?.length === 0 ? (
+                    ) : muscleData?.muscleGroups?.length === 0 ? (
                         <p>No muscle groups available.</p>
                     ) : (
                         showSearchResults ? (
@@ -89,7 +89,7 @@ export const CategorySelection = ({exercises, setExercises} : CategorySelectionP
                                 )
                                 ))
                         ) : (
-                            data.muscleGroups.map((muscleGroup: any) => (
+                            (muscleData.muscleGroups || []).map((muscleGroup: any) => (
                                 <CategoryCard
                                     key={muscleGroup.id}
                                     title={muscleGroup.name || ''}

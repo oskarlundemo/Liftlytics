@@ -1,7 +1,7 @@
 import {SearchBar} from "../MiscComponents/SearchBar.tsx";
 import {useState} from "react";
 import '../../styles/LogPage/CategorySelection.css'
-import {useLog} from "../../contexts/LogContext.tsx";
+import {useLogContext} from "../../contexts/LogContext.tsx";
 
 type CategoryHeaderProps = {
     search?: boolean;
@@ -25,7 +25,7 @@ export const MenuHeader = ({search = false,
                                                             setUI}:CategoryHeaderProps) => {
 
     const [inputFocus, setInputFocus] = useState(false);
-    const { setShowCustomExerciseMenu } = useLog();
+    const { setShowCustomExerciseMenu } = useLogContext();
 
 
     return (
