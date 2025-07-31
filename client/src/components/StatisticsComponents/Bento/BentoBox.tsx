@@ -1,6 +1,5 @@
 
 import '../../../styles/Statistics/BentoBox.css'
-import React from "react";
 import {AvgTimeWidget} from "./AvgTimeWidget.tsx";
 import {PRCompoundsWidget} from "./PRCompoundsWidget.tsx";
 import {WorkoutStreak} from "./WorkoutStreak.tsx";
@@ -11,6 +10,13 @@ import {WeeklyVolumeWidget} from "./WeeklyVolumeWidget.tsx";
 
 export const BentoBox = ({}) => {
 
+    const data = [
+        { muscleGroup: "Chest", sets: 12 },
+        { muscleGroup: "Back", sets: 10 },
+        { muscleGroup: "Legs", sets: 18 },
+    ];
+
+
     return (
         <section className={'bento-box-stats'}>
 
@@ -20,11 +26,9 @@ export const BentoBox = ({}) => {
 
             <WorkoutStreak boxIndex={3} recordStreak={4} streakNumber={8}/>
 
-            <FavoriteExerciseWidget boxIndex={1}/>
+            <FavoriteExerciseWidget boxIndex={5}/>
 
-
-            <WeeklyVolumeWidget boxIndex={5}/>
-
+            <WeeklyVolumeWidget muscleGroup={data} boxIndex={1}/>
 
         </section>
     )

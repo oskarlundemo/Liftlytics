@@ -1,4 +1,3 @@
-import {PrCard} from "./PrCard.tsx";
 import {FavoriteCard} from "./FavoriteCard.tsx";
 
 

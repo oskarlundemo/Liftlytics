@@ -1,5 +1,7 @@
 
 import {PrCard} from "./PrCard.tsx";
+import {useStatsContext} from "../../../contexts/StatsContext.tsx";
+import {useEffect} from "react";
 
 
 type PRCompoundsWidgetProps = {
@@ -10,6 +12,11 @@ type PRCompoundsWidgetProps = {
 
 export const PRCompoundsWidget = ({boxIndex}:PRCompoundsWidgetProps) => {
 
+    const {best1RM} = useStatsContext();
+
+    useEffect(() => {
+        console.log(best1RM);
+    }, [best1RM]);
 
     return (
 
@@ -21,20 +28,16 @@ export const PRCompoundsWidget = ({boxIndex}:PRCompoundsWidgetProps) => {
 
             <h3 className={'widget-title'}>PR compounds</h3>
 
-            <PrCard
-                exercise={'Bench press'}
-                weight={200}
-            />
-
-            <PrCard
-                exercise={'Squat'}
-                weight={200}
-            />
-
-            <PrCard
-                exercise={'Deadlift'}
-                weight={200}
-            />
+            {best1RM && (
+                best1RM.map((best1RM, index) => (
+                    <PrCard
+                        key={index}
+                        weight={best1RM.weight}
+                        exercise={best1RM.exercise}
+                        date={best1RM.date}
+                    />
+                ))
+            )}
 
         </div>
 

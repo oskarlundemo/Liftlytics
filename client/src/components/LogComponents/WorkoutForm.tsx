@@ -117,8 +117,11 @@ export const WorkoutForm = ({} : NewWorkoutProps) => {
         }
     };
 
-    return (
+    if (isLoadingFetch) {
+        return <LoadingPage title="Loading workout data..." />;
+    }
 
+    return (
         <motion.main
             className="new-workout-container main-box"
             initial={{ x: '100vw', opacity: 0 }}
@@ -126,63 +129,54 @@ export const WorkoutForm = ({} : NewWorkoutProps) => {
             exit={{ x: '100vw', opacity: 0 }}
             transition={{ type: 'spring', stiffness: 60, damping: 20 }}
         >
+            <WorkoutHeader date={startDate} />
 
-            {isLoadingFetch ? (
-                <LoadingPage title="Loading workout data..." />
-                ) : (
-                <>
-                    <WorkoutHeader date={startDate} />
+            <form onSubmit={handleSubmit} className="new-workout-container main-box">
+                <section className="exercise-selection-container">
+                    <WorkoutData
+                        workoutName={workoutName}
+                        setWorkoutName={setWorkoutName}
+                        startDate={startDate}
+                        setStartDate={setStartDate}
+                        endDate={endDate}
+                        setEndDate={setEndDate}
+                        startTime={startTime}
+                        setStartTime={setStartTime}
+                        endTime={endTime}
+                        setEndTime={setEndTime}
+                        bodyWeight={bodyWeight}
+                        setBodyWeight={setBodyWeight}
+                        notes={notes}
+                        setNotes={setNotes}
+                        setExercises={setExercises}
+                        exercises={exercises}
+                    />
 
-                    <form onSubmit={handleSubmit} className="new-workout-container main-box">
-                        <section className="exercise-selection-container">
-                            <WorkoutData
-                                workoutName={workoutName}
-                                setWorkoutName={setWorkoutName}
-                                startDate={startDate}
-                                setStartDate={setStartDate}
-                                endDate={endDate}
-                                setEndDate={setEndDate}
-                                startTime={startTime}
-                                setStartTime={setStartTime}
-                                endTime={endTime}
-                                setEndTime={setEndTime}
-                                bodyWeight={bodyWeight}
-                                setBodyWeight={setBodyWeight}
-                                notes={notes}
-                                setNotes={setNotes}
-                                setExercises={setExercises}
-                                exercises={exercises}
-                            />
-
-                            {exercises && (
-                                <ExerciseSelection
-                                    exercises={exercises}
-                                    setExercises={setExercises}
-                                />
-                            )}
-
-                            <AddExcersize />
-                        </section>
-
-                        <Overlay
-                            showOverlay={showAddExerciseMenu}
-                            configureExercise={showConfigureExerciseMenu}
-                            setShowOverlay={() => {
-                                setAddExerciseMenu(false);
-                                setShowExerciseMenu(false);
-                                setShowConfigureExerciseMenu(false);
-                                setShowCustomExerciseMenu(false);
-                            }}
+                    {exercises && (
+                        <ExerciseSelection
+                            exercises={exercises}
+                            setExercises={setExercises}
                         />
+                    )}
 
-                        <button disabled={disabled} className="button-intellij" type="submit">
-                            <p style={{ margin: 0 }}>{log_id ? 'Save' : 'Submit'}</p>
-                        </button>
-                    </form>
-                </>
-            )}
+                    <AddExcersize />
+                </section>
 
+                <Overlay
+                    showOverlay={showAddExerciseMenu}
+                    configureExercise={showConfigureExerciseMenu}
+                    setShowOverlay={() => {
+                        setAddExerciseMenu(false);
+                        setShowExerciseMenu(false);
+                        setShowConfigureExerciseMenu(false);
+                        setShowCustomExerciseMenu(false);
+                    }}
+                />
 
+                <button disabled={disabled} className="button-intellij" type="submit">
+                    <p style={{ margin: 0 }}>{log_id ? 'Save' : 'Submit'}</p>
+                </button>
+            </form>
         </motion.main>
-    )
+    );
 }
