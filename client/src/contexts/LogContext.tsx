@@ -83,8 +83,8 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const useLogContext = (): LogContextType => {
     const context = useContext(LogContext);
-    if (context === undefined) {
-        throw new Error("useLog must be used within a LogProvider");
+    if (!context) {
+        throw new Error("useLogContext must be used within a StatsProvider");
     }
     return context;
 };

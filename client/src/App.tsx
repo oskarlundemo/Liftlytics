@@ -9,10 +9,11 @@ import {Home} from "./pages/Home.tsx";
 import {Workout} from "./pages/Workout.tsx";
 import {LogPage} from "./pages/LogPage.tsx";
 import {ProfilePage} from "./pages/ProfilePage.tsx";
-import {StatisticsPage} from "./pages/StatisticsPage.tsx";
+import {StatsPage} from "./pages/StatsPage.tsx";
 import {LogProvider} from "./contexts/LogContext.tsx";
 import {WorkoutForm} from "./components/LogComponents/WorkoutForm.tsx";
 import {CallbackPage} from "./components/AccessPortalComponents/CallbackPage.tsx";
+import {StatsProvider} from "./contexts/StatsContext.tsx";
 
 function App() {
 
@@ -86,7 +87,9 @@ function App() {
                     path="/statistics"
                     element={
                         <PrivateRoute>
-                            <StatisticsPage />
+                            <StatsProvider>
+                                <StatsPage />
+                            </StatsProvider>
                         </PrivateRoute>
                     }
                 />

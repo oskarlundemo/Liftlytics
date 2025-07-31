@@ -1,0 +1,61 @@
+
+
+
+.drop-down-menu-wrapper {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.exercise-card {
+    padding: 0 1rem;
+    transition: var(--transition-fast);
+
+    &:hover {
+        transform: translateX(5px);
+    }
+}
+
+.drop-down-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.sub-menu {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--transition-fast);
+    overflow: hidden;
+}
+
+.sub-menu.show {
+    grid-template-rows: 1fr;
+}
+
+.sub-menu-inner {
+    background-color: var(--color-surface);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+}
+
+.card-container {
+    h3>span {
+        color: var(--color-text-muted);
+    }
+}
+
+.sub-menu-inner h4 {
+    padding: 1rem;
+    list-style: none;
+    cursor: pointer;
+    margin: 0;
+}
+
+.dropdown-title {
+    cursor: pointer;
+    user-select: none;
+}
+
