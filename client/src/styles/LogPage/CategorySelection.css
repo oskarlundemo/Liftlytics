@@ -19,6 +19,10 @@
         opacity: 0;
     }
 }
+.workout-title {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-bold);
+}
 
 .category-selection-header {
     display: flex;
@@ -50,9 +54,11 @@
 
 .category-selection-container {
     width: 100%;
+    overflow: hidden;
 }
 
 .category-wrapper {
+    overflow: hidden;
     align-self: center;
     width: 100%;
     max-width: var(--max-context-width);

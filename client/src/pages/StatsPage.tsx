@@ -13,15 +13,15 @@ import {useStatsContext} from "../contexts/StatsContext.tsx";
 export const StatsPage = () => {
 
     const {data, isError, isPending, isLoading, error} = useStats();
-    const {setWeeklyVolumeData, setCategories, setBest1RM} = useStatsContext();
+    const {setWeeklyVolumeData, setCategories, setBest1RM, setBodyWeightData} = useStatsContext();
 
 
     useEffect(() => {
         if (data) {
-            console.log(data);
             setWeeklyVolumeData(data.weeklyVolumeData || []);
             setCategories(data.categories || []);
             setBest1RM(data.best1RMs || []);
+            setBodyWeightData(data.bodyWeightData || []);
         }
     }, [data]);
 
@@ -30,7 +30,7 @@ export const StatsPage = () => {
 
             {isError ? (
                 <ErrorPage
-                    title="Something went wrong"
+                    title="An error occurred while retrieving your stats"
                     errorMessage={error.message}
                     details={error.code}
                 />

@@ -17,6 +17,13 @@
     padding: 1rem;
 }
 
+.log-page-divider {
+    h1 {
+        font-size: var(--text-4xl) !important;
+        font-weight: var(--font-weight-bold);
+    }
+}
+
 .new-workout-container {
     display: flex;
     height: 100%;
@@ -46,7 +53,13 @@
 
 
     h4 {
-        margin: 0;
+        font-size: var(--text-xl);
+        font-weight: var(--font-weight-semi-bold);
+    }
+
+    h5 {
+        font-size: var(--text-sm);
+        color: var(--color-text-muted)
     }
 
     svg:last-of-type {

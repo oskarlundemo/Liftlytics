@@ -14,6 +14,8 @@ import {LogProvider} from "./contexts/LogContext.tsx";
 import {WorkoutForm} from "./components/LogComponents/WorkoutForm.tsx";
 import {CallbackPage} from "./components/AccessPortalComponents/CallbackPage.tsx";
 import {StatsProvider} from "./contexts/StatsContext.tsx";
+import {ConfigureExercisesPages} from "./pages/ConfigureExercisesPages.tsx";
+import {ExerciseProvider} from "./contexts/ExerciseContext.tsx";
 
 function App() {
 
@@ -99,6 +101,17 @@ function App() {
                     element={
                         <PrivateRoute>
                             <ProfilePage />
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
+                    path="/profile/configure-exercises"
+                    element={
+                        <PrivateRoute>
+                            <ExerciseProvider>
+                                <ConfigureExercisesPages />
+                            </ExerciseProvider>
                         </PrivateRoute>
                     }
                 />

@@ -9,7 +9,6 @@
     background: var(--color-surface);
     border-radius: 0.5rem;
     transition: var(--transition-fast);
-    flex-grow: 1;
 
     svg {
         transition: var(--transition-fast);

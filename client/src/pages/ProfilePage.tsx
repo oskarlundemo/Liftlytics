@@ -1,21 +1,44 @@
 import {NavigationBar} from "../components/MiscComponents/NavigationBar.tsx";
-import {useAuth} from "../contexts/AuthContext.tsx";
-import {useNavigate} from "react-router-dom";
+import {ProfileHeader} from "../components/ProfileComponents/ProfileHeader.tsx";
+import {ProfileModule} from "../components/ProfileComponents/ProfileModule.tsx";
+import {ModuleRow} from "../components/ProfileComponents/ModuleRow.tsx";
 
 
 export const ProfilePage = () => {
 
-    const {logout} = useAuth();
-
     return (
-        <main className="profile-page">
-            <h1>Profile</h1>
 
-            <button onClick={() => {
-                logout();
-            }}>Log out</button>
+        <div className="profile-page-wrapper">
+            <main className="profile-page">
 
-            <NavigationBar/>
-        </main>
+                <ProfileHeader/>
+
+
+                <ProfileModule>
+                    <ModuleRow
+                        title={'Account'}
+                        svg={
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm246-164q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q53 0 100-15.5t86-44.5q-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160Zm0-360q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm0-60Zm0 360Z"/></svg>                    }
+                    />
+                </ProfileModule>
+
+                <ProfileModule>
+                    <ModuleRow
+                        path={'./configure-exercises'}
+                        title={'Change exercises'}
+                        svg={
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m826-585-56-56 30-31-128-128-31 30-57-57 30-31q23-23 57-22.5t57 23.5l129 129q23 23 23 56.5T857-615l-31 30ZM346-104q-23 23-56.5 23T233-104L104-233q-23-23-23-56.5t23-56.5l30-30 57 57-31 30 129 129 30-31 57 57-30 30Zm397-336 57-57-303-303-57 57 303 303ZM463-160l57-58-302-302-58 57 303 303Zm-6-234 110-109-64-64-109 110 63 63Zm63 290q-23 23-57 23t-57-23L104-406q-23-23-23-57t23-57l57-57q23-23 56.5-23t56.5 23l63 63 110-110-63-62q-23-23-23-57t23-57l57-57q23-23 56.5-23t56.5 23l303 303q23 23 23 56.5T857-441l-57 57q-23 23-57 23t-57-23l-62-63-110 110 63 63q23 23 23 56.5T577-161l-57 57Z"/></svg>                        }
+                    />
+
+                    <ModuleRow
+                        title={'Change categories'}
+                        svg={
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-600v-80h560v80H280Zm0 160v-80h560v80H280Zm0 160v-80h560v80H280ZM160-600q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680q17 0 28.5 11.5T200-640q0 17-11.5 28.5T160-600Zm0 160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520q17 0 28.5 11.5T200-480q0 17-11.5 28.5T160-440Zm0 160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360q17 0 28.5 11.5T200-320q0 17-11.5 28.5T160-280Z"/></svg>                        }
+                    />
+                </ProfileModule>
+
+                <NavigationBar/>
+            </main>
+        </div>
     )
 }

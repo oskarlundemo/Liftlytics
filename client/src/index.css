@@ -12,7 +12,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* Base layout colors */
   --color-bg: hsl(240, 15%, 12%);            /* Deep dark background (#1e1e2e) */
   --color-surface: hsl(240, 15%, 18%);       /* Slightly lighter surface */
   --color-surface-alt: hsl(240, 20%, 25%);   /* Alternate panel */
@@ -36,6 +35,26 @@
   /* UI Helpers */
   --color-overlay: hsla(240, 10%, 10%, 0.7); /* Modal backdrop */
   --color-shadow: hsla(240, 10%, 10%, 0.4);  /* Shadow for cards */
+
+  --text-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem);     /* 12–14px */
+  --text-sm: clamp(0.875rem, 0.8rem + 0.2vw, 1rem);        /* 14–16px */
+  --text-base: clamp(1rem, 0.95rem + 0.3vw, 1.125rem);     /* 16–18px */
+  --text-lg: clamp(1.125rem, 1rem + 0.5vw, 1.25rem);       /* 18–20px */
+  --text-xl: clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem);       /* 20–24px */
+  --text-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);           /* 24–32px */
+  --text-3xl: clamp(1.875rem, 1.5rem + 1.5vw, 2.5rem);     /* 30–40px */
+  --text-4xl: clamp(2.25rem, 1.7rem + 2vw, 3rem);          /* 36–48px */
+
+  --font-weight-thin: 100;
+  --font-weight-extra-light: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semi-bold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extra-bold: 800;
+  --font-weight-black: 900;
+
 
   /* Typography & spacing */
   --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,

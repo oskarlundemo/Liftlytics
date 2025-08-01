@@ -1,6 +1,6 @@
 import * as React from "react";
 import {CustomInput} from "../MiscComponents/CustomInput.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import '../../styles/AccessPortal/AccessPortal.css'
 import {OrDivider} from "./OrDivider.tsx";
 import {AuthOption} from "./AuthOption.tsx";
@@ -21,6 +21,11 @@ export const CreateAccount = ({setLogin} : CreateAccountProps) => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const { mutate: syncUser } = useAuthorization();
+    const [disabled, setDisabled] = useState<boolean>(true);
+
+    useEffect(() => {
+        setDisabled(!(email.length > 0 && password.length > 0));
+    }, [email, password]);
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -50,7 +55,7 @@ export const CreateAccount = ({setLogin} : CreateAccountProps) => {
 
         <section className="access-portal-box">
 
-            <h1>Create account</h1>
+            <h2 className={'sub-header'}>Create account</h2>
 
             <form className={'access-portal-form'} onSubmit={handleSubmit}>
 
@@ -72,6 +77,7 @@ export const CreateAccount = ({setLogin} : CreateAccountProps) => {
 
                 <button
                     className="button-intellij"
+                    disabled={disabled}
                     type={"submit"}>
                     Create
                 </button>

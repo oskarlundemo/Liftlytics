@@ -7,6 +7,7 @@ import { PulseLoader } from "react-spinners";
 import {useEffect, useState} from "react";
 import { useDebounce } from 'use-debounce';
 import {ExerciseCard} from "./ExerciseCard.tsx";
+import {LoadingResults} from "../MiscComponents/LoadingResults.tsx";
 
 
 
@@ -41,14 +42,7 @@ export const CategorySelection = ({setExercises} : CategorySelectionProps) => {
 
                 <article className="category-selection-body">
                     {isLoading ? (
-                        <div className="loader-wrapper">
-                            <PulseLoader
-                                size={20}
-                                aria-label="Loading Spinner"
-                                data-testid="loader"
-                                color="var(--color-accent)"
-                            />
-                        </div>
+                        <LoadingResults size={20}/>
                     ) : isError ? (
                         <p className="error-text">Failed to load muscle groups. Please try again later.</p>
                     ) : muscleData?.muscleGroups?.length === 0 ? (
@@ -56,14 +50,7 @@ export const CategorySelection = ({setExercises} : CategorySelectionProps) => {
                     ) : (
                         showSearchResults ? (
                                 (isSearchPending  ? (
-                                    <div className="loader-wrapper">
-                                        <PulseLoader
-                                            size={20}
-                                            aria-label="Loading Spinner"
-                                            data-testid="loader"
-                                            color="var(--color-accent)"
-                                        />
-                                    </div>
+                                    <LoadingResults size={20}/>
                                 ) : (
                                     searchResults?.results && searchResults.results.length > 0 ? (
                                     searchResults.results.map((item, index) => (

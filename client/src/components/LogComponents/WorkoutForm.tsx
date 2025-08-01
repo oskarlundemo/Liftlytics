@@ -5,7 +5,7 @@ import {ExerciseSelection} from "./ExerciseSelection.tsx";
 import {useLogContext} from "../../contexts/LogContext.tsx";
 import {Overlay} from "../MiscComponents/Overlay.tsx";
 import {useEffect, useState} from "react";
-import {AnimatePresence, motion} from 'framer-motion';
+import { motion} from 'framer-motion';
 import {useFetchLogById, usePostWorkout, useUpdateWorkout} from "../../hooks/logHook.ts";
 import {WorkoutHeader} from "./WorkoutHeader.tsx";
 import {useParams} from "react-router-dom";
@@ -13,9 +13,6 @@ import { v4 as uuidv4 } from 'uuid';
 import {LoadingPage} from "../MiscComponents/LoadingPage.tsx";
 
 
-type NewWorkoutProps = {
-    setExercises: React.Dispatch<React.SetStateAction<any[]>>
-};
 
 
 export type ExerciseSet = {
@@ -31,7 +28,7 @@ export type ExerciseEntry = {
 };
 
 
-export const WorkoutForm = ({} : NewWorkoutProps) => {
+export const WorkoutForm = ({} ) => {
 
     const {showAddExerciseMenu, setShowExerciseMenu,
         setAddExerciseMenu, showConfigureExerciseMenu,

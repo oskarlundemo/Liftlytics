@@ -3,8 +3,8 @@ import '../../../styles/Statistics/BentoBox.css'
 import {AvgTimeWidget} from "./AvgTimeWidget.tsx";
 import {PRCompoundsWidget} from "./PRCompoundsWidget.tsx";
 import {WorkoutStreak} from "./WorkoutStreak.tsx";
-import {FavoriteExerciseWidget} from "./FavoriteExerciseWidget.tsx";
 import {WeeklyVolumeWidget} from "./WeeklyVolumeWidget.tsx";
+import {WeightChartWidget} from "./WeightChartWidget.tsx";
 
 
 
@@ -26,9 +26,9 @@ export const BentoBox = ({}) => {
 
             <WorkoutStreak boxIndex={3} recordStreak={4} streakNumber={8}/>
 
-            <FavoriteExerciseWidget boxIndex={5}/>
-
             <WeeklyVolumeWidget muscleGroup={data} boxIndex={1}/>
+
+            <WeightChartWidget boxIndex={5}/>
 
         </section>
     )

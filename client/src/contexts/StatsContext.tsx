@@ -9,6 +9,9 @@ type StatsContextType = {
 
     best1RM: any[]
     setBest1RM: (data: any[]) => void;
+
+    bodyWeightData: any[];
+    setBodyWeightData: (data: any[]) => void;
 };
 
 const StatsContext = createContext<StatsContextType | undefined>(undefined);
@@ -21,9 +24,14 @@ export const StatsProvider = ({ children }: StatsProviderProps) => {
     const [weeklyVolumeData, setWeeklyVolumeData] = useState<any[]>([]);
     const [categories, setCategories] = useState<any[]>([]);
     const [best1RM, setBest1RM] = useState<any>([]);
+    const [bodyWeightData, setBodyWeightData] = useState<any[]>([]);
 
     return (
         <StatsContext.Provider value={{
+
+            bodyWeightData,
+            setBodyWeightData,
+
             weeklyVolumeData,
             setWeeklyVolumeData,
 
