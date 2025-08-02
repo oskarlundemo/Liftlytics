@@ -6,26 +6,25 @@
 }
 
 .bento-box-stats {
-    max-width: 800px;
     width: 100%;
     align-self: center;
     justify-self: center;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 200px);
+    grid-template-rows: auto auto auto;
     gap: 1rem;
 
     grid-template-areas:
-    "box-1 box-2 box-2 box-3"
-    "box-1 box-4 box-5 box-5 ";
+    "box-1 box-5 box-5 box-5"
+    "box-1 box-2 box-2 box-2 "
+    "box-1 box-3 box-4 box-4"
 }
-
 
 .streak-record {
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: space-between;
+    padding: 1rem;
 
     h4 {
         font-size: 4rem;
@@ -39,6 +38,7 @@
     align-items: center;
     justify-content: space-between;
 
+
     h4 {
         font-size: 4rem;
         margin: 0;
@@ -48,10 +48,22 @@
 .pr-widget {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
+}
+
+
+.pr-card:nth-child(odd) {
+    background-color: var(--color-bg);
+    border-radius: var(--border-radius);
+}
+
+.pr-card:nth-child(even) {
+    background-color: var(--color-surface);
 }
 
 .pr-card {
-    flex-grow: 1;
+
+    padding: 5px;
     align-items: center;
     display: grid;
     justify-content: center;
@@ -60,10 +72,11 @@
 
     h4:first-of-type {
         justify-self: start;
+
     }
 
-
     h4 {
+        color: var(--color-text-muted);
         width: fit-content;
         margin: 0;
         justify-self: center;
@@ -127,12 +140,12 @@
         max-width: 800px;
         width: 100%;
         grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: 200px 200px;
+        grid-template-rows: repeat(auto, 1fr);
 
         grid-template-areas:
          "box-1 box-1 box-1 box-1"
          "box-4 box-4 box-3 box-3"
          "box-2 box-2 box-2 box-2"
-          "box-5 box-5 box-5 box-5";
+         "box-5 box-5 box-5 box-5";
     }
 }

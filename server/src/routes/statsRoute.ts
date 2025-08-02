@@ -6,7 +6,7 @@
 import { Router} from 'express'
 import {authenticateUser} from "../middleware/supabase";
 import {
-    bestCompounds,
+    bestCompounds, bodyWeightData,
     fetchCategories,
     sendWidgetStats,
     weeklyVolumeData,
@@ -15,7 +15,7 @@ import {
 
 const statsRoute = Router();
 
-statsRoute.get('/fetch', authenticateUser, fetchCategories, weeklyVolumeData, workoutStreakData, bestCompounds, sendWidgetStats);
+statsRoute.get('/fetch', authenticateUser, fetchCategories, weeklyVolumeData, workoutStreakData, bestCompounds, bodyWeightData, sendWidgetStats);
 
 
 

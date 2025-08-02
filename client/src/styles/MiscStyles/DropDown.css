@@ -39,15 +39,24 @@
     flex-direction: column;
     padding: 0;
     margin: 0;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .card-container {
+
+    margin: 1rem 0;
+
+    h3 {
+        font-size: var(--text-xl);
+    }
+
     h3>span {
         color: var(--color-text-muted);
     }
 }
 
 .sub-menu-inner h4 {
+    font-size: var(--text-base);
     padding: 1rem;
     list-style: none;
     cursor: pointer;

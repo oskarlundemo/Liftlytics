@@ -1,0 +1,24 @@
+
+
+
+.configure-main {
+    max-width: var(--max-context-width);
+    margin: 0 auto;
+}
+
+.custom-exercise-card {
+
+    transition: var(--transition-fast);
+
+
+    &:hover {
+        color: var(--color-accent);
+        transform: translateX(5px);
+        cursor: pointer;
+    }
+}
+
+.exercise-form {
+    max-width: var(--max-context-width);
+    margin: 0 auto;
+}

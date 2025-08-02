@@ -3,7 +3,6 @@
 
 
 .slide-in-side-menu {
-    border-top: 1px solid var(--color-border);
     position: fixed;
     left: 0;
     bottom: 0;

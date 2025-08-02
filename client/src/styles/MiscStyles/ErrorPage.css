@@ -8,6 +8,12 @@
     height: 100%;
     flex-direction: column;
     padding-bottom: 60px;
+
+    h1 {
+        font-size: var(--text-4xl);
+        color: var(--color-text-muted);
+        font-weight: var(--font-weight-medium);
+    }
 }
 
 .error-page {

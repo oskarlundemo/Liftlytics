@@ -9,9 +9,10 @@ type InputFieldProps = {
     name?: string;
     setState?: (value: string) => void;
     isRequired?: boolean;
+    placeholder?: string;
 };
 
-export const CustomInput = ({ type = '', isRequired = true, name = '', value = '', example = '', setState }: InputFieldProps) => {
+export const CustomInput = ({ type = '', isRequired = true, name = '', placeholder, value = '', example = '', setState }: InputFieldProps) => {
     return (
 
         <div
@@ -24,7 +25,8 @@ export const CustomInput = ({ type = '', isRequired = true, name = '', value = '
                 type={type}
                 value={value}
                 name={name}
-               onChange={(e) => setState?.(e.target.value)}
+                onChange={(e) => setState?.(e.target.value)}
+                placeholder={placeholder}
             />
 
             <label htmlFor={name}>{example}</label>

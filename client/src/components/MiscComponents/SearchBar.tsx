@@ -5,11 +5,12 @@ type SearchBarProps = {
     query: string
     setQuery: (query: string) => void
     setInputFocus?: (value: boolean) => void;
+    placeholder?: string
 }
 
 
 
-export const SearchBar = ({query, setQuery, setInputFocus}: SearchBarProps) => {
+export const SearchBar = ({query, setQuery, placeholder, setInputFocus}: SearchBarProps) => {
 
     return (
         <div className="search-bar-wrapper">
@@ -18,7 +19,7 @@ export const SearchBar = ({query, setQuery, setInputFocus}: SearchBarProps) => {
             <input
                 type="text"
                 className="search-input"
-                placeholder="Search"
+                placeholder={placeholder || 'Search...'}
                 value={query}
                 onFocus={() => setInputFocus?.(true)}
                 onBlur={() => setInputFocus?.(false)}

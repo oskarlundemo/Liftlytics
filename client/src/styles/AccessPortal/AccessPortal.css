@@ -107,11 +107,14 @@
 
 
 .company-logo {
-    font-size: clamp(1.75rem, 4vw + 0.5rem, 3rem);
     align-self: flex-end;
+    text-align: center;
 
     h1 {
+        font-size: clamp(1.75rem, 4vw + 0.5rem, 4rem);
         margin: 0;
+        color: var(--color-accent);
+        font-weight: var(--font-weight-bold);
     }
 }
 
@@ -127,6 +130,7 @@
         align-self: center;
     }
 }
+
 
 
 @media (max-width: 800px) {

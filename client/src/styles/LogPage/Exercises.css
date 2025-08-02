@@ -50,7 +50,12 @@
     align-items: center;
 
     h3 {
-        font-weight: bolder;
+        font-size: var(--text-xl);
+        font-weight: var(--font-weight-semi-bold);
+    }
+
+    svg {
+        maring: 5px 0;
     }
 }
 
@@ -109,6 +114,8 @@
     flex-direction: column;
 }
 
+
+exercise-module-input
 .exercise-module-footer {
     display: flex;
     flex-direction: row;
@@ -116,7 +123,6 @@
     justify-content: space-between;
 
     h3 {
-
         &:hover {
             color: var(--color-accent);
             cursor: pointer;

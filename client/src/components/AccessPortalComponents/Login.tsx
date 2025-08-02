@@ -1,6 +1,6 @@
 import * as React from "react";
 import {CustomInput} from "../MiscComponents/CustomInput.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import '../../styles/AccessPortal/AccessPortal.css'
 import {OrDivider} from "./OrDivider.tsx";
 import {AuthOption} from "./AuthOption.tsx";
@@ -20,8 +20,12 @@ export const Login = ({setLogin}: LoginProps) => {
     const [password, setPassword] = useState<string>("");
     const navigate = useNavigate();
     const {loginWithGoogle, loginWithEmail} = useAuth();
-    const { mutate: syncUser } = useAuthorization();
 
+    const [disabled, setDisabled] = useState<boolean>(true);
+
+    useEffect(() => {
+        setDisabled(!(email.length > 0 && password.length > 0));
+    }, [email, password]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -80,6 +84,7 @@ export const Login = ({setLogin}: LoginProps) => {
 
                 <button
                     className="button-intellij"
+                    disabled={disabled}
                     type={"submit"}>
                     Login
                 </button>

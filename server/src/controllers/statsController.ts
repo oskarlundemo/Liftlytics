@@ -258,6 +258,44 @@ export const workoutStreakData = async (req: AuthenticatedRequest, res: Response
 
 
 
+
+export const bodyWeightData = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+
+
+    try {
+
+        let dataPoints: any[] = [];
+
+        const userId = req.user.id;
+
+        const workouts = await prisma.workout.findMany({
+            where: {
+                userId: userId,
+                bodyWeight: {not: null}
+            }
+        })
+
+        workouts.forEach(workout => {
+            dataPoints.push({
+                date: workout.startDate,
+                bodyWeight: workout.bodyWeight,
+            })
+        })
+
+        res.locals.bodyWeightData = dataPoints;
+        next();
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: 'error',
+            message: 'Something went wrong querying the body weight data'
+        })
+    }
+}
+
+
+
 export const sendWidgetStats = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
@@ -267,6 +305,7 @@ export const sendWidgetStats = async (req: AuthenticatedRequest, res: Response) 
             categories: res.locals.categories,
             workoutStreakData: res.locals.workoutStreakData,
             best1RMs: res.locals.best1RMs,
+            bodyWeightData: res.locals.bodyWeightData,
         })
 
     } catch (error) {

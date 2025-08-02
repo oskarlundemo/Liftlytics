@@ -16,4 +16,5 @@
 .overlay.show {
     opacity: 1;
     pointer-events: all;
+    width: 100%;
 }
