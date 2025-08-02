@@ -49,7 +49,6 @@ export const CallbackPage = () => {
 
     return (
         <main
-
             style={{
                 display: "flex",
                 flexDirection: "column",
@@ -61,8 +60,7 @@ export const CallbackPage = () => {
 
             className={'callback-page'}>
 
-            <h1>Loading your content</h1>
-
+            <h1 className={'text-3xl font-bold'}>Loading your content...</h1>
 
             <RingLoader
                 size={100}
@@ -70,8 +68,6 @@ export const CallbackPage = () => {
                 aria-label="Loading Spinner"
                 data-testid="loader"
             />
-
-
 
         </main>
     )

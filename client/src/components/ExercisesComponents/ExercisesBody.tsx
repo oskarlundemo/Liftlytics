@@ -16,7 +16,7 @@ export const ExercisesBody = ({}) => {
                 placeholder="Search for an exercise..."
             />
 
-            {customExercises.length > 0 ? (
+            {customExercises.length > 0  ? (
                 customExercises.map((exercise) => (
                     <CustomExerciseCard exercise={exercise} key={exercise.id} name={exercise.name} />
                 ))

@@ -1,5 +1,5 @@
 import {useExerciseContext} from "../../contexts/ExerciseContext.tsx";
-
+import '../../styles/ExercisesStyles/Exerice.css'
 
 type CustomExerciseProps = {
     name: string

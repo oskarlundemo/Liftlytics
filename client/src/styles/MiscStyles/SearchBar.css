@@ -9,6 +9,7 @@
     background: var(--color-surface);
     border-radius: 0.5rem;
     transition: var(--transition-fast);
+    flex-shrink: 0;
 
     svg {
         transition: var(--transition-fast);

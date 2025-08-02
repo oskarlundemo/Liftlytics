@@ -107,12 +107,18 @@
     cursor: not-allowed;
     background-color: var(--color-text-muted);
 
-
     &:hover {
       transform: none !important;
     }
   }
+}
 
+.untoggled-btn {
+  background-color: var(--color-text-muted);
+  cursor: pointer;
+  &:hover {
+    transform: none !important;
+  }
 }
 
 .button-intellij:hover {
