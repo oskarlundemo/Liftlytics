@@ -22,3 +22,64 @@
     max-width: var(--max-context-width);
     margin: 0 auto;
 }
+
+
+.add-exercise-icon {
+    position: fixed;
+    right: 5%;
+    bottom: 2%;
+    background-color: var(--color-surface);
+    transition: var(--transition-fast);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: var(--default-box-shadow);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        animation: slight-spin 1s;
+    }
+
+    span {
+        position: absolute;
+        bottom: 100%;
+        transform: translateY(-0.5rem);
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease-in-out;
+        color: var(--color-text-muted);
+        animation: fade-up 1s;
+    }
+
+    &:hover span {
+        opacity: 1;
+        color: var(--color-accent);
+    }
+
+    &:hover svg {
+        fill: var(--color-accent);
+    }
+}
+
+@keyframes slight-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(5deg);
+    }
+    50% {
+        transform: rotate(-5deg);
+    }
+    75% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}

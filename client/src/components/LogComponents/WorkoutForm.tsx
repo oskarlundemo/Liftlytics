@@ -30,24 +30,41 @@ export type ExerciseEntry = {
 
 export const WorkoutForm = ({} ) => {
 
+    const savedState = JSON.parse(localStorage.getItem("workoutState") || "{}");
+
     const {showAddExerciseMenu, setShowExerciseMenu,
         setAddExerciseMenu, showConfigureExerciseMenu,
         setShowConfigureExerciseMenu, setShowCustomExerciseMenu
     } = useLogContext();
 
-    const [exercises, setExercises] = useState<ExerciseEntry[]>([]);
-    const [workoutName, setWorkoutName] = useState("");
-    const [startDate, setStartDate] = useState<Date>(new Date());
-    const [endDate, setEndDate] = useState<null>(null);
-    const [bodyWeight, setBodyWeight] = useState<null>(null);
-    const [startTime, setStartTime] = useState<Date>(new Date());
-    const [endTime, setEndTime] = useState<null>(null);
-    const [notes, setNotes] = useState<string>('');
     const [disabled, setDisabled] = useState<boolean>(true);
+    const [exercises, setExercises] = useState<ExerciseEntry[]>(savedState.exercises || []);
+    const [workoutName, setWorkoutName] = useState<string>(savedState.workoutName || "");
+    const [startDate, setStartDate] = useState<Date>(savedState.startDate ? new Date(savedState.startDate) : new Date());
+    const [endDate, setEndDate] = useState<Date | null>(savedState.endDate ? new Date(savedState.endDate) : null);
+    const [bodyWeight, setBodyWeight] = useState<number | null>(savedState.bodyWeight ?? null);
+    const [startTime, setStartTime] = useState<Date>(savedState.startTime ? new Date(savedState.startTime) : new Date());
+    const [endTime, setEndTime] = useState<Date | null>(savedState.endTime ? new Date(savedState.endTime) : null)
+    const [notes, setNotes] = useState<string>(savedState.notes ? savedState.notes : '');
+
+    useEffect(() => {
+        const workoutState = {
+            exercises,
+            workoutName,
+            startDate,
+            endDate,
+            startTime,
+            endTime,
+            notes,
+            bodyWeight,
+        };
+
+        localStorage.setItem("workoutState", JSON.stringify(workoutState));
+
+    }, [exercises, workoutName, startDate, endDate, bodyWeight, startTime, endTime, notes]);
 
     const {log_id} = useParams();
-    const {data, isLoading: isLoadingFetch} = useFetchLogById(log_id)
-
+    const {data, isLoading: isLoadingFetch} = useFetchLogById(log_id!)
 
     useEffect(() => {
         if (data?.workout) {
@@ -87,10 +104,8 @@ export const WorkoutForm = ({} ) => {
         setDisabled(exercises.length === 0);
     }, [exercises]);
 
-
-    const { mutate: submitWorkout, isPending: isCreating, isError: isCreateError } = usePostWorkout();
-    const { mutate: updateWorkout, isPending: isUpdating, isError: isUpdateError } = useUpdateWorkout(log_id);
-
+    const { mutate: submitWorkout} = usePostWorkout();
+    const { mutate: updateWorkout } = useUpdateWorkout(log_id!);
 
     const handleSubmit = (e) => {
 
@@ -107,11 +122,7 @@ export const WorkoutForm = ({} ) => {
             exercises,
         };
 
-        if (log_id) {
-            updateWorkout(workoutData);
-        } else {
-            submitWorkout(workoutData);
-        }
+        log_id ? updateWorkout(workoutData) : submitWorkout(workoutData);
     };
 
     if (isLoadingFetch) {
@@ -128,7 +139,7 @@ export const WorkoutForm = ({} ) => {
         >
             <WorkoutHeader date={startDate} />
 
-            <form onSubmit={handleSubmit} className="new-workout-container main-box">
+            <form onSubmit={handleSubmit} className="flex flex-col w-full h-full gap-5">
                 <section className="exercise-selection-container">
                     <WorkoutData
                         workoutName={workoutName}
@@ -171,7 +182,7 @@ export const WorkoutForm = ({} ) => {
                 />
 
                 <button disabled={disabled} className="button-intellij" type="submit">
-                    <p style={{ margin: 0 }}>{log_id ? 'Save' : 'Submit'}</p>
+                    <p style={{ margin: 0 }}>{log_id ? 'Save' : 'Create'}</p>
                 </button>
             </form>
         </motion.main>

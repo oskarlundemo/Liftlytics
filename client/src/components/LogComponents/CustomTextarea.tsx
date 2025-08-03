@@ -7,12 +7,12 @@ type NoteProps = {
 }
 
 
-export const NotesComponent = ({notes, setNotes} : NoteProps) => {
+export const CustomTextarea = ({notes, setNotes} : NoteProps) => {
 
     return (
         <section className="notes-container">
 
-            <h2>Notes</h2>
+            <h2 className={'font-bold text-xl'}>Notes</h2>
 
             <textarea
                 className="notes-textarea"

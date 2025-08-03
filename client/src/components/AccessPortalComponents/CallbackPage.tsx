@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {useAuthorization} from "../../hooks/useAuthorzation.ts";
 import {useEffect, useState} from "react";
 import {supabase} from "../../services/supabase.ts";
+import {LoadingPage} from "../MiscComponents/LoadingPage.tsx";
 
 
 
@@ -57,16 +58,10 @@ export const CallbackPage = () => {
                 width: "100%",
                 height: "100vh",
             }}
-
             className={'callback-page'}>
 
-            <h1 className={'text-3xl font-bold'}>Loading your content...</h1>
-
-            <RingLoader
-                size={100}
-                color={'cyan'}
-                aria-label="Loading Spinner"
-                data-testid="loader"
+            <LoadingPage
+                title={'Loading your profile...'}
             />
 
         </main>

@@ -1,6 +1,6 @@
 import {CustomInput} from "../MiscComponents/CustomInput.tsx";
 import {CustomTimePicker} from "./CustomTimePicker.tsx";
-import {NotesComponent} from "./Notes.tsx";
+import {CustomTextarea} from "./CustomTextarea.tsx";
 import {BodyWeight} from "./BodyWeight.tsx";
 import {SlideInBottomMenu} from "../MiscComponents/SlideInBottomMenu.tsx";
 import {CategorySelection} from "./CategorySelection.tsx";
@@ -93,7 +93,7 @@ export const WorkoutData = ({
                     setWeight={setBodyWeight}
                 />
 
-                <NotesComponent
+                <CustomTextarea
                     notes={notes}
                     setNotes={setNotes}
                 />

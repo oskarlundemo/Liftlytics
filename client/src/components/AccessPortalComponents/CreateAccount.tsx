@@ -41,8 +41,7 @@ export const CreateAccount = ({setLogin} : CreateAccountProps) => {
         }
     };
 
-    const handleGoogleSignUp = async (event:React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    const handleGoogleSignUp = async () => {
         const result = await loginWithGoogle();
         if (!result.success) {
             toast.error(result.error || "Google sign-in failed.");
@@ -55,7 +54,7 @@ export const CreateAccount = ({setLogin} : CreateAccountProps) => {
 
         <section className="access-portal-box">
 
-            <h2 className={'sub-header'}>Create account</h2>
+            <h1 className={'font-bold text-2xl'}>Create account</h1>
 
             <form className={'access-portal-form'} onSubmit={handleSubmit}>
 
@@ -96,8 +95,8 @@ export const CreateAccount = ({setLogin} : CreateAccountProps) => {
                 action={handleGoogleSignUp}
             />
 
-            <h3>Already have an account? {}
-                <span onClick={() => setLogin(true)}>
+            <h3 className={'text-base m-4'}>Already have an account? {}
+                <span className={'hover-text'} onClick={() => setLogin(true)}>
                     Click me
                 </span>
             </h3>

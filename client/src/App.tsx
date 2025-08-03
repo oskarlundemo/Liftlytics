@@ -16,6 +16,7 @@ import {CallbackPage} from "./components/AccessPortalComponents/CallbackPage.tsx
 import {StatsProvider} from "./contexts/StatsContext.tsx";
 import {ConfigureExercisesPages} from "./pages/ConfigureExercisesPages.tsx";
 import {ExerciseProvider} from "./contexts/ExerciseContext.tsx";
+import {Account} from "./pages/Account.tsx";
 
 function App() {
 
@@ -101,6 +102,15 @@ function App() {
                     element={
                         <PrivateRoute>
                             <ProfilePage />
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
+                    path="/profile/:user-id"
+                    element={
+                        <PrivateRoute>
+                            <Account />
                         </PrivateRoute>
                     }
                 />

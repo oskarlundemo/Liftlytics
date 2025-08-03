@@ -17,9 +17,6 @@ export const ExerciseForm = ({}) => {
     );
 
 
-    if (isError)
-        console.log(error)
-
     useEffect(() => {
         setCategoryId(selectedExercise?.muscleGroups[0]?.muscleGroup?.id || 'Undefined');
     }, [selectedExercise]);
@@ -39,10 +36,19 @@ export const ExerciseForm = ({}) => {
         });
     }
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (
+            exerciseName.length >= 100 &&
+            !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter'].includes(e.key)
+        ) {
+            e.preventDefault();
+        }
+    }
+
     return (
         <form className={'exercise-form flex h-full flex-grow flex-col p-4 justify-between'} onSubmit={handleSubmit}>
 
-            <div className="form-header flex-row flex justify-between justify-end">
+            <div className="form-header flex-row flex justify-end">
                 <svg onClick={() => setShowMenu(false)} className={'error-svg'} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
             </div>
 
@@ -51,7 +57,6 @@ export const ExerciseForm = ({}) => {
             </h1>
 
             <div className="">
-
                 <CustomInput
                     type="text"
                     isRequired={false}
@@ -60,13 +65,18 @@ export const ExerciseForm = ({}) => {
                     name={exerciseName}
                     placeholder={selectedExercise.name}
                     example={'Name'}
+                    keyDownAction={(e) => handleKeyDown(e)}
                 />
 
-                <h4 style={{color: 'var(--color-text-muted)'}} className={'flex justify-end'}>{maxLength} / 100</h4>
-
+                <h4
+                    style={{ color: maxLength >= 100 ? 'var(--color-error)' : 'var(--color-text-muted)', transition: 'var(--transition-fast)' }}
+                    className={`flex justify-end ${maxLength >= 100 ? 'text-2xl' : 'text-xl'}`}
+                >
+                    {maxLength} / 100
+                </h4>
             </div>
 
-            <h2 className={'font-semibold text-xl mb-4'}>Category</h2>
+            <h2 className={'font-semibold text-xl mb-4'}>Muscle group</h2>
 
             {allMuscleGroups ? (
                 <div className="flex flex-wrap mb-auto gap-1">
@@ -86,9 +96,9 @@ export const ExerciseForm = ({}) => {
 
             <div className="form-footer flex gap-3 justify-center w-full">
                 <button
-                    onClick={handleSubmit}
+                    onClick={(e) => handleSubmit(e)}
                     className="button-intellij !p-4 button-confirm !w-1/2"
-                    disabled={disabledButton}>
+                    disabled={disabledButton || !(maxLength <= 100)}>
                     Update
                 </button>
                 <button

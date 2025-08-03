@@ -14,7 +14,7 @@ export const BodyWeight = ({weight, setWeight}: BodyWeightProps) => {
         <section
             className="body-weight-wrapper">
 
-            <h2>Body weight</h2>
+            <h2 className={'text-xl font-bold'}>Body weight</h2>
 
             <input
                 type="number"

@@ -23,7 +23,7 @@ export const ExerciseDataRow = ({
                                 }: ExerciseDataRowProps) => {
     return (
         <div className="exercise-row">
-            <h4 className={'index-row'}>{index}</h4>
+            <h4 className={'index-row font-semibold text-base'}>{index}</h4>
 
             <RowInput
                 title={'Kg'}

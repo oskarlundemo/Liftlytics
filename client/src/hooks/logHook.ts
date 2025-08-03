@@ -28,7 +28,7 @@ export const useCustomExercise = (options: any) => {
         onSuccess: (data, variables, context) => {
             toast.dismiss();
             toast.success('Exercise successfully created!');
-
+            localStorage.removeItem('workoutState');
             if (options?.onSuccess) {
                 options.onSuccess(data, variables, context);
             }
@@ -81,6 +81,7 @@ export const useUpdateWorkout = (id: string) => {
             toast.loading('Updating workout...');
         },
         onSuccess: () => {
+            localStorage.removeItem('workoutState');
             toast.dismiss();
             toast.success('Workout was successfully updated!');
         },

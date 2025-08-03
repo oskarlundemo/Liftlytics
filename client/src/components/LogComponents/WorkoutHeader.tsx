@@ -24,7 +24,7 @@ export const WorkoutHeader = ({date} : WorkoutHederProps) => {
                 width: "100%",
                 position: "relative",
             }}
-            className="workout-header"
+            className="workout-header p-4"
         >
             <svg
                 style={{ margin: '1rem' }}
