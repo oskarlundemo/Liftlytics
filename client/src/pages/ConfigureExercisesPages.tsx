@@ -10,11 +10,12 @@ import {Overlay} from "../components/MiscComponents/Overlay.tsx";
 import {SlideInBottomMenu} from "../components/MiscComponents/SlideInBottomMenu.tsx";
 import {ExerciseForm} from "../components/ExercisesComponents/ExerciseForm.tsx";
 import {PopUp} from "../components/MiscComponents/PopUp.tsx";
+import {AddExercise} from "../components/ExercisesComponents/AddExercise.tsx";
+import {CreateExerciseForm} from "../components/ExercisesComponents/CreateExerciseForm.tsx";
 
 export const ConfigureExercisesPages = ({}) => {
 
-
-    const {setCustomExercises, showMenu, setAllMuscleGroups, selectedExercise, setShowMenu, showPopUp, setShowPopUp} = useExerciseContext();
+    const {setCustomExercises, showMenu, setAllMuscleGroups, showCreateMenu, setShowCreateMenu, selectedExercise, setShowMenu, showPopUp, setShowPopUp} = useExerciseContext();
     const {data: exerciseData, isLoading, isError, error} = useExercises();
 
     const {
@@ -50,10 +51,15 @@ export const ConfigureExercisesPages = ({}) => {
                 ) : (
                     <>
                         <ExercisesHeader/>
+
                         <main className={'w-full h-full flex flex-col configure-main'}>
                             <ExercisesBody/>
+                            <AddExercise/>
                         </main>
 
+                        <SlideInBottomMenu height={'50%'} showMenu={showCreateMenu}>
+                           <CreateExerciseForm/>
+                        </SlideInBottomMenu>
 
                         <SlideInBottomMenu height={'50%'} showMenu={showMenu}>
                             <ExerciseForm/>
@@ -76,7 +82,10 @@ export const ConfigureExercisesPages = ({}) => {
                 ))
             )}
         </div>
-            <Overlay showOverlay={showMenu || showPopUp} setShowOverlay={() => setShowMenu(false)}/>
+            <Overlay showOverlay={showMenu || showPopUp || showCreateMenu} setShowOverlay={() => {
+                setShowMenu(false);
+                setShowCreateMenu(false);
+            }}/>
         </>
     )
 

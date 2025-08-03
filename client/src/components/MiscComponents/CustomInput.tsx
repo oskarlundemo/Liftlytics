@@ -10,9 +10,10 @@ type InputFieldProps = {
     setState?: (value: string) => void;
     isRequired?: boolean;
     placeholder?: string;
+    keyDownAction?: (e: React.KeyboardEvent) => void;
 };
 
-export const CustomInput = ({ type = '', isRequired = true, name = '', placeholder, value = '', example = '', setState }: InputFieldProps) => {
+export const CustomInput = ({ type = '', isRequired = true, name = '', keyDownAction, placeholder, value = '', example = '', setState }: InputFieldProps) => {
     return (
 
         <div
@@ -27,6 +28,7 @@ export const CustomInput = ({ type = '', isRequired = true, name = '', placehold
                 name={name}
                 onChange={(e) => setState?.(e.target.value)}
                 placeholder={placeholder}
+                onKeyDown={keyDownAction}
             />
 
             <label htmlFor={name}>{example}</label>

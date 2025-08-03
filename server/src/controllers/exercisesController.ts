@@ -179,7 +179,6 @@ export const updateCustomExercise = async (req: AuthenticatedRequest, res: Respo
             },
         });
 
-        console.dir(updatedExercise, { depth: null });
 
         res.status(200).json({
             status: 'success',
@@ -195,4 +194,68 @@ export const updateCustomExercise = async (req: AuthenticatedRequest, res: Respo
         })
     }
 
+}
+
+
+export const createCustomExercise = async (req: AuthenticatedRequest, res: Response) => {
+
+
+    try {
+        console.log('In the back end');
+        console.log(req.body);
+
+        const userId = req.user.id;
+        const {categoryId, exerciseName} = req.body;
+
+        if (!exerciseName || !categoryId) {
+            return res.status(400).json({
+                status: 'error',
+                message: 'Insufficient paramters.',
+            })
+        }
+
+        const newExercise = await prisma.strengthExercise.create({
+            data: {
+                userId: userId,
+                category: categoryId,
+                name: exerciseName,
+                isDefault: false,
+            }
+        })
+
+
+        const formattedExercise = await prisma.strengthExercise.findFirst({
+            where: {
+                id: newExercise.id
+            },
+            select: {
+                id: true,
+                name: true,
+                muscleGroups: {
+                    select: {
+                        muscleGroup: {
+                            select: {
+                                name: true,
+                                id: true,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+
+
+        res.status(201).json({
+            status: 'success',
+            message: 'Exercise created',
+            newExercise: formattedExercise,
+        })
+
+    } catch (err:any) {
+        console.error(err);
+        res.status(500).json({
+            status: 'error',
+            message: err.message,
+        })
+    }
 }

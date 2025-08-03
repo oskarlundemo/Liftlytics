@@ -16,6 +16,9 @@ type ExerciseContextType = {
 
     showMenu: boolean;
     setShowMenu: (show: boolean) => void;
+
+    showCreateMenu: boolean;
+    setShowCreateMenu: (showCreateMenu: boolean) => void;
 };
 
 const ExerciseContext = createContext<ExerciseContextType | undefined>(undefined);
@@ -31,11 +34,15 @@ export const ExerciseProvider = ({ children }: Props) => {
     const [showMenu, setShowMenu] = useState<boolean>(false);
     const [showPopUp, setShowPopUp] = useState(false);
     const [allMuscleGroups, setAllMuscleGroups] = useState<object[]>([]);
+    const [showCreateMenu, setShowCreateMenu] = useState<boolean>(false);
 
     return (
         <ExerciseContext.Provider value={{
             customExercises,
             setCustomExercises,
+
+            showCreateMenu,
+            setShowCreateMenu,
 
             allMuscleGroups,
             setAllMuscleGroups,

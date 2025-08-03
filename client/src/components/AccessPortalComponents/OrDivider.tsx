@@ -5,7 +5,7 @@ export const OrDivider = ({}) => {
 
     return (
         <div className="or-divider">
-            <h3>OR</h3>
+            <h3 className={'text-xl'}>OR</h3>
         </div>
     )
 }

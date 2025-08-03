@@ -1,5 +1,5 @@
 import {useMutation, useQuery} from "@tanstack/react-query";
-import {deleteExercise, fetchCustomExercises, updateCustomExercise} from "../api/exerciseCalls.ts";
+import {deleteExercise, fetchCustomExercises, updateCustomExercise, createCustomExercise} from "../api/exerciseCalls.ts";
 import toast from "react-hot-toast";
 
 
@@ -13,7 +13,7 @@ export const useExercises = () => {
 
 export const useDeleteExercise = (setCustomExercises: (exercises: any[]) => void) => {
     return useMutation({
-        mutationFn: deleteExercise, // make sure this function is defined or imported
+        mutationFn: deleteExercise,
         onMutate: () => {
             toast.dismiss();
             toast.loading('Deleting exercise...');
@@ -42,21 +42,13 @@ export const useUpdateCustomExercise = (setCustomExercises: (exercises: any[]) =
         onSuccess: (response, _variables) => {
             toast.dismiss();
             toast.success('Exercise successfully updated!');
-            const updatedExercise = response.data;
-            console.log(response);
+            const updatedExercise = response.updatedExercise;
 
             setCustomExercises(prev => {
                 const cleanPrev = prev.filter(ex => ex && ex.id);
-
-                // If the exercise already exists, replace it, else add it
-                const exists = cleanPrev.some(ex => ex.id === updatedExercise.id);
-
-                if (exists) {
-                    return cleanPrev.map(ex => ex.id === updatedExercise.id ? updatedExercise : ex);
-                } else {
-                    return [...cleanPrev, updatedExercise];
-                }
+                return cleanPrev.map(ex => ex.id === updatedExercise.id ? updatedExercise : ex);
             });
+
         },
         onError: () => {
             toast.dismiss();
@@ -64,3 +56,30 @@ export const useUpdateCustomExercise = (setCustomExercises: (exercises: any[]) =
         },
     });
 };
+
+
+
+export const useCreateCustomExercise = (setCustomExercises: any) => {
+
+    return useMutation({
+        mutationFn: createCustomExercise,
+        onMutate: () => {
+            toast.dismiss()
+            toast.loading('Creating exercise')
+        },
+        onSuccess: (response) => {
+            toast.dismiss();
+            toast.success('Exercise successfully updated!');
+            const newExercise = response.newExercise;
+
+            setCustomExercises(prev => [
+                ...prev, newExercise
+            ])
+        },
+        onError: () => {
+            toast.dismiss();
+            toast.error('Error creating exercise');
+        },
+    })
+
+}

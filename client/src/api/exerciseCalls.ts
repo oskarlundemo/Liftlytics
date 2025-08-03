@@ -19,3 +19,12 @@ export const updateCustomExercise = async ({id, categoryId, exercise, updatedNam
     });
     return res.data;
 };
+
+
+export const createCustomExercise = async ({categoryId,  exerciseName} : {categoryId:string, exerciseName:string}) => {
+    const res = await axiosInstance.post(`exercises/custom/create`, {
+        categoryId,
+        exerciseName,
+    });
+    return res.data;
+};

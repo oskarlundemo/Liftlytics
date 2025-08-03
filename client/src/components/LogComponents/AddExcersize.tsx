@@ -9,7 +9,7 @@ export const AddExcersize = ({}) => {
         <div
             onClick={() => setAddExerciseMenu(true)}
             className={'add-exercise'}>
-            <h2>Add exercise</h2>
+            <h2 className={'font-bold text-base'}>Add exercise</h2>
         </div>
     )
 }

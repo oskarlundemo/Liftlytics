@@ -19,8 +19,8 @@ export const CustomTimePicker = ({title, setTime, time, setDate, date}:CustomTim
 
     return (
         <div className="custom-timer">
-            <h2>{title}</h2>
-            <DatePicker selected={date} onChange={(date) => setDate(date)} />
+            <h2 className={'text-xl font-bold'}>{title}</h2>
+            <DatePicker enableTabLoop={false} selected={date} onChange={(date) => setDate(date)} />
             <TimePicker
                 onChange={() => setTime(date)}
                 value={time}

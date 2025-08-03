@@ -64,6 +64,7 @@
     box-shadow: var(--color-shadow);
     padding: 1rem 0.5rem;
     border-radius: var(--border-radius);
+    gap: 2rem;
 
     h2 {
         font-size: var(--text-2xl);

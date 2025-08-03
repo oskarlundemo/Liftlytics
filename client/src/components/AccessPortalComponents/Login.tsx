@@ -56,7 +56,7 @@ export const Login = ({setLogin}: LoginProps) => {
 
         <section className="access-portal-box">
 
-            <h1>Login</h1>
+            <h1 className={'font-bold text-2xl'}>Login</h1>
 
             <form
                 className={'access-portal-form'}
@@ -103,8 +103,8 @@ export const Login = ({setLogin}: LoginProps) => {
                 action={handleGoogleLogin}
             />
 
-            <h3>Not signed up yet? {}
-                <span onClick={() => setLogin(false)}>
+            <h3 className={'text-base m-4'}>Not signed up yet? {}
+                <span className={'hover-text'} onClick={() => setLogin(false)}>
                     Click me
                 </span>
             </h3>
