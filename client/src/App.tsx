@@ -6,7 +6,6 @@ import {PrivateRoute} from "./contexts/PrivateRoute.tsx";
 import './App.css'
 import {Toaster} from "react-hot-toast";
 import {Home} from "./pages/Home.tsx";
-import {Workout} from "./pages/Workout.tsx";
 import {LogPage} from "./pages/LogPage.tsx";
 import {ProfilePage} from "./pages/ProfilePage.tsx";
 import {StatsPage} from "./pages/StatsPage.tsx";
@@ -14,9 +13,11 @@ import {LogProvider} from "./contexts/LogContext.tsx";
 import {WorkoutForm} from "./components/LogComponents/WorkoutForm.tsx";
 import {CallbackPage} from "./components/AccessPortalComponents/CallbackPage.tsx";
 import {StatsProvider} from "./contexts/StatsContext.tsx";
-import {ConfigureExercisesPages} from "./pages/ConfigureExercisesPages.tsx";
+import {ConfigureExercisesPage} from "./pages/ConfigureExercisesPage.tsx";
 import {ExerciseProvider} from "./contexts/ExerciseContext.tsx";
 import {Account} from "./pages/Account.tsx";
+import {ConfigureMuscleGroup} from "./pages/ConfigureMuscleGroup.tsx";
+import {MuscleGroupProvider} from "./contexts/MuscleGroupContext.tsx";
 
 function App() {
 
@@ -78,15 +79,6 @@ function App() {
                 />
 
                 <Route
-                    path="/workouts"
-                    element={
-                        <PrivateRoute>
-                            <Workout />
-                        </PrivateRoute>
-                    }
-                />
-
-                <Route
                     path="/statistics"
                     element={
                         <PrivateRoute>
@@ -116,12 +108,24 @@ function App() {
                 />
 
                 <Route
-                    path="/profile/configure-exercises"
+                    path="/profile/exercises"
                     element={
                         <PrivateRoute>
                             <ExerciseProvider>
-                                <ConfigureExercisesPages />
+                                <ConfigureExercisesPage />
                             </ExerciseProvider>
+                        </PrivateRoute>
+                    }
+                />
+
+
+                <Route
+                    path="/profile/muscle-groups"
+                    element={
+                        <PrivateRoute>
+                            <MuscleGroupProvider>
+                                <ConfigureMuscleGroup />
+                            </MuscleGroupProvider>
                         </PrivateRoute>
                     }
                 />

@@ -15,6 +15,7 @@
     display: flex;
     flex-direction: column;
     max-width: var(--max-context-width);
+    margin: 0 auto;
 }
 
 .new-workout-data {

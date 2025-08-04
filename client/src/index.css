@@ -2,39 +2,41 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: var(--color-bg);
-  font-family: var(--font-family);
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --color-bg: hsl(240, 15%, 12%);            /* Deep dark background (#1e1e2e) */
-  --color-surface: hsl(240, 15%, 18%);       /* Slightly lighter surface */
-  --color-surface-alt: hsl(240, 20%, 25%);   /* Alternate panel */
-  --color-border: hsl(240, 10%, 30%);        /* Divider/border */
+  color-scheme: light;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: var(--color-bg);
+
+  /* Backgrounds */
+  --color-bg: hsl(0, 0%, 98%);            /* Soft warm white */
+  --color-surface: hsl(0, 0%, 100%);      /* Pure white for cards */
+  --color-surface-alt: hsl(0, 0%, 94%);   /* Light gray for subtle sections */
+  --color-border: hsl(0, 0%, 85%);        /* Light border */
 
   /* Text */
-  --color-text: hsl(0, 0%, 86%);             /* Light gray text (#dcdcdc) */
-  --color-text-muted: hsl(240, 5%, 65%);     /* Muted secondary text */
+  --color-text: hsl(210, 20%, 10%);       /* Deep navy gray */
+  --color-text-muted: hsl(210, 15%, 50%); /* Soft cool gray */
 
-  /* Accent colors */
-  --color-primary: hsl(280, 60%, 75%);       /* Purple accent (#c792ea) */
-  --color-secondary: hsl(195, 100%, 75%);    /* Cyan (#89ddff) */
-  --color-accent: hsl(195, 100%, 75%);        /* Yellow highlight (#ffcb6b) */
+  /* Primary Theme Colors */
+  --color-primary: hsl(142, 55%, 45%);    /* Fresh leafy green (#2faa66) */
+  --color-primary-light: hsl(142, 55%, 85%);
+  --color-secondary: hsl(200, 100%, 60%); /* Crisp blue for accent actions */
+  --color-accent: hsl(48, 100%, 70%);     /* Soft gold (fitness highlight) */
 
-
-  /* Semantic */
-  --color-success: hsl(100, 60%, 70%);       /* Green */
-  --color-warning: hsl(45, 100%, 70%);       /* Yellow */
-  --color-error: hsl(350, 80%, 70%);         /* Soft red (#f07178) */
+  /* Semantic States */
+  --color-success: hsl(145, 60%, 42%);
+  --color-warning: hsl(35, 90%, 55%);
+  --color-error: hsl(350, 80%, 60%);
 
   /* UI Helpers */
-  --color-overlay: hsla(240, 10%, 10%, 0.7); /* Modal backdrop */
-  --color-shadow: hsla(240, 10%, 10%, 0.4);  /* Shadow for cards */
+  --color-overlay: hsla(0, 0%, 0%, 0.04);
+  --color-shadow: 0 2px 10px hsla(0, 0%, 0%, 0.05);
+  --shadow-inset: inset 0 0 6px rgba(0, 0, 0, 0.08);
+
 
   --text-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem);     /* 12–14px */
   --text-sm: clamp(0.875rem, 0.8rem + 0.2vw, 1rem);        /* 14–16px */
@@ -63,10 +65,39 @@
   --transition-slow: 0.4s;
 
   --max-context-width: 1200px;
-  --default-box-shadow:  0 1px 3px hsla(240, 10%, 10%, 0.4),
-  0 0 8px hsla(280, 60%, 75%, 0.15);
+  --default-box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.1),
+  0 4px 6px hsla(0, 0%, 0%, 0.05);
+}
 
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: hsl(240, 15%, 12%);            /* Deep dark background (#1e1e2e) */
+    --color-surface: hsl(240, 15%, 18%);       /* Slightly lighter surface */
+    --color-surface-alt: hsl(240, 20%, 25%);   /* Alternate panel */
+    --color-border: hsl(240, 10%, 30%);        /* Divider/border */
+
+    /* Text */
+    --color-text: hsl(0, 0%, 86%);             /* Light gray text (#dcdcdc) */
+    --color-text-muted: hsl(240, 5%, 65%);     /* Muted secondary text */
+
+    /* Accent colors */
+    --color-primary: hsl(280, 60%, 75%);       /* Purple accent (#c792ea) */
+    --color-secondary: hsl(195, 100%, 75%);    /* Cyan (#89ddff) */
+    --color-accent: hsl(195, 100%, 75%);        /* Yellow highlight (#ffcb6b) */
+
+
+    /* Semantic */
+    --color-success: hsl(100, 60%, 70%);       /* Green */
+    --color-warning: hsl(45, 100%, 70%);       /* Yellow */
+    --color-error: hsl(350, 80%, 70%);         /* Soft red (#f07178) */
+
+    /* UI Helpers */
+    --color-overlay: hsla(240, 10%, 10%, 0.7); /* Modal backdrop */
+    --color-shadow: hsla(240, 10%, 10%, 0.4);  /* Shadow for cards */
+    --shadow-inset: inset 0 0 6px rgba(255, 255, 255, 0.06);
+
+  }
 }
 
 
@@ -411,4 +442,13 @@ a {
 
 *::-webkit-scrollbar-thumb:hover {
   background-color: var(--color-accent);
+}
+
+.left-adjust {
+  transition: var(--transition-fast);
+
+  &:hover {
+    color: var(--color-accent);
+    transform: translateX(5px);
+  }
 }

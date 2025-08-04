@@ -16,68 +16,69 @@ export const LogPage = () => {
     const { data, isLoading, isError, error } = useLogs();
     const {showDeleteMenu, setShowDeleteMenu} = useLogContext();
 
+    if (isError) {
+        return (
+            <ErrorPage
+                title="An error occurred while retrieving your logs"
+                errorMessage={error.message}
+                details={error.code}
+            />
+        );
+    }
+
+    if (isLoading) {
+        return <LoadingPage title="Loading your logs..." />;
+    }
 
     return (
-        <div className="log-page-container">
-            <main className="log-page-wrapper">
-                {isLoading ? (
-                    <LoadingPage title="Loading your logs..." />
-                ) : isError ? (
-                    <ErrorPage
-                        errorMessage={error.message}
-                        details={error.code}
-                        title="An error occurred while retrieving your logs"
-                    />
-                ) : (
-                    <>
-                        <LogPageHeader />
+        <div className="log-page-container flex flex-col">
+            <div className="log-page-wrapper">
+                <LogPageHeader />
 
-                        <section className="log-body">
-                            {data.logs.length > 0 ? (
-                                data.logs.map((log, index) => (
-                                    <LogCard
-                                        key={index}
-                                        id={log.id}
-                                        startTime={log.startTime}
-                                        workoutName={log.name}
-                                        exercises={log.exercises || []}
-                                    />
-                                ))
-                            ) : (
-                                <div className="no-logs-display">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        height="24px"
-                                        viewBox="0 -960 960 960"
-                                        width="24px"
-                                        fill="#e3e3e3"
-                                    >
-                                        <path d="..." />
-                                    </svg>
-                                    <h2>
-                                        No logs yet!{' '}
-                                        <Link className="glow-hover" to="/log/new">
-                                            Let's create one
-                                        </Link>
-                                    </h2>
-                                </div>
-                            )}
-                        </section>
+                <section className="log-body">
+                    {data.logs.length > 0 ? (
+                        data.logs.map((log, index) => (
+                            <LogCard
+                                key={index}
+                                id={log.id}
+                                startTime={log.startTime}
+                                workoutName={log.name}
+                                exercises={log.exercises || []}
+                            />
+                        ))
+                    ) : (
+                        <div className="no-logs-display">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="24px"
+                                viewBox="0 -960 960 960"
+                                width="24px"
+                                fill="#e3e3e3"
+                            >
+                                <path d="..." />
+                            </svg>
+                            <h2>
+                                No logs yet!{' '}
+                                <Link className="glow-hover" to="/log/new">
+                                    Let's create one
+                                </Link>
+                            </h2>
+                        </div>
+                    )}
+                </section>
 
-                        <SlideInBottomMenu showMenu={showDeleteMenu} height="50%">
-                            <DeleteButtonContainer />
-                        </SlideInBottomMenu>
+                <SlideInBottomMenu showMenu={showDeleteMenu} height="50%">
+                    <DeleteButtonContainer />
+                </SlideInBottomMenu>
 
-                        <Overlay
-                            showOverlay={showDeleteMenu}
-                            setShowOverlay={() => setShowDeleteMenu(false)}
-                        />
-                    </>
-                )}
-            </main>
+                <Overlay
+                    showOverlay={showDeleteMenu}
+                    setShowOverlay={() => setShowDeleteMenu(false)}
+                />
+
+            </div>
 
             <NavigationBar />
         </div>
     );
-
 }

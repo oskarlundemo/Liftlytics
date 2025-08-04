@@ -3,7 +3,6 @@ import '../../styles/LogPage/CategorySelection.css'
 import {MenuHeader} from "./MenuHeader.tsx";
 import {useLogContext} from "../../contexts/LogContext.tsx";
 import {useFetchExercises, useSearchExercises} from "../../hooks/logHook.ts";
-import { PulseLoader } from "react-spinners";
 import {useEffect, useState} from "react";
 import { useDebounce } from 'use-debounce';
 import {ExerciseCard} from "./ExerciseCard.tsx";
@@ -40,7 +39,7 @@ export const CategorySelection = ({setExercises} : CategorySelectionProps) => {
                     searchQuery={searchQuery}
                 />
 
-                <article className="category-selection-body">
+                <article className="category-selection-body gap-1">
                     {isLoading ? (
                         <LoadingResults size={20}/>
                     ) : isError ? (

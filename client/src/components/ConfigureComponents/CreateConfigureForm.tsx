@@ -1,34 +1,41 @@
 import {CustomInput} from "../MiscComponents/CustomInput.tsx";
-import {useExerciseContext} from "../../contexts/ExerciseContext.tsx";
 import {useEffect, useState} from "react";
-import {useCreateCustomExercise} from "../../hooks/exerciseHook.ts";
 
 
-export const CreateExerciseForm = () => {
+type CreateFormProps = {
+    setShowCreateMenu: (showCreateMenu: boolean) => void;
+    muscleGroups?: any
+    handleCreateExercise?: Function;
+    handleCreateMuscleGroup?: Function;
+}
 
+export const CreateConfigureForm = ({setShowCreateMenu, handleCreateExercise, handleCreateMuscleGroup, muscleGroups}:CreateFormProps) => {
 
-    const {setShowCreateMenu, setCustomExercises, allMuscleGroups} = useExerciseContext();
     const [exerciseName, setExerciseName] = useState<string>('');
     const [disabledButton, setDisabledButton] = useState<boolean>(false);
     const [maxLength, setMaxLength ] = useState<number>(0);
     const [categoryId, setCategoryId] = useState<string>('')
     const nameMaxLenght = 100;
-    const { mutate: createExercise, error } = useCreateCustomExercise(setCustomExercises);
-
-    if (error)
-        console.log(error)
 
     useEffect(() => {
         setMaxLength(exerciseName.length);
-        setDisabledButton(!(exerciseName.length <= nameMaxLenght && exerciseName.trim().length > 0 && categoryId.trim().length > 0));
+        setDisabledButton(!(exerciseName.length <= nameMaxLenght && exerciseName.trim().length > 0 && (categoryId.trim().length > 0 || true)));
     }, [exerciseName, categoryId]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        createExercise({
-            exerciseName: exerciseName,
-            categoryId: categoryId,
-        })
+
+        if (handleCreateExercise)
+            handleCreateExercise({
+                exerciseName: exerciseName,
+                categoryId: categoryId,
+            });
+
+        if (handleCreateMuscleGroup)
+            handleCreateMuscleGroup({
+                muscleGroupName: exerciseName,
+            })
+
         setShowCreateMenu(false);
     }
 
@@ -41,10 +48,8 @@ export const CreateExerciseForm = () => {
         }
     }
 
-
-
     return (
-        <form onSubmit={(e) => handleSubmit(e)} className={'exercise-form flex h-full flex-grow flex-col p-4 justify-between'}>
+        <form onSubmit={(e) => handleSubmit(e)} className={'exercise-form flex h-full flex-grow flex-col p-4'}>
 
                 <div className="form-header flex-row flex justify-end">
                     <svg onClick={() => setShowCreateMenu(false)} className={'error-svg'} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
@@ -74,25 +79,32 @@ export const CreateExerciseForm = () => {
                     </h4>
                 </div>
 
-                <h2 className={'font-semibold text-xl mb-4'}>Select a muscle group</h2>
 
-                {allMuscleGroups ? (
-                    <div className="flex flex-wrap mb-auto gap-1">
-                        {allMuscleGroups.map((group:any) => (
-                            <button
-                                type={'button'}
-                                onClick={() => setCategoryId(group.id)}
-                                className={`button-intellij ${categoryId !== group.id ? 'untoggled-btn' : ''}`}
-                                key={group.id}>
-                                {group.name}
-                            </button>
-                        ))}
-                    </div>
+            {muscleGroups && (
+                muscleGroups.length > 0 ? (
+                    <>
+                        <h2 className="font-semibold text-xl mb-4">Select a muscle group</h2>
+
+                        <div className="flex flex-wrap mb-auto gap-1">
+                            {muscleGroups.map((group: any) => (
+                                <button
+                                    type="button"
+                                    onClick={() => setCategoryId(group.id)}
+                                    className={`button-intellij ${categoryId !== group.id ? 'untoggled-btn' : ''}`}
+                                    key={group.id}
+                                >
+                                    {group.name}
+                                </button>
+                            ))}
+                        </div>
+                    </>
                 ) : (
                     <p>No categories could be retrieved</p>
-                )}
+                )
+            )}
 
-                <div className="form-footer flex gap-3 justify-center w-full">
+
+            <div className="form-footer flex gap-3 justify-center w-full mt-auto">
                     <button
                         onClick={(e) => handleSubmit(e)}
                         className="button-intellij !p-4 button-confirm !w-1/2"

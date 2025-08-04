@@ -19,6 +19,8 @@ model User {
   email     String             @unique
   exercises StrengthExercise[]
   workouts  Workout[]
+
+  MuscleGroup MuscleGroup[]
 }
 
 model Workout {
@@ -82,6 +84,9 @@ model StrengthExercise {
 model MuscleGroup {
   id        String                @id @default(uuid())
   name      String
+  isDefault Boolean?              @default(false)
+  userId    String?
+  user      User?                 @relation(fields: [userId], references: [id])
   exercises ExerciseMuscleGroup[]
 }
 

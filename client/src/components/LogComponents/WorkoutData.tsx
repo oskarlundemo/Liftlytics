@@ -54,11 +54,8 @@ export const WorkoutData = ({
                                 setBodyWeight,
                                 notes,
                                 setNotes,
-                                setExercises,
-                                exercises
                             }: WorkoutDataProps) => {
 
-    const {showAddExerciseMenu, showCustomExerciseMenu, showExerciseMenu} = useLogContext();
 
     return (
             <section className="new-workout-data">
@@ -96,36 +93,6 @@ export const WorkoutData = ({
                 <CustomTextarea
                     notes={notes}
                     setNotes={setNotes}
-                />
-
-                <SlideInBottomMenu
-                    showMenu={showAddExerciseMenu}
-                    children={
-                        <CategorySelection
-                            exercises={exercises}
-                            setExercises={setExercises}
-                        />
-                    }
-                />
-
-                <SlideInSideMenu
-                    showMenu={showExerciseMenu}
-                    children={
-                        <Exercises
-                            setExercises={setExercises}
-                        />
-                    }
-                />
-
-
-                <SlideInSideMenu
-                    showMenu={showCustomExerciseMenu}
-                    children={
-                        <CustomExercise
-                            setExercises={setExercises}
-                        />
-                    }
-                    fromLeft={true}
                 />
 
             </section>
