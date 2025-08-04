@@ -63,6 +63,7 @@ export const usePostWorkout = () => {
             toast.loading('Creating a new workout....');
         },
         onSuccess: () => {
+            localStorage.removeItem('workoutState');
             toast.dismiss();
             toast.success('Workout was successfully created!');
         },

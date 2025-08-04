@@ -1,13 +1,20 @@
 import {useEffect, useState} from "react";
 import {SearchBar} from "../MiscComponents/SearchBar.tsx";
-import {useExerciseContext} from "../../contexts/ExerciseContext.tsx";
-import {CustomExerciseCard} from "../ProfileComponents/CustomExerciseCard.tsx";
+import {CustomConfigureCard} from "../ProfileComponents/CustomConfigureCard.tsx";
 
-export const ExercisesBody = ({}) => {
+
+type ExerciseBodyProps = {
+    customData: any;
+    title: string
+    setSelectedItem: (item: any) => void;
+    setShowMenu: (showCreateMenu: boolean) => void;
+}
+
+
+export const ConfigureBody = ({customData, title, setSelectedItem, setShowMenu}: ExerciseBodyProps) => {
 
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [filteredResults, setFilteredResults] = useState<any>([])
-    const {customExercises} = useExerciseContext();
 
     useEffect(() => {
         if (searchQuery.trim() === "") {
@@ -15,12 +22,12 @@ export const ExercisesBody = ({}) => {
             return;
         }
 
-        const filtered = customExercises.filter(exercise =>
-            exercise.name.toLowerCase().includes(searchQuery.toLowerCase())
+        const filtered = customData.filter(item =>
+            item.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
         setFilteredResults(filtered);
-    }, [searchQuery, customExercises]);
+    }, [searchQuery, customData]);
 
     const handleClear = () => {
         setSearchQuery("");
@@ -38,11 +45,13 @@ export const ExercisesBody = ({}) => {
 
             {searchQuery.trim() !== "" ? (
                 filteredResults.length > 0 ? (
-                    filteredResults.map((exercise, index) => (
-                        <CustomExerciseCard
-                            exercise={exercise}
-                            key={exercise.id ?? index}
-                            name={exercise.name}
+                    filteredResults.map((item, index) => (
+                        <CustomConfigureCard
+                            item={item || null}
+                            key={item.id || index }
+                            name={item.name || 'Undefined'}
+                            setSelectedItem={setSelectedItem}
+                            setShowMenu={setShowMenu}
                         />
                     ))
                 ) : (
@@ -53,12 +62,14 @@ export const ExercisesBody = ({}) => {
                         No results found
                     </h2>
                 )
-            ) : customExercises.length > 0 ? (
-                customExercises.map((exercise) => (
-                    <CustomExerciseCard
-                        exercise={exercise}
-                        key={exercise.id}
-                        name={exercise.name}
+            ) : customData.length > 0 ? (
+                customData.map((item, index) => (
+                    <CustomConfigureCard
+                        item={item || null}
+                        key={item.id || index }
+                        name={item.name || 'Undefined'}
+                        setSelectedItem={setSelectedItem}
+                        setShowMenu={setShowMenu}
                     />
                 ))
             ) : (
@@ -66,7 +77,7 @@ export const ExercisesBody = ({}) => {
                     style={{ color: "var(--color-text-muted)" }}
                     className="text-2xl m-auto"
                 >
-                    You have not created any custom exercises
+                    {title}
                 </h2>
             )}
         </section>

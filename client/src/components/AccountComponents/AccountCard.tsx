@@ -10,7 +10,7 @@ type AccountCardProps = {
 export const AccountCard = ({title, svg, onClick}:AccountCardProps) => {
 
     return (
-        <article onClick={onClick} style={{background: 'var(--color-surface)', borderRadius: 'var(--border-radius)'}}  className="module-row p-4 w-full gap-1 items-center flex flex-row">
+        <article onClick={onClick} style={{background: 'var(--color-surface)', boxShadow: 'var(--box-shadow-default)', borderRadius: 'var(--border-radius)'}}  className="module-row p-4 w-full gap-1 items-center flex flex-row">
             {svg && (
                 svg
             )}

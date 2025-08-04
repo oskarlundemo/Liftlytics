@@ -58,7 +58,7 @@ export const MenuHeader = ({search = false,
 
                 </button>
 
-                <h1>{header}</h1>
+                <h1 className={'text-2xl font-bold m-4'}>{header}</h1>
 
                 {addExercise && (
                     <button

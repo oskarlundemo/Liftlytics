@@ -3,11 +3,16 @@
 
 
 .slide-in-bottom-menu {
-    position: fixed;
+    position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
     background-color: var(--color-bg);
     border-radius: var(--border-radius);
     z-index: 999;
+    overflow: hidden;
 }

@@ -14,7 +14,7 @@ export const SlideInBottomMenu = ({children, showMenu, height = ''}: SlideInBott
             {showMenu && (
                 <motion.div
                     style={{
-                        height: height ? height : '90%'
+                        height: height ? height : '90vh'
                     }}
                     initial={{ y: '100%' }}
                     animate={{ y: 0 }}

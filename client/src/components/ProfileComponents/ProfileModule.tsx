@@ -7,7 +7,7 @@ type ProfileProps = {
 export const ProfileModule = ({children}:ProfileProps) => {
 
     return (
-        <section className="profile-module">
+        <section style={{boxShadow: 'var(--deafult-box-shadow)'}} className="profile-module">
             {children}
         </section>
     )

@@ -10,6 +10,7 @@
     max-width: var(--max-context-width);
     margin: 0 auto;
     height: 100%;
+    width: 100%;
 }
 
 .page-header {
@@ -95,6 +96,7 @@
     flex-direction: column;
     gap: 1rem;
     flex-grow: 1;
+    padding-bottom: 60px;
 }
 
 .no-logs-display {

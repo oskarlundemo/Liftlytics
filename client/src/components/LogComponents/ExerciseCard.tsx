@@ -8,8 +8,13 @@ type ExerciseCardProps = {
 
 export const ExerciseCard = ({ title, onAddExercise }: ExerciseCardProps) => {
     return (
-        <div onClick={onAddExercise} className="exercise-card">
-            <h3>{title}</h3>
+        <div
+            style={{
+                backgroundColor: 'var(--color-surface)',
+                padding: '1rem',
+            }}
+            onClick={onAddExercise} className="exercise-card left-adjust">
+            <h3 className={'text-xl font-semibold'}>{title}</h3>
         </div>
     );
 };

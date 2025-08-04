@@ -11,6 +11,11 @@ import {WorkoutHeader} from "./WorkoutHeader.tsx";
 import {useParams} from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import {LoadingPage} from "../MiscComponents/LoadingPage.tsx";
+import {SlideInBottomMenu} from "../MiscComponents/SlideInBottomMenu.tsx";
+import {CategorySelection} from "./CategorySelection.tsx";
+import {SlideInSideMenu} from "../MiscComponents/SlideInSideMenu.tsx";
+import {Exercises} from "./Exercises.tsx";
+import {CustomExercise} from "./CustomExercise.tsx";
 
 
 
@@ -32,10 +37,9 @@ export const WorkoutForm = ({} ) => {
 
     const savedState = JSON.parse(localStorage.getItem("workoutState") || "{}");
 
-    const {showAddExerciseMenu, setShowExerciseMenu,
-        setAddExerciseMenu, showConfigureExerciseMenu,
-        setShowConfigureExerciseMenu, setShowCustomExerciseMenu
-    } = useLogContext();
+    const {setShowExerciseMenu, setAddExerciseMenu, showCustomExerciseMenu, showExerciseMenu, showAddExerciseMenu,
+        showConfigureExerciseMenu, setShowConfigureExerciseMenu, setShowCustomExerciseMenu } = useLogContext();
+
 
     const [disabled, setDisabled] = useState<boolean>(true);
     const [exercises, setExercises] = useState<ExerciseEntry[]>(savedState.exercises || []);
@@ -131,15 +135,16 @@ export const WorkoutForm = ({} ) => {
 
     return (
         <motion.main
-            className="new-workout-container main-box"
+            className="new-workout-container overflow-hidden main-box h-screen"
             initial={{ x: '100vw', opacity: 0 }}
             animate={{ x: 1, opacity: 1 }}
             exit={{ x: '100vw', opacity: 0 }}
             transition={{ type: 'spring', stiffness: 60, damping: 20 }}
         >
+            <div className="flex flex-col w-full h-full overflow-y-auto">
             <WorkoutHeader date={startDate} />
 
-            <form onSubmit={handleSubmit} className="flex flex-col w-full h-full gap-5">
+            <form onSubmit={handleSubmit} className="flex z-0 flex-col w-full gap-5">
                 <section className="exercise-selection-container">
                     <WorkoutData
                         workoutName={workoutName}
@@ -156,8 +161,6 @@ export const WorkoutForm = ({} ) => {
                         setBodyWeight={setBodyWeight}
                         notes={notes}
                         setNotes={setNotes}
-                        setExercises={setExercises}
-                        exercises={exercises}
                     />
 
                     {exercises && (
@@ -170,21 +173,55 @@ export const WorkoutForm = ({} ) => {
                     <AddExcersize />
                 </section>
 
-                <Overlay
-                    showOverlay={showAddExerciseMenu}
-                    configureExercise={showConfigureExerciseMenu}
-                    setShowOverlay={() => {
-                        setAddExerciseMenu(false);
-                        setShowExerciseMenu(false);
-                        setShowConfigureExerciseMenu(false);
-                        setShowCustomExerciseMenu(false);
-                    }}
-                />
-
                 <button disabled={disabled} className="button-intellij" type="submit">
                     <p style={{ margin: 0 }}>{log_id ? 'Save' : 'Create'}</p>
                 </button>
+
             </form>
+
+
+            <SlideInBottomMenu
+                showMenu={showAddExerciseMenu}
+                children={
+                    <CategorySelection
+                        exercises={exercises}
+                        setExercises={setExercises}
+                    />
+                }
+            />
+
+            <SlideInSideMenu
+                showMenu={showExerciseMenu}
+                children={
+                    <Exercises
+                        setExercises={setExercises}
+                    />
+                }
+            />
+
+            <SlideInSideMenu
+                showMenu={showCustomExerciseMenu}
+                children={
+                    <CustomExercise
+                        setExercises={setExercises}
+                    />
+                }
+                fromLeft={true}
+            />
+
+            <Overlay
+                showOverlay={showAddExerciseMenu}
+                configureExercise={showConfigureExerciseMenu}
+                setShowOverlay={() => {
+                    setAddExerciseMenu(false);
+                    setShowExerciseMenu(false);
+                    setShowConfigureExerciseMenu(false);
+                    setShowCustomExerciseMenu(false);
+                }}
+            />
+
+            </div>
+
         </motion.main>
     );
 }
