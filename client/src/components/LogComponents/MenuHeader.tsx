@@ -27,7 +27,6 @@ export const MenuHeader = ({search = false,
     const [inputFocus, setInputFocus] = useState(false);
     const { setShowCustomExerciseMenu } = useLogContext();
 
-
     return (
         <header className={`category-selection-header`}>
 

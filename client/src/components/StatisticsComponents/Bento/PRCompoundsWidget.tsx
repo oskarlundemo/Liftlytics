@@ -1,7 +1,6 @@
 
 import {PrCard} from "./PrCard.tsx";
 import {useStatsContext} from "../../../contexts/StatsContext.tsx";
-import {useEffect} from "react";
 
 
 type PRCompoundsWidgetProps = {
@@ -13,10 +12,6 @@ type PRCompoundsWidgetProps = {
 export const PRCompoundsWidget = ({boxIndex}:PRCompoundsWidgetProps) => {
 
     const {best1RM} = useStatsContext();
-
-    useEffect(() => {
-        console.log(best1RM);
-    }, [best1RM]);
 
     return (
 

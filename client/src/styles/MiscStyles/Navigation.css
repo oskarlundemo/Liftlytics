@@ -26,12 +26,13 @@
         font-weight: 500;
         font-size: 0.9rem;
         transition: color var(--transition-fast);
+        fill: var(--color-text-muted);
     }
 
     svg {
         width: 24px;
         height: 24px;
-        fill: var(--color-text);
+        fill: var(--color-text-muted);
         transition: fill var(--transition-fast), filter var(--transition-fast);
     }
 

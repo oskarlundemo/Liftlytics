@@ -37,8 +37,6 @@ type WorkoutDataProps = {
     exercises: object
 };
 
-
-
 export const WorkoutData = ({
                                 workoutName,
                                 setWorkoutName,
@@ -55,7 +53,6 @@ export const WorkoutData = ({
                                 notes,
                                 setNotes,
                             }: WorkoutDataProps) => {
-
 
     return (
             <section className="new-workout-data">

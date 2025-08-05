@@ -9,14 +9,14 @@ import {
     bestCompounds, bodyWeightData,
     fetchCategories,
     sendWidgetStats,
-    weeklyVolumeData,
-    workoutStreakData
+    monthlyMuscleVolume,
+    workoutStreakData, fetchMuscleVolumeMonth
 } from "../controllers/statsController";
 
 const statsRoute = Router();
 
-statsRoute.get('/fetch', authenticateUser, fetchCategories, weeklyVolumeData, workoutStreakData, bestCompounds, bodyWeightData, sendWidgetStats);
+statsRoute.get('/monthlyVolume', authenticateUser, fetchMuscleVolumeMonth);
 
-
+statsRoute.get('/fetch', authenticateUser, fetchCategories, monthlyMuscleVolume, workoutStreakData, bestCompounds, bodyWeightData, sendWidgetStats);
 
 export default statsRoute;
