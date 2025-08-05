@@ -13,15 +13,15 @@ import {useStatsContext} from "../contexts/StatsContext.tsx";
 export const StatsPage = () => {
 
     const {data, isError, isPending, isLoading, error} = useStats();
-    const {setWeeklyVolumeData, setCategories, setBest1RM, setBodyWeightData} = useStatsContext();
-
+    const {setVolumeData, setCategories, setBest1RM, setWorkoutStreakData, setBodyWeightData} = useStatsContext();
 
     useEffect(() => {
         if (data) {
-            setWeeklyVolumeData(data.weeklyVolumeData || []);
+            setVolumeData(data.weeklyVolumeData || []);
             setCategories(data.categories || []);
             setBest1RM(data.best1RMs || []);
             setBodyWeightData(data.bodyWeightData || []);
+            setWorkoutStreakData(data.workoutStreakData || []);
         }
     }, [data]);
 

@@ -1,14 +1,14 @@
+import {useStatsContext} from "../../../contexts/StatsContext.tsx";
 
 
 type WorkoutsThisWeekWidgetProps = {
     boxIndex: number
-    streakNumber: number
-    recordStreak: number
 }
 
 
-export const WorkoutStreak = ({streakNumber, boxIndex, recordStreak}: WorkoutsThisWeekWidgetProps) => {
+export const WorkoutStreak = ({boxIndex}: WorkoutsThisWeekWidgetProps) => {
 
+    const {workoutStreakData} = useStatsContext();
 
     return (
         <div
@@ -19,10 +19,9 @@ export const WorkoutStreak = ({streakNumber, boxIndex, recordStreak}: WorkoutsTh
 
             <h3 className={'widget-title'}>Workout streak</h3>
 
-            <h4>{streakNumber}</h4>
+            <h4>{workoutStreakData?.currentStreak || 'Undefined'}</h4>
 
-
-            <h5>Record: {recordStreak}</h5>
+            <h5>Record: {workoutStreakData?.longestStreak || 'Undefined'}</h5>
 
         </div>
     )

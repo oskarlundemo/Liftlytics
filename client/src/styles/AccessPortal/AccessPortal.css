@@ -49,8 +49,8 @@
     align-self: center;
     border-radius: 15px;
     padding: 2rem 4rem;
-    box-shadow: var(--color-shadow);
-    border: var(--color-border);
+    box-shadow: var(--default-box-shadow);
+    border: 1px solid var(--color-border);
     margin: 1rem;
     display: flex;
     flex-direction: column;

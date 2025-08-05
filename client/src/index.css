@@ -8,8 +8,8 @@
   -moz-osx-font-smoothing: grayscale;
 
   color-scheme: light;
-  color: rgba(0, 0, 0, 0.87);
   background-color: var(--color-bg);
+    color: var(--color-text);
 
   /* Backgrounds */
   --color-bg: hsl(0, 0%, 98%);            /* Soft warm white */
@@ -18,14 +18,14 @@
   --color-border: hsl(0, 0%, 85%);        /* Light border */
 
   /* Text */
-  --color-text: hsl(210, 20%, 10%);       /* Deep navy gray */
-  --color-text-muted: hsl(210, 15%, 50%); /* Soft cool gray */
+    --color-text: hsl(210, 10%, 30%);       /* Softer navy gray for main text */
+    --color-text-muted: hsl(210, 15%, 60%); /* Lighter cool gray for muted/secondary text */
 
-  /* Primary Theme Colors */
+    /* Primary Theme Colors */
   --color-primary: hsl(142, 55%, 45%);    /* Fresh leafy green (#2faa66) */
   --color-primary-light: hsl(142, 55%, 85%);
-  --color-secondary: hsl(200, 100%, 60%); /* Crisp blue for accent actions */
-  --color-accent: hsl(48, 100%, 70%);     /* Soft gold (fitness highlight) */
+    --color-secondary: hsl(200, 100%, 60%); /* Crisp blue for accent actions */
+    --color-accent: hsl(190, 80%, 72%);     /* Light, soft cyan accent (#9cefff) */
 
   /* Semantic States */
   --color-success: hsl(145, 60%, 42%);
@@ -153,7 +153,7 @@
 }
 
 .button-intellij:hover {
-  background-color: hsl(280, 65%, 85%);
+  background-color: var(--color-primary-light);
   box-shadow: 0 4px 10px var(--color-shadow);
   transform: translateY(-2px);
 }
@@ -263,10 +263,34 @@ a {
   }
 }
 
+
 .input-group.type-md input {
-  padding: 1rem;
-  border-bottom: 2px solid var(--color-text);
+    padding: 1rem;
+    border-bottom: 2px solid var(--color-text);
+
+
+    &:focus {
+        transition: var(--transition-fast);
+        border-bottom: 2px solid var(--color-accent);
+    }
 }
+
+
+.input-group .border {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 0.2rem;
+    width: 100%;
+    border: none;
+    background-color: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease-out;
+    z-index: 1;
+}
+
 
 
 .input-group label {
@@ -283,10 +307,11 @@ a {
   width: 100%;
 }
 
+
 .input-group input:focus + label,
 .input-group input:valid + label {
   top: 5%;
-  color: cyan;
+  color: var(--color-accent);
   font-size: 0.8rem;
 }
 
@@ -294,28 +319,10 @@ a {
   color: var(--color-text);
 }
 
-.input-group .border {
-  left: 0;
-  bottom: 0;
-  transform: scaleX(0);
-  transform-origin: left;
-
-  height: 0.1rem;
-  width: 100%;
-  position: absolute;
-  background-color: cyan;
-  transition: .2s ease-in-out;
-
-}
-
-
 .input-group.type-md input:focus ~ .border {
   transform: scaleX(1);
 }
 
-.input-group type-md {
-  overflow: hidden !important;
-}
 
 
 

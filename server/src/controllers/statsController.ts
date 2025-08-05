@@ -1,12 +1,12 @@
 import {AuthenticatedRequest} from "../middleware/supabase";
-import {Response, NextFunction} from 'express';
+import {Response, Request, NextFunction} from 'express';
 import {prisma} from "../clients/prismaClient";
+import {MuscleGroupObject} from '../classes/MuscleGroupObject'
 
 
 export const fetchCategories = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
 
     try {
-
 
         const userId = req.user.id;
 
@@ -94,7 +94,6 @@ export const bestCompounds = async (req: AuthenticatedRequest, res: Response, ne
 
 
         res.locals.best1RMs = formatted1RMs;
-
         next();
 
 
@@ -106,35 +105,49 @@ export const bestCompounds = async (req: AuthenticatedRequest, res: Response, ne
             code: 500,
         })
     }
-
-
 }
 
 
-export const weeklyVolumeData = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
 
 
+
+
+export const fetchMuscleVolumeMonth = async (req:AuthenticatedRequest, res:Response) => {
     try {
 
+        const dateParam = req.query.date;
+        console.log(dateParam);
+        console.log('I test volume');
+
+        if (!dateParam) {
+            return res.status(400).json({ status: 'error', message: 'Date query param missing' });
+        }
+
+        if (typeof dateParam !== 'string') {
+            return res.status(400).json({ status: 'error', message: 'Date query param must be a string' });
+        }
+
         const userId = req.user.id;
-        const today = new Date();
-        const dayOfWeek = today.getDay();
+        const month = new Date(dateParam);
 
-        const startOfWeek = new Date(today);
-        startOfWeek.setDate(today.getDate() - ((dayOfWeek + 6) % 7));
-        startOfWeek.setHours(0, 0, 0, 0);
+        if (isNaN(month.getTime())) {
+            return res.status(400).json({ status: 'error', message: 'Invalid date format' });
+        }
 
-        const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(startOfWeek.getDate() + 6);
-        endOfWeek.setHours(23, 59, 59, 999);
+        const startOfMonth = new Date(Date.UTC(month.getFullYear(), month.getMonth(), 1, 0, 0, 0, 0));
+        const endOfMonth = new Date(Date.UTC(month.getFullYear(), month.getMonth() + 1, 0, 23, 59, 59, 999));
 
-        const weeklyVolume = await prisma.workout.findMany({
+        console.log('startOfMonth:', startOfMonth.toISOString());
+        console.log('endOfMonth:', endOfMonth.toISOString());
+
+
+        const allUsersWorkout = await prisma.workout.findMany({
             where: {
                 userId: userId,
                 startDate: {
-                    gte: startOfWeek,
-                    lte: endOfWeek,
-                },
+                    gte: startOfMonth,
+                    lte: endOfMonth,
+                }
             },
             include: {
                 exercises: {
@@ -156,39 +169,135 @@ export const weeklyVolumeData = async (req: AuthenticatedRequest, res: Response,
 
         let numberOfSets = 0;
 
-        for (const row of weeklyVolume) {
+        for (const row of allUsersWorkout) {
             row.exercises.forEach((exercise: any) => {
                 numberOfSets += exercise.metrics.length;
             });
         }
 
-        const muscleGroupVolumeMap: Record<string, number> = {};
+        let setsPerMuscleGroup = []
 
-        for (const workout of weeklyVolume) {
+        for (const workout of allUsersWorkout) {
+
             for (const workoutExercise of workout.exercises) {
-                const muscleGroups = workoutExercise.exercise.muscleGroups.map(mg => mg.muscleGroup.name);
                 const setCount = workoutExercise.metrics.length;
-
-                for (const muscle of muscleGroups) {
-                    if (!muscleGroupVolumeMap[muscle]) {
-                        muscleGroupVolumeMap[muscle] = 0;
-                    }
-                    muscleGroupVolumeMap[muscle] += setCount;
+                for (const mg of workoutExercise.exercise.muscleGroups) {
+                    setsPerMuscleGroup.push(new MuscleGroupObject(mg.muscleGroup.id, mg.muscleGroup.name, setCount));
                 }
             }
         }
 
-        const muscleGroupVolume = Object.entries(muscleGroupVolumeMap).map(([muscleGroup, sets]) => ({
-            muscleGroup,
-            sets
-        }));
+        const results = Object.groupBy(setsPerMuscleGroup, item => item.id);
 
-
+        const summary = Object.entries(results).map(([id, group]) => {
+            if (!group) {
+                return { id, name: 'Unknown', totalSets: 0 };
+            }
+            const name = group[0]?.name ?? 'Unknown';
+            const totalSets = group.reduce((sum, item) => sum + item.sets, 0);
+            return { id, name, totalSets };
+        });
 
         res.locals.weeklyVolume = {
             numberOfSets,
-            weeklyVolume,
-            muscleGroupVolume,
+            allUsersWorkout,
+            summary,
+        }
+
+
+        return res.status(200).json({ status: 'success', message: 'Successful fetch of volume', data: {
+            numberOfSets, allUsersWorkout, summary,
+            }});
+
+
+    } catch (error) {
+        console.error('Error in monthlyMuscleVolume:', error);
+        return res.status(500).json({
+            status: 'error',
+            message: 'Something went wrong fetching weekly volume',
+        });
+    }
+};
+
+
+
+
+
+export const monthlyMuscleVolume = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+
+
+    try {
+
+        const userId = req.user.id;
+        const today = new Date();
+
+        const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59, 999);
+
+        const monthParam = req.query.month as string | undefined;
+
+        const allUsersWorkout = await prisma.workout.findMany({
+            where: {
+                userId: userId,
+                startDate: {
+                    gte: startOfMonth,
+                    lte: endOfMonth,
+                }
+            },
+            include: {
+                exercises: {
+                    include: {
+                        metrics: true,
+                        exercise: {
+                            include: {
+                                muscleGroups: {
+                                    include: {
+                                        muscleGroup: true,
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+
+        let numberOfSets = 0;
+
+        for (const row of allUsersWorkout) {
+            row.exercises.forEach((exercise: any) => {
+                numberOfSets += exercise.metrics.length;
+            });
+        }
+
+        let setsPerMuscleGroup = []
+
+        for (const workout of allUsersWorkout) {
+
+            for (const workoutExercise of workout.exercises) {
+                const setCount = workoutExercise.metrics.length;
+                for (const mg of workoutExercise.exercise.muscleGroups) {
+                    setsPerMuscleGroup.push(new MuscleGroupObject(mg.muscleGroup.id, mg.muscleGroup.name, setCount));
+                }
+            }
+        }
+
+        const results = Object.groupBy(setsPerMuscleGroup, item => item.id);
+
+        const summary = Object.entries(results).map(([id, group]) => {
+            if (!group) {
+                return { id, name: 'Unknown', totalSets: 0 };
+            }
+            const name = group[0]?.name ?? 'Unknown';
+            const totalSets = group.reduce((sum, item) => sum + item.sets, 0);
+            return { id, name, totalSets };
+        });
+
+        res.locals.weeklyVolume = {
+            numberOfSets,
+            allUsersWorkout,
+            summary,
         }
 
         next();
@@ -197,10 +306,11 @@ export const weeklyVolumeData = async (req: AuthenticatedRequest, res: Response,
         console.error(err);
         res.status(500).json({
             status: 'error',
-            message: 'Something went wrong fetching weekly volume'
+            message: 'Something went wrong muscle volume'
         })
     }
 }
+
 
 
 export const workoutStreakData = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
@@ -219,7 +329,7 @@ export const workoutStreakData = async (req: AuthenticatedRequest, res: Response
         const allDatesSorted = usersWorkouts.map(w => new Date(w.startDate)).sort((a,b) => a.getTime() - b.getTime());
 
         let longestStreak = 0;
-        let currentStreak = 0;
+        let currentStreak = 1;
 
         for (let i = 1; i < allDatesSorted.length; i++) {
 
@@ -239,6 +349,7 @@ export const workoutStreakData = async (req: AuthenticatedRequest, res: Response
             }
         }
 
+        longestStreak = Math.max(longestStreak, currentStreak);
 
         res.locals.workoutStreakData = {
             longestStreak,

@@ -1,8 +1,8 @@
 import React, {createContext, useState, ReactNode, useContext} from "react";
 
 type StatsContextType = {
-    weeklyVolumeData: any[];
-    setWeeklyVolumeData: (data: any[]) => void;
+    volumeData: any[];
+    setVolumeData: (data: any[]) => void;
 
     categories: any[]
     setCategories: (data: any[]) => void;
@@ -12,6 +12,9 @@ type StatsContextType = {
 
     bodyWeightData: any[];
     setBodyWeightData: (data: any[]) => void;
+
+    workoutStreakData: any[];
+    setWorkoutStreakData: (data: any[]) => void;
 };
 
 const StatsContext = createContext<StatsContextType | undefined>(undefined);
@@ -21,10 +24,11 @@ type StatsProviderProps = {
 };
 
 export const StatsProvider = ({ children }: StatsProviderProps) => {
-    const [weeklyVolumeData, setWeeklyVolumeData] = useState<any[]>([]);
+    const [volumeData, setVolumeData] = useState<any[]>([]);
     const [categories, setCategories] = useState<any[]>([]);
     const [best1RM, setBest1RM] = useState<any>([]);
     const [bodyWeightData, setBodyWeightData] = useState<any[]>([]);
+    const [workoutStreakData, setWorkoutStreakData] = useState<any[]>([]);
 
     return (
         <StatsContext.Provider value={{
@@ -32,14 +36,17 @@ export const StatsProvider = ({ children }: StatsProviderProps) => {
             bodyWeightData,
             setBodyWeightData,
 
-            weeklyVolumeData,
-            setWeeklyVolumeData,
+            volumeData,
+            setVolumeData,
 
             setCategories,
             categories,
 
             best1RM,
             setBest1RM,
+
+            workoutStreakData,
+            setWorkoutStreakData,
 
         }}>
             {children}
