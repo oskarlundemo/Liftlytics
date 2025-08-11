@@ -10,11 +10,14 @@ import {DeleteButtonContainer} from "../components/LogComponents/DeleteButtonCon
 import {Link} from "react-router-dom";
 import {LoadingPage} from "../components/MiscComponents/LoadingPage.tsx";
 import {ErrorPage} from "../components/MiscComponents/ErrorPage.tsx";
+import {useEffect} from "react";
+import {LogModule} from "../components/LogComponents/LogModule.tsx";
 
 export const LogPage = () => {
 
     const { data, isLoading, isError, error } = useLogs();
     const {showDeleteMenu, setShowDeleteMenu} = useLogContext();
+
 
     if (isError) {
         return (
@@ -36,14 +39,12 @@ export const LogPage = () => {
                 <LogPageHeader />
 
                 <section className="log-body">
-                    {data.logs.length > 0 ? (
-                        data.logs.map((log, index) => (
-                            <LogCard
-                                key={index}
-                                id={log.id}
-                                startTime={log.startTime}
-                                workoutName={log.name}
-                                exercises={log.exercises || []}
+                    {data.sortedGroupedByMonth && Object.keys(data.sortedGroupedByMonth).length > 0 ? (
+                        Object.entries(data.sortedGroupedByMonth).map(([monthKey, logs]) => (
+                            <LogModule
+                                logs={logs}
+                                date={new Date(`${monthKey}-01`)}
+                                key={monthKey}
                             />
                         ))
                     ) : (
@@ -53,11 +54,10 @@ export const LogPage = () => {
                                 height="24px"
                                 viewBox="0 -960 960 960"
                                 width="24px"
-                                fill="#e3e3e3"
-                            >
+                                fill="#e3e3e3">
                                 <path d="..." />
                             </svg>
-                            <h2>
+                            <h2 className="text-2lx">
                                 No logs yet!{' '}
                                 <Link className="glow-hover" to="/log/new">
                                     Let's create one
@@ -65,9 +65,11 @@ export const LogPage = () => {
                             </h2>
                         </div>
                     )}
+
                 </section>
 
-                <SlideInBottomMenu showMenu={showDeleteMenu} height="50%">
+
+                <SlideInBottomMenu showMenu={showDeleteMenu} height="30%">
                     <DeleteButtonContainer />
                 </SlideInBottomMenu>
 

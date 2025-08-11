@@ -39,6 +39,7 @@ export const CreateConfigureForm = ({setShowCreateMenu, handleCreateExercise, ha
         setShowCreateMenu(false);
     }
 
+
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (
             exerciseName.length >= 100 &&
@@ -73,10 +74,11 @@ export const CreateConfigureForm = ({setShowCreateMenu, handleCreateExercise, ha
 
                     <h4
                         style={{ color: maxLength >= 100 ? 'var(--color-error)' : 'var(--color-text-muted)', transition: 'var(--transition-fast)' }}
-                        className={`flex justify-end ${maxLength >= 100 ? 'text-2xl' : 'text-xl'}`}
+                        className={`flex justify-end ml-auto ${maxLength >= 100 ? 'text-2xl' : 'text-xl'}`}
                     >
                         {maxLength} / 100
                     </h4>
+
                 </div>
 
 

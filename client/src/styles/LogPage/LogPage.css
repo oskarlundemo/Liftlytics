@@ -34,6 +34,13 @@
 }
 
 
+.log-card-wrapper {
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+
 .log-card {
     background-color: var(--color-surface);
     display: flex;
@@ -42,12 +49,11 @@
     justify-content: flex-start;
     padding: 1rem;
     gap: 1rem;
-    border-radius: var(--border-radius);
     transition: var(--transition-fast);
 
     &:hover {
+        color: var(--color-accent);
         background-color: var(--color-surface);
-        box-shadow: var(--default-box-shadow);
         cursor: pointer;
         scale: 1.01;
     }
@@ -69,6 +75,13 @@
 }
 
 
+.hover-scale {
+    transition: var(--transition-fast);
+    &:hover {
+        scale: 1.2;
+    }
+}
+
 .calender-ui {
     display: flex;
     flex-direction: column;
@@ -78,9 +91,9 @@
     border: 1px solid var(--color-border);
 
     p:first-of-type {
-        background-color: var(--color-bg);
-        color: var(--color-accent);
+        background-color: var(--color-primary-light);
         padding: 0.5rem 1rem;
+
     }
 
     p {
@@ -88,6 +101,7 @@
         font-weight: bold;
         margin: 0;
         padding: 5px;
+        color: var(--color-text);
     }
 }
 

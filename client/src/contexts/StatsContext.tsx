@@ -15,6 +15,12 @@ type StatsContextType = {
 
     workoutStreakData: any[];
     setWorkoutStreakData: (data: any[]) => void;
+
+    averageDuration: any[];
+    setAverageDuration: (data: any[]) => void;
+
+    checkedCalenderDates: any[]
+    setCheckedCalenderDates: (data:  Date[]) => void;
 };
 
 const StatsContext = createContext<StatsContextType | undefined>(undefined);
@@ -29,9 +35,14 @@ export const StatsProvider = ({ children }: StatsProviderProps) => {
     const [best1RM, setBest1RM] = useState<any>([]);
     const [bodyWeightData, setBodyWeightData] = useState<any[]>([]);
     const [workoutStreakData, setWorkoutStreakData] = useState<any[]>([]);
+    const [averageDuration, setAverageDuration] = useState<any>([]);
+    const [checkedCalenderDates, setCheckedCalenderDates] = useState<Date[]>([]);
 
     return (
         <StatsContext.Provider value={{
+
+            checkedCalenderDates,
+            setCheckedCalenderDates,
 
             bodyWeightData,
             setBodyWeightData,
@@ -47,6 +58,9 @@ export const StatsProvider = ({ children }: StatsProviderProps) => {
 
             workoutStreakData,
             setWorkoutStreakData,
+
+            averageDuration,
+            setAverageDuration,
 
         }}>
             {children}

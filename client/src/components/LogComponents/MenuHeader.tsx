@@ -50,7 +50,6 @@ export const MenuHeader = ({search = false,
                         ) : (
                             <svg className={`hover-svg`} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/></svg>
                         ))
-
                     ) : (
                         <span>Cancel</span>
                     )}
@@ -61,7 +60,7 @@ export const MenuHeader = ({search = false,
 
                 {addExercise && (
                     <button
-                        className={`button-intellij`}
+                        className={`transparent-btn hover-text`}
                         style={{
                             alignSelf: 'center',
                             justifySelf: 'center',
@@ -71,8 +70,7 @@ export const MenuHeader = ({search = false,
                             setShowCustomExerciseMenu(true);
                         }}
                     >
-                        +
-                        Custom exercise
+                        Add exercise
                     </button>
                 )}
 

@@ -4,16 +4,25 @@ import {PopUp} from "../components/MiscComponents/PopUp.tsx";
 import {AccountHeader} from "../components/AccountComponents/AccountHeader.tsx";
 import {AccountCard} from "../components/AccountComponents/AccountCard.tsx";
 import {useAuth} from "../contexts/AuthContext.tsx";
+import {useDeleteUser} from "../hooks/useAuthorzation.ts";
+import {useNavigate} from "react-router-dom";
 
 
 export const Account = ({}) => {
 
     const [showPopUp, setShowPopUp] = useState<boolean>(false);
+    const {mutate: deleteUser} = useDeleteUser();
     const {logout} = useAuth();
+    const navigate = useNavigate();
 
     const handleDelete = () => {
-        console.log('Deleting...');
-    }
+        deleteUser(undefined, {
+            onSuccess: () => {
+                logout();
+                navigate('/login');
+            },
+        });
+    };
 
     return (
         <div className={`account-wrapper h-full gap-10 flex flex-col`}>

@@ -29,6 +29,9 @@ export const fetchCustomExercises = async (req: AuthenticatedRequest, res: Respo
                     },
                 },
             },
+            orderBy: {
+                name: 'asc'
+            }
         });
 
         const allMuscleGroups = await prisma.muscleGroup.findMany()
@@ -201,8 +204,6 @@ export const createCustomExercise = async (req: AuthenticatedRequest, res: Respo
 
 
     try {
-        console.log('In the back end');
-        console.log(req.body);
 
         const userId = req.user.id;
         const {categoryId, exerciseName} = req.body;

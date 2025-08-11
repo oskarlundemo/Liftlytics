@@ -19,11 +19,11 @@ export const PRCompoundsWidget = ({boxIndex}:PRCompoundsWidgetProps) => {
             style={{
                 gridArea: `box-${boxIndex}`,
             }}
-            className={'pr-widget widget'}>
+            className={`pr-widget widget box-${boxIndex}`}>
 
-            <h3 className={'widget-title'}>PR compounds</h3>
+            <h3 className={'widget-title p-4'}>PR compounds</h3>
 
-            {best1RM && (
+            {best1RM && best1RM.length > 0 ? (
                 best1RM.map((best1RM, index) => (
                     <PrCard
                         key={index}
@@ -32,6 +32,8 @@ export const PRCompoundsWidget = ({boxIndex}:PRCompoundsWidgetProps) => {
                         date={best1RM.date}
                     />
                 ))
+            ) : (
+                <h4 style={{color: 'var(--color-text-muted)'}} className='text-center text-base my-5'>No data yet</h4>
             )}
 
         </div>

@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import {prisma} from "../clients/prismaClient";
 import {AuthenticatedRequest} from "../middleware/supabase";
+import { format, toZonedTime } from 'date-fns-tz';
 
-export const fetchCategories = async (req: AuthenticatedRequest, res: Response) => {
+
+export const fetchMuscleGroups = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
-
 
         const userId = req.user.id;
 
@@ -24,6 +25,9 @@ export const fetchCategories = async (req: AuthenticatedRequest, res: Response) 
                         }
                     }
                 }
+            },
+            orderBy: {
+                name: 'asc'
             }
         });
 
@@ -54,7 +58,7 @@ export const fetchLogs = async (req: AuthenticatedRequest, res: Response) => {
                 userId: req.user.id,
             },
             orderBy: {
-                startTime: 'desc',
+                startDate: 'desc',
             },
             include: {
                 exercises: {
@@ -66,9 +70,24 @@ export const fetchLogs = async (req: AuthenticatedRequest, res: Response) => {
             },
         });
 
+
+        const timeZone = 'Europe/Stockholm';
+
+        const groupedByMonth = Object.groupBy(logs, item => {
+            const localDate = toZonedTime(item.startDate, timeZone);
+            return format(localDate, 'yyyy-MM');
+        });
+
+        const sortedGroupedByMonthEntries = Object.entries(groupedByMonth).sort(
+            ([a], [b]) => new Date(b + '-01').getTime() - new Date(a + '-01').getTime()
+        );
+
+        const sortedGroupedByMonth = Object.fromEntries(sortedGroupedByMonthEntries);
+
         res.status(200).json({
             logs,
-            message: 'Logs retrieved successfully'
+            message: 'Logs retrieved successfully',
+            sortedGroupedByMonth,
         })
 
     } catch (error) {
@@ -372,7 +391,6 @@ export const createCustomExercise = async (req: AuthenticatedRequest, res: Respo
             return { customExercise, exerciseMuscleGroup };
         });
 
-        console.log(customExercise)
 
         res.status(200).json({
             message: 'Exercise created',
@@ -419,6 +437,9 @@ export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
             notes,
             exercises
         } = req.body;
+
+
+        console.log(req.body);
 
         const newWorkout = await prisma.workout.create({
             data: {

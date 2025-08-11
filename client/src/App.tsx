@@ -18,6 +18,7 @@ import {ExerciseProvider} from "./contexts/ExerciseContext.tsx";
 import {Account} from "./pages/Account.tsx";
 import {ConfigureMuscleGroup} from "./pages/ConfigureMuscleGroup.tsx";
 import {MuscleGroupProvider} from "./contexts/MuscleGroupContext.tsx";
+import {ExerciseStats} from "./pages/ExerciseStats.tsx";
 
 function App() {
 
@@ -90,6 +91,17 @@ function App() {
                 />
 
                 <Route
+                    path="/statistics/:exercise-name/:exercise-id"
+                    element={
+                        <PrivateRoute>
+                            <StatsProvider>
+                                <ExerciseStats />
+                            </StatsProvider>
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
                     path="/profile"
                     element={
                         <PrivateRoute>
@@ -129,6 +141,9 @@ function App() {
                         </PrivateRoute>
                     }
                 />
+
+
+
 
             </Routes>
 

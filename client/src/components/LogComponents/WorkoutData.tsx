@@ -2,13 +2,7 @@ import {CustomInput} from "../MiscComponents/CustomInput.tsx";
 import {CustomTimePicker} from "./CustomTimePicker.tsx";
 import {CustomTextarea} from "./CustomTextarea.tsx";
 import {BodyWeight} from "./BodyWeight.tsx";
-import {SlideInBottomMenu} from "../MiscComponents/SlideInBottomMenu.tsx";
-import {CategorySelection} from "./CategorySelection.tsx";
-import {SlideInSideMenu} from "../MiscComponents/SlideInSideMenu.tsx";
-import {Exercises} from "./Exercises.tsx";
-import '../../styles/Workout/Workout.css'
-import {useLogContext} from "../../contexts/LogContext.tsx";
-import {CustomExercise} from "./CustomExercise.tsx";
+import '../../styles/Workout/Workout.css';
 
 
 type WorkoutDataProps = {
@@ -77,9 +71,9 @@ export const WorkoutData = ({
                 <CustomTimePicker
                     title={'End date'}
                     date={endDate}
+                    setDate={setEndDate}
                     setTime={setEndTime}
                     time={endTime}
-                    setDate={setEndDate}
                 />
 
                 <BodyWeight

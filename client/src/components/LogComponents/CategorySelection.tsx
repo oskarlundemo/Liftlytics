@@ -31,6 +31,7 @@ export const CategorySelection = ({setExercises} : CategorySelectionProps) => {
     return (
         <section className="category-selection-container">
             <div className="category-wrapper">
+
                 <MenuHeader
                     search={true}
                     setUI={setAddExerciseMenu}

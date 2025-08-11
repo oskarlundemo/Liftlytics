@@ -65,7 +65,7 @@ export const ConfigureUpdateForm = ({selectedItem,  setShowMenu, setCustomData, 
     }
 
     return (
-        <form className={'exercise-form flex h-full flex-grow flex-col p-4'} onSubmit={handleSubmit}>
+        <form className={'exercise-form w-full flex h-full flex-grow flex-col p-4'} onSubmit={handleSubmit}>
 
             <div className="form-header flex-row flex justify-end">
                 <svg onClick={() => setShowMenu(false)} className={'error-svg'} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
@@ -122,7 +122,7 @@ export const ConfigureUpdateForm = ({selectedItem,  setShowMenu, setCustomData, 
             <div className="form-footer flex gap-3 justify-center w-full p-5">
                 <button
                     onClick={(e) => handleSubmit(e)}
-                    className="button-intellij !p-4 button-confirm !w-1/2"
+                    className="button-intellij flex-grow h-full !p-4 button-confirm !w-1/2"
                     disabled={disabledButton}>
                     Update
                 </button>
@@ -133,12 +133,12 @@ export const ConfigureUpdateForm = ({selectedItem,  setShowMenu, setCustomData, 
                         setShowPopUp(true);
                         setShowMenu(false);
                     }}
-                    className="button-intellij !p-4 button-warning !w-1/2"
+                    className="button-intellij h-full flex-grow !p-4 button-warning !w-1/2"
                 >
                     {muscleGroups ? (
-                        <span className={'whitespace-nowrap'}>Delete this exercise</span>
+                        <span>Delete this exercise</span>
                     ) : (
-                        <span className={'whitespace-nowrap'}>Delete this muscle group</span>
+                        <span>Delete this muscle group</span>
                         )}
                 </button>
             </div>

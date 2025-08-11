@@ -1,7 +1,8 @@
 import {AuthenticatedRequest} from "../middleware/supabase";
-import {Response, Request, NextFunction} from 'express';
+import {NextFunction, Response} from 'express';
 import {prisma} from "../clients/prismaClient";
 import {MuscleGroupObject} from '../classes/MuscleGroupObject'
+import _ from 'lodash'
 
 
 export const fetchCategories = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
@@ -110,14 +111,137 @@ export const bestCompounds = async (req: AuthenticatedRequest, res: Response, ne
 
 
 
+export const fetchEntryDetails = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+
+    try {
+
+        const userId = req.user.id;
+
+        const {exerciseName, exerciseId} = req.params;
+
+        if (!exerciseName || !exerciseId) {
+            return res.status(400).json({
+                status: 'error',
+                message: 'Error! Insufficient parameters.'
+            })
+        }
+
+        if (typeof exerciseName !== 'string' || typeof exerciseId !== 'string') {
+            return res.status(400).json({
+                status: 'error',
+                message: 'Error! Parameters are in wrong format.',
+            });
+        }
+
+        const isUsersCustomExercise = await prisma.strengthExercise.findUnique({
+            where: {
+                id: exerciseId,
+                userId: userId,
+                isDefault: false,
+            }
+        })
+
+        let filteredExercises;
+
+        if (isUsersCustomExercise) {
+            filteredExercises = await prisma.workoutExercise.findMany({
+                where: {
+                    workout: {
+                        userId: userId,
+                    },
+                    exercise: {
+                        id: exerciseId,
+                        userId: userId,
+                        isDefault: false,
+                    },
+                },
+                include: {
+                    workout: true,
+                    exercise: true,
+                    metrics: true,
+                },
+            });
+        } else {
+            filteredExercises = await prisma.workoutExercise.findMany({
+                where: {
+                    workout: {
+                        userId: userId,
+                    },
+                    exercise: {
+                        id: exerciseId,
+                        isDefault: true,
+                    },
+                },
+                include: {
+                    workout: true,
+                    exercise: true,
+                    metrics: true,
+                },
+            })
+        }
+
+        const allTheMetrics = filteredExercises.flatMap((exercise) => {
+            return exercise.metrics.map((metric) => ({
+                startDate: exercise.workout.startDate,
+                weight: metric.weight,
+                reps: metric.reps,
+                bodyWeight: exercise.workout.bodyWeight,
+            }));
+        })
+
+
+        const sortedMetrics = allTheMetrics.sort((a, b) => {
+            return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+        });
+
+
+        const letGrouped = _.groupBy(sortedMetrics, 'reps');
+
+        const bestEffortsByDay: { [key: string]: any } = {};
+
+        for (const [reps, metrics] of Object.entries(letGrouped)) {
+
+            metrics.forEach(metric => {
+                const date = new Date(metric.startDate);
+                const dayMonth = `${date.getDate()}/${date.getMonth() + 1}`;
+
+                if (!bestEffortsByDay[dayMonth] || !metric.weight > !bestEffortsByDay[dayMonth].weight) {
+                    bestEffortsByDay[dayMonth] = metric;
+                }
+            });
+        }
+
+        const formattedMetrics = Object.values(bestEffortsByDay).map(metric => ({
+            startDate: metric.startDate,
+            weight: metric.weight,
+            bodyWeight: metric.bodyWeight,
+            reps: metric.reps,
+        }));
+
+        let lastFormat = _.groupBy(formattedMetrics, 'reps');
+
+        return res.status(200).json({
+            status: 'success',
+            data: lastFormat,
+            message: 'Data for this exercise was fetched successfully.'
+        })
+
+    } catch (err:any) {
+        console.error(err);
+        return res.status(500).json({
+            status: 'error',
+            message: 'An error occured when fetching entry.',
+        })
+    }
+}
+
+
 
 
 export const fetchMuscleVolumeMonth = async (req:AuthenticatedRequest, res:Response) => {
     try {
 
         const dateParam = req.query.date;
-        console.log(dateParam);
-        console.log('I test volume');
 
         if (!dateParam) {
             return res.status(400).json({ status: 'error', message: 'Date query param missing' });
@@ -136,10 +260,6 @@ export const fetchMuscleVolumeMonth = async (req:AuthenticatedRequest, res:Respo
 
         const startOfMonth = new Date(Date.UTC(month.getFullYear(), month.getMonth(), 1, 0, 0, 0, 0));
         const endOfMonth = new Date(Date.UTC(month.getFullYear(), month.getMonth() + 1, 0, 23, 59, 59, 999));
-
-        console.log('startOfMonth:', startOfMonth.toISOString());
-        console.log('endOfMonth:', endOfMonth.toISOString());
-
 
         const allUsersWorkout = await prisma.workout.findMany({
             where: {
@@ -204,11 +324,7 @@ export const fetchMuscleVolumeMonth = async (req:AuthenticatedRequest, res:Respo
             summary,
         }
 
-
-        return res.status(200).json({ status: 'success', message: 'Successful fetch of volume', data: {
-            numberOfSets, allUsersWorkout, summary,
-            }});
-
+        return res.status(200).json({ status: 'success', message: 'Successful fetch of volume', data: {numberOfSets, allUsersWorkout, summary,}});
 
     } catch (error) {
         console.error('Error in monthlyMuscleVolume:', error);
@@ -221,10 +337,131 @@ export const fetchMuscleVolumeMonth = async (req:AuthenticatedRequest, res:Respo
 
 
 
+export const averageWorkoutDuration = async (req:AuthenticatedRequest, res:Response, next: NextFunction) => {
+
+    try {
+
+        const userId = req.user.id;
+        const today = new Date();
+
+        const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59, 999);
+
+        console.log('Start of month:', startOfMonth);
+        console.log('End of month:', endOfMonth);
+
+        const workoutsThisMonth = await prisma.workout.findMany({
+            where: {
+                startDate: {
+                    gte: startOfMonth,
+                    lte: endOfMonth,
+                },
+                endTime: {
+                    not: null,
+                },
+                userId: userId,
+            }
+        })
+
+        const allWorkouts = await prisma.workout.findMany({
+            where: {
+                endTime: {
+                    not: null,
+                },
+                userId: userId,
+            }
+        })
 
 
-export const monthlyMuscleVolume = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        let sumOfTimeThisMonth = 0;
+        let numberOfWorkoutsThisMonth = 0;
 
+        let sumOfAllTime = 0;
+        let totalNumberOfWorkouts = allWorkouts.length;
+
+        for (let workout of workoutsThisMonth) {
+
+            if (!workout.startTime || !workout.endTime)
+                continue;
+
+            numberOfWorkoutsThisMonth++;
+
+            const startHours = workout.startTime.getHours();
+            const endHours = workout.endTime.getHours();
+
+            const startMinutes = workout.startTime.getMinutes();
+            const endMinutes = workout.endTime.getMinutes();
+
+            let startTotalMinutes = startHours * 60 + startMinutes;
+            let endTotalMinutes = endHours * 60 + endMinutes;
+
+            let durationMinutes = endTotalMinutes - startTotalMinutes;
+            if (durationMinutes < 0) {
+                durationMinutes += 1440;
+            }
+
+            sumOfTimeThisMonth += durationMinutes;
+        }
+
+        for (let workout of allWorkouts) {
+            if (!workout.startTime || !workout.endTime)
+                continue;
+
+            if (!workout.startTime || !workout.endTime)
+                continue;
+
+            numberOfWorkoutsThisMonth++;
+
+            const startHours = workout.startTime.getHours();
+            const endHours = workout.endTime.getHours();
+
+            const startMinutes = workout.startTime.getMinutes();
+            const endMinutes = workout.endTime.getMinutes();
+
+            let startTotalMinutes = startHours * 60 + startMinutes;
+            let endTotalMinutes = endHours * 60 + endMinutes;
+
+            let durationMinutes = endTotalMinutes - startTotalMinutes;
+            if (durationMinutes < 0) {
+                durationMinutes += 1440;
+            }
+
+            sumOfAllTime += durationMinutes;
+        }
+
+        const avgMinutesThisMonth = (sumOfTimeThisMonth / numberOfWorkoutsThisMonth);
+
+        const averageOverAll = (sumOfAllTime / totalNumberOfWorkouts);
+
+        console.log(`Average m month: ${avgMinutesThisMonth.toFixed(2)} minutes`);
+        console.log(`Average m overall ${averageOverAll.toFixed(2)} minutes`);
+
+        res.locals.averageWorkoutDuration = {
+            avgThisMonth: {
+                avgMinutes: avgMinutesThisMonth,
+                sumMinutes: sumOfAllTime
+            },
+            avgAllTime: {
+                sumMinutes: sumOfAllTime,
+                avgMinutes: averageOverAll,
+            }
+        };
+
+        next();
+
+    } catch (err:any) {
+        console.error(err);
+        return res.status(500).json({
+            status: 'error',
+            message: 'An error occurred when fetching average workout.',
+        })
+    }
+
+
+}
+
+
+export const loadMuscleVolumeMonth = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
 
     try {
 
@@ -300,6 +537,7 @@ export const monthlyMuscleVolume = async (req: AuthenticatedRequest, res: Respon
             summary,
         }
 
+
         next();
 
     } catch (err) {
@@ -369,9 +607,38 @@ export const workoutStreakData = async (req: AuthenticatedRequest, res: Response
 
 
 
+export const checkedCalenderData = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+
+    try {
+
+        const userId = req.user.id;
+
+        const usersWorkoutDates = await prisma.workout.findMany({
+            where: {
+                userId: userId,
+
+            }, select: {
+                startDate: true
+            }
+        })
+
+        res.locals.calenderData = usersWorkoutDates;
+
+        next();
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: 'error',
+            message: 'Something went fetching the dates for the users calender'
+        })
+    }
+}
+
+
+
 
 export const bodyWeightData = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-
 
     try {
 
@@ -417,6 +684,8 @@ export const sendWidgetStats = async (req: AuthenticatedRequest, res: Response) 
             workoutStreakData: res.locals.workoutStreakData,
             best1RMs: res.locals.best1RMs,
             bodyWeightData: res.locals.bodyWeightData,
+            averageDuration: res.locals.averageWorkoutDuration,
+            calenderData: res.locals.calenderData,
         })
 
     } catch (error) {

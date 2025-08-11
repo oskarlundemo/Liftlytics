@@ -19,4 +19,5 @@ exerciseRoute.post('/custom/update/:id', authenticateUser, updateCustomExercise)
 exerciseRoute.post('/custom/create', authenticateUser, createCustomExercise);
 
 
+
 export default exerciseRoute;
