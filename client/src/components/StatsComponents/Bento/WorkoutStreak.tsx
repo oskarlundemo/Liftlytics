@@ -15,14 +15,14 @@ export const WorkoutStreak = ({boxIndex}: WorkoutsThisWeekWidgetProps) => {
             style={{
                 gridArea: `box-${boxIndex}`,
             }}
-            className={'streak-record widget'}>
+            className={`streak-record widget align-middle justify-around box-${boxIndex}`}>
 
-            <h3 className={'widget-title'}>Workout streak</h3>
+            <h3 className={'widget-title p-4'}>Workout streak</h3>
 
-            <h4>{workoutStreakData?.currentStreak || 'Undefined'}</h4>
-
+            <h4 className={"flex-grow h-fit flex items-center justify-center"}>
+                {workoutStreakData?.currentStreak || 'Undefined'}
+            </h4>
             <h5>Record: {workoutStreakData?.longestStreak || 'Undefined'}</h5>
-
         </div>
     )
 

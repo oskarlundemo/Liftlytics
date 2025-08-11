@@ -10,6 +10,10 @@
     opacity: 1;
     transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
 
+    h1 {
+        white-space: nowrap;
+    }
+
     &.focused {
         max-height: 0;
         opacity: 0;

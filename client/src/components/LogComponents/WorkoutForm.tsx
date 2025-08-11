@@ -40,15 +40,14 @@ export const WorkoutForm = ({} ) => {
     const {setShowExerciseMenu, setAddExerciseMenu, showCustomExerciseMenu, showExerciseMenu, showAddExerciseMenu,
         showConfigureExerciseMenu, setShowConfigureExerciseMenu, setShowCustomExerciseMenu } = useLogContext();
 
-
     const [disabled, setDisabled] = useState<boolean>(true);
     const [exercises, setExercises] = useState<ExerciseEntry[]>(savedState.exercises || []);
     const [workoutName, setWorkoutName] = useState<string>(savedState.workoutName || "");
     const [startDate, setStartDate] = useState<Date>(savedState.startDate ? new Date(savedState.startDate) : new Date());
-    const [endDate, setEndDate] = useState<Date | null>(savedState.endDate ? new Date(savedState.endDate) : null);
+    const [endDate, setEndDate] = useState<Date>(savedState.endDate ? new Date(savedState.endDate) : new Date());
     const [bodyWeight, setBodyWeight] = useState<number | null>(savedState.bodyWeight ?? null);
     const [startTime, setStartTime] = useState<Date>(savedState.startTime ? new Date(savedState.startTime) : new Date());
-    const [endTime, setEndTime] = useState<Date | null>(savedState.endTime ? new Date(savedState.endTime) : null)
+    const [endTime, setEndTime] = useState<Date>(savedState.endTime ? new Date(savedState.endTime) : new Date());
     const [notes, setNotes] = useState<string>(savedState.notes ? savedState.notes : '');
 
     useEffect(() => {
@@ -71,20 +70,16 @@ export const WorkoutForm = ({} ) => {
     const {data, isLoading: isLoadingFetch} = useFetchLogById(log_id!)
 
     useEffect(() => {
+
         if (data?.workout) {
+            console.log(data?.workout);
             const workout = data.workout;
 
             setWorkoutName(workout.name || '');
-            setStartDate(new Date(workout.startTime));
+            setStartDate(new Date(workout.startDate));
             setStartTime(new Date(workout.startTime));
-
-            if (workout.endTime) {
-                // @ts-ignore
-                setEndDate(new Date(workout.endTime));
-                // @ts-ignore
-                setEndTime(new Date(workout.endTime));
-            }
-
+            setEndDate(new Date(workout.endTime));
+            setEndTime(new Date(workout.endTime));
             setBodyWeight(workout.bodyWeight);
             setNotes(workout.notes || '');
 
@@ -149,14 +144,19 @@ export const WorkoutForm = ({} ) => {
                     <WorkoutData
                         workoutName={workoutName}
                         setWorkoutName={setWorkoutName}
+
                         startDate={startDate}
                         setStartDate={setStartDate}
+
                         endDate={endDate}
                         setEndDate={setEndDate}
+
                         startTime={startTime}
                         setStartTime={setStartTime}
+
                         endTime={endTime}
                         setEndTime={setEndTime}
+
                         bodyWeight={bodyWeight}
                         setBodyWeight={setBodyWeight}
                         notes={notes}

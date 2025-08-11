@@ -9,11 +9,13 @@ type RowInputProps = {
 };
 
 export const RowInput = ({ inputState, setInputState, inputType, title, placeholder }: RowInputProps) => {
+
     return (
         <div className="exercise-module-input">
             <h4>{title}</h4>
             <input
                 type={inputType}
+                min={0}
                 value={inputState ?? ''}
                 onChange={(e) =>
                     setInputState(

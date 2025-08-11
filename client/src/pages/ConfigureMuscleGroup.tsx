@@ -82,7 +82,6 @@ export const ConfigureMuscleGroup = ({}) => {
                     setShowMenu={setShowMenu}
                     setShowPopUp={setShowPopUp}
                     setCustomData={setCustomMuscleGroups || []}
-                    isMuscleGroup={true}
                 />
 
             </SlideInBottomMenu>

@@ -14,7 +14,7 @@ export const Exercises = ({ setExercises }: ExercisesProps) => {
 
     return (
         <section className="exercises-container flex-grow h-full">
-            <div className="exercises-wrapper flex flex-grow">
+            <div className="exercises-wrapper gap-5 flex flex-grow">
 
                 <MenuHeader
                     search={false}

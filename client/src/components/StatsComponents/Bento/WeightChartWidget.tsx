@@ -14,7 +14,6 @@ import {
     Legend,
     ResponsiveContainer
 } from 'recharts';
-import {useEffect} from "react";
 import {CustomTooltip} from '../../MiscComponents/CustomToolTip.tsx'
 
 
@@ -27,14 +26,14 @@ export const WeightChartWidget = ({boxIndex}:WeightChartWidgetProps) => {
             gridArea: `box-${boxIndex}`,
             height: 'auto',
             overflow: 'hidden',
-        }} className={'flex flex-col  weight-chart-wrapper widget'}>
+        }} className={`flex flex-col  weight-chart-wrapper widget box-${boxIndex}`}>
 
-            <h3 className={'widget-title'}>Body weight (kg)</h3>
+            <h3 className={'widget-title p-4'}>Body weight (kg)</h3>
 
             {bodyWeightData.length > 0 ? (
 
                 <div style={{ flex: 1, minHeight: '300px' }}>
-                    <ResponsiveContainer width="100%" height="100%">
+                    <ResponsiveContainer className={'outline-0'} width="100%" height="100%">
                         <LineChart data={bodyWeightData}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="date"
@@ -60,7 +59,7 @@ export const WeightChartWidget = ({boxIndex}:WeightChartWidgetProps) => {
                 </div>
 
             ) : (
-                <h4   style={{ color: 'var(--color-text-muted)' }} className={'flex align-middle m-auto color: text-color-muted'} >No data recorded yet</h4>
+                <h4   style={{ color: 'var(--color-text-muted)' }} className={'flex align-middle m-auto color: text-color-muted my-5'} >No data yet</h4>
             )}
         </div>
     )

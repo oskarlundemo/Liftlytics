@@ -43,7 +43,6 @@ export const createMuscleGroup = async (req: AuthenticatedRequest, res: Response
         const muscleGroupName = req.body.muscleGroupName.muscleGroupName;
         const userId = req.user?.id;
 
-
         if (!muscleGroupName || muscleGroupName.length > 100) {
             return res.status(400).json({
                 message: "Invalid muscle group name"
@@ -86,11 +85,7 @@ export const createMuscleGroup = async (req: AuthenticatedRequest, res: Response
 export const deleteCustomMuscleGroup = async (req: AuthenticatedRequest, res: Response) => {
 
 
-
     try {
-
-        console.log('Deleteing');
-        console.log(req.params)
 
         const userId = req.user.id;
         const muscleGroupId = req.params.category_id;
@@ -137,5 +132,4 @@ export const deleteCustomMuscleGroup = async (req: AuthenticatedRequest, res: Re
             error: error
         })
     }
-
 }

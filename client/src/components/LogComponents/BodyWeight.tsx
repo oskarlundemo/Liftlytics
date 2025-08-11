@@ -10,6 +10,24 @@ type BodyWeightProps = {
 export const BodyWeight = ({weight, setWeight}: BodyWeightProps) => {
 
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        if (value === "") {
+            setWeight(null);
+        } else {
+            const num = Number(value.replace(",", "."));
+            if (!isNaN(num) && num > 0) {
+                setWeight(num);
+            } else {
+                setWeight(null);
+            }
+        }
+    };
+
+
+
+
     return (
         <section
             className="body-weight-wrapper">
@@ -18,11 +36,12 @@ export const BodyWeight = ({weight, setWeight}: BodyWeightProps) => {
 
             <input
                 type="number"
-                min="0"
+                min={0}
+                max={Number(weight) < 1000 ? 1000 : undefined}
                 step="0.1"
                 placeholder="Enter weight (kg)"
                 value={weight ?? ''}
-                onChange={(e) => setWeight(Number(e.target.value))}
+                onChange={handleChange}
             />
 
             <h3>kg</h3>

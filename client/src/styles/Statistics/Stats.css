@@ -53,7 +53,17 @@
         font-size: var(--text-xl);
         font-weight: var(--font-weight-semi-bold);
     }
+}
 
+.rdp-months {
+    width: 100% !important;
+    max-width: none !important;
+    flex-grow: 1;
+}
+
+.highlighted-day {
+    background-color: var(--color-primary-light);
+    border-radius: 50%;
 }
 
 

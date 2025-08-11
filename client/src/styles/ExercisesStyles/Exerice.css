@@ -6,6 +6,18 @@
     margin: 0 auto;
 }
 
+
+.custom-exercise-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    button {
+        padding: 1rem 2rem;
+    }
+}
+
+
 .custom-exercise-card {
 
     transition: var(--transition-fast);

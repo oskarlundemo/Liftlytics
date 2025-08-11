@@ -6,8 +6,6 @@ import {DropDownCard} from "../MiscComponents/DropDownCard.tsx";
 import {useSearchExercises} from "../../hooks/logHook.ts";
 import {useDebounce} from "use-debounce";
 import {LoadingResults} from "../MiscComponents/LoadingResults.tsx";
-import {ExerciseCard} from "../LogComponents/ExerciseCard.tsx";
-import {CategoryCard} from "../LogComponents/CategoryCard.tsx";
 import {ExerciseResultsCard} from "./ExerciseResultsCard.tsx";
 
 
@@ -22,18 +20,12 @@ export const Categories = ({}) => {
     const { data: searchResults, isPending: isSearchPending, isLoading, isError } = useSearchExercises(debouncedQuery);
     const [showSearchResults, setShowSearchResults] = useState<boolean>(true);
 
-
     useEffect(() => {
         setShowSearchResults(searchTerm.trim().length > 0);
     }, [searchTerm]);
 
-    useEffect(() => {
-        console.log(searchResults);
-    }, [searchResults]);
-
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
     }
 
     return (
@@ -80,9 +72,6 @@ export const Categories = ({}) => {
             ) : (
                 <h4>No categories found.</h4>
             )}
-
-
-
         </section>
     )
 }

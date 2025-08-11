@@ -3,7 +3,7 @@ import '../../styles/MiscStyles/LoadingPage.css'
 
 
 type LoadingPageProps = {
-    title: string
+    title?: string
     errorMessage?: string
 }
 
@@ -20,7 +20,9 @@ export const LoadingPage = ({title}:LoadingPageProps) => {
                 data-testid="loader"
             />
 
-            <h1>{title}</h1>
+            {title && (
+                <h1>{title}</h1>
+            )}
 
         </section>
     )

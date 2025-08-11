@@ -3,7 +3,7 @@ import {Router} from 'express';
 import {
     createCustomExercise,
     deleteLog,
-    fetchCategories,
+    fetchMuscleGroups,
     fetchLogById,
     fetchLogs,
     saveWorkout,
@@ -17,7 +17,7 @@ logRoute.delete('/delete/:id', authenticateUser, deleteLog);
 
 logRoute.post('/create/custom-exercise', authenticateUser, createCustomExercise);
 
-logRoute.get('/exercises/categories', authenticateUser, fetchCategories);
+logRoute.get('/exercises/categories', authenticateUser, fetchMuscleGroups);
 
 logRoute.post('/new', authenticateUser, saveWorkout);
 

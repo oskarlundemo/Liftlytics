@@ -31,9 +31,9 @@ export const DeleteButtonContainer = ({}) => {
 
 
     return (
-        <div className="delete-button-container">
+        <div className="delete-button-container p-5 justify-center align-middle flex gap-5">
 
-            <h3>Are you sure you want to delete this workout? This action can't be undone </h3>
+            <h3 className={'text-2xl! text-center flex justify-center w-fit  font-semibold'}>Are you sure you want to delete this workout? This action can't be undone </h3>
 
             <div className="button-wrapper">
                 <button className={'button button-intellij button-confirm'} onClick={()=> handleDelete()}>Yes, delete</button>
