@@ -34,15 +34,12 @@ export const Categories = ({}) => {
             <h2 className="title">Categories</h2>
 
             <form className={'categories-form'} onSubmit={handleSubmit}>
-
                 <SearchBar
                     query={searchTerm}
                     setQuery={setSearchTerm}
                     placeholder={'Search for a exercise...'}
                 />
-
             </form>
-
 
             {isSearchPending && showSearchResults ? (
                 <LoadingResults size={20} />
@@ -56,9 +53,7 @@ export const Categories = ({}) => {
                         <ExerciseResultsCard name={item.name} id={item.id}/>
                     ))
                 ) : (
-                    <h4 style={{ textAlign: 'center', color: 'var(--color-text-muted)', marginTop: '1rem' }}>
-                        No exercises matched that search.
-                    </h4>
+                    <h4 style={{color: 'var(--color-text-muted)'}} className={'text-xl font-semibold m-5 text-center'}>No exercises matched "{searchTerm}"</h4>
                 )
             ) : categories.length > 0 ? (
                 categories.map((category, index) => (
@@ -70,7 +65,7 @@ export const Categories = ({}) => {
                     </DropDownMenu>
                 ))
             ) : (
-                <h4>No categories found.</h4>
+                <h4 style={{color: 'var(--color-text-muted)'}} className={'text-xl font-semibold m-5 text-center'}>No exercises matched "{searchTerm}"</h4>
             )}
         </section>
     )

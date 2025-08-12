@@ -11,8 +11,10 @@ export const ExerciseResultsCard = ({id, name}:ExerciseResultsProps) => {
     const navigate = useNavigate();
 
     return (
-        <article className={'exercise-card'} style={{height: 'fit-conent'}} key={id}>
-           <h3>{name}</h3>
+        <article onClick={() => navigate(`./${encodeURI(name)}/${encodeURI(id)}`)} className={'w-full my-5'}>
+            <div className='exercise-card'>
+                <h4 className={'text-xl font-light'}>{name}</h4>
+            </div>
         </article>
     )
 }

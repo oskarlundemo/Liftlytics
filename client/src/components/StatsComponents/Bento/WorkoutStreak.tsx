@@ -22,7 +22,10 @@ export const WorkoutStreak = ({boxIndex}: WorkoutsThisWeekWidgetProps) => {
             <h4 className={"flex-grow h-fit flex items-center justify-center"}>
                 {workoutStreakData?.currentStreak || 'Undefined'}
             </h4>
-            <h5>Record: {workoutStreakData?.longestStreak || 'Undefined'}</h5>
+
+            <h5 className={'text-sm font-semibold'} style={{color: 'var(--color-text-muted)'}}>
+                Record: {workoutStreakData?.longestStreak || 'Undefined'}
+            </h5>
         </div>
     )
 
