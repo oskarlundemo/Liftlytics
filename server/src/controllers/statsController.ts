@@ -37,7 +37,7 @@ export const fetchCategories = async (req: AuthenticatedRequest, res: Response, 
         console.error(error);
         res.status(500).json({
             status: 'error',
-            message: 'An error occured when fetching categories.'
+            message: 'An error occurred when fetching categories.'
         })
     }
 }
@@ -47,9 +47,7 @@ export const bestCompounds = async (req: AuthenticatedRequest, res: Response, ne
 
     try {
 
-
         const userId = req.user.id;
-
 
         const compoundLifts = ['Squat', 'Bench press', 'Deadlift'];
 
@@ -86,7 +84,7 @@ export const bestCompounds = async (req: AuthenticatedRequest, res: Response, ne
         );
 
         const formatted1RMs = best1RMs
-            .filter(Boolean) // optional: removes nulls
+            .filter(Boolean)
             .map(item => ({
                 weight: item!.weight || 0,
                 exercise: item!.workoutExercise.exercise.name || 'Undefined exercise',
@@ -347,9 +345,6 @@ export const averageWorkoutDuration = async (req:AuthenticatedRequest, res:Respo
         const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
         const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59, 999);
 
-        console.log('Start of month:', startOfMonth);
-        console.log('End of month:', endOfMonth);
-
         const workoutsThisMonth = await prisma.workout.findMany({
             where: {
                 startDate: {
@@ -433,9 +428,6 @@ export const averageWorkoutDuration = async (req:AuthenticatedRequest, res:Respo
 
         const averageOverAll = (sumOfAllTime / totalNumberOfWorkouts);
 
-        console.log(`Average m month: ${avgMinutesThisMonth.toFixed(2)} minutes`);
-        console.log(`Average m overall ${averageOverAll.toFixed(2)} minutes`);
-
         res.locals.averageWorkoutDuration = {
             avgThisMonth: {
                 avgMinutes: avgMinutesThisMonth,
@@ -456,8 +448,6 @@ export const averageWorkoutDuration = async (req:AuthenticatedRequest, res:Respo
             message: 'An error occurred when fetching average workout.',
         })
     }
-
-
 }
 
 
@@ -511,7 +501,6 @@ export const loadMuscleVolumeMonth = async (req: AuthenticatedRequest, res: Resp
         let setsPerMuscleGroup = []
 
         for (const workout of allUsersWorkout) {
-
             for (const workoutExercise of workout.exercises) {
                 const setCount = workoutExercise.metrics.length;
                 for (const mg of workoutExercise.exercise.muscleGroups) {
@@ -536,7 +525,6 @@ export const loadMuscleVolumeMonth = async (req: AuthenticatedRequest, res: Resp
             allUsersWorkout,
             summary,
         }
-
 
         next();
 
@@ -567,7 +555,7 @@ export const workoutStreakData = async (req: AuthenticatedRequest, res: Response
         const allDatesSorted = usersWorkouts.map(w => new Date(w.startDate)).sort((a,b) => a.getTime() - b.getTime());
 
         let longestStreak = 0;
-        let currentStreak = 1;
+        let currentStreak = 0;
 
         for (let i = 1; i < allDatesSorted.length; i++) {
 
@@ -642,8 +630,6 @@ export const bodyWeightData = async (req: AuthenticatedRequest, res: Response, n
 
     try {
 
-        let dataPoints: any[] = [];
-
         const userId = req.user.id;
 
         const workouts = await prisma.workout.findMany({
@@ -653,12 +639,20 @@ export const bodyWeightData = async (req: AuthenticatedRequest, res: Response, n
             }
         })
 
-        workouts.forEach(workout => {
-            dataPoints.push({
-                date: workout.startDate,
-                bodyWeight: workout.bodyWeight,
-            })
-        })
+        const groupedByDate = _.groupBy(workouts, workout =>
+            workout.startDate.toISOString().split('T')[0]
+        );
+
+        console.log(groupedByDate)
+
+        const dataPoints = Object.entries(groupedByDate).map(([date, entries]) => {
+            const latest = _.maxBy(entries, e => e.startDate);
+            return {
+                date: latest ? latest.startDate : null,
+                bodyWeight: latest ? latest.bodyWeight : null
+            };
+        });
+
 
         res.locals.bodyWeightData = dataPoints;
         next();

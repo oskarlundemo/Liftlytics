@@ -19,13 +19,24 @@ import {Account} from "./pages/Account.tsx";
 import {ConfigureMuscleGroup} from "./pages/ConfigureMuscleGroup.tsx";
 import {MuscleGroupProvider} from "./contexts/MuscleGroupContext.tsx";
 import {ExerciseStats} from "./pages/ExerciseStats.tsx";
+import {LandingPage} from "./pages/LandingPage.tsx";
 
 function App() {
 
     return (
         <div className="App">
             <Routes>
-                <Route path="/" element={<AccessPortal />} />
+
+                <Route path="/access-portal" element={<AccessPortal />} />
+
+                <Route
+                    path="/"
+                    element={
+                            <LandingPage/>
+                    }
+                />
+
+
 
                 <Route
                     path="/home"
@@ -141,7 +152,6 @@ function App() {
                         </PrivateRoute>
                     }
                 />
-
 
 
 

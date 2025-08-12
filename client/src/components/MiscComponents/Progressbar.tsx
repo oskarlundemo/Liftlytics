@@ -13,10 +13,10 @@ export const Progressbar = ({value, label}:ProgressBarProps) => {
     return (
         <div className="progress-wrapper">
             <div className="progress-label">
-                <span>{label}</span>
+                <span className={'text-base '} style={{color: 'var(--color-text-muted)'}}>{label}</span>
             </div>
             <div className="progress-bar-bg">
-                <span>{value}%</span>
+                <span className={'text-base font-bold '} style={{color: 'var(--color-text)'}}>{value}%</span>
                 <div className="progress-bar-fill" style={{ width: `${value}%` }} />
             </div>
         </div>

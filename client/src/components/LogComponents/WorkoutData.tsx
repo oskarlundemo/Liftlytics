@@ -1,6 +1,6 @@
 import {CustomInput} from "../MiscComponents/CustomInput.tsx";
-import {CustomTimePicker} from "./CustomTimePicker.tsx";
-import {CustomTextarea} from "./CustomTextarea.tsx";
+import {CustomTimePicker} from "../MiscComponents/CustomTimePicker.tsx";
+import {CustomTextarea} from "../MiscComponents/CustomTextarea.tsx";
 import {BodyWeight} from "./BodyWeight.tsx";
 import '../../styles/Workout/Workout.css';
 
@@ -84,6 +84,7 @@ export const WorkoutData = ({
                 <CustomTextarea
                     notes={notes}
                     setNotes={setNotes}
+                    maxInput={1000}
                 />
 
             </section>

@@ -94,8 +94,6 @@ export const MonthlyVolumeWidget = ({ boxIndex }: WeeklyVolumeProps) => {
             ))
             )}
 
-
-
             <h4 style={{color: 'var(--color-text-muted)'}} className={'text-base text-center font-extrabold'}>Sets per muscle / month</h4>
         </div>
     );

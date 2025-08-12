@@ -28,7 +28,6 @@ export const AvgTimeWidget = ({boxIndex, avgTime}: AvgTimeWidgetProps) => {
         const overflowingMinutes  = Math.floor((minutes/60) % 60);
 
         return `${hours} h ${Math.round(overflowingMinutes)} m`;
-
     }
 
     return (

@@ -1,9 +1,10 @@
-import {CartesianGrid, Legend, AreaChart, Area, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
+import { Legend, AreaChart, Area, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from 'react-router-dom';
 import {useFetchDetails} from "../hooks/statsHook.ts";
 import {LoadingPage} from "../components/MiscComponents/LoadingPage.tsx";
 import {CustomTooltip} from "../components/MiscComponents/CustomToolTip.tsx";
+import '../index.css'
 
 
 export const ExerciseStats = ({}) => {
@@ -12,7 +13,7 @@ export const ExerciseStats = ({}) => {
     const { 'exercise-name': exerciseName, 'exercise-id': exerciseId } = useParams();
     const [selectedReps, setSelectedReps] = useState<{ [repsKey: string]: any[] }>({});
 
-    const {data, isLoading} = useFetchDetails(encodeURIComponent(exerciseName), encodeURIComponent(exerciseId))
+    const {data, isLoading, error} = useFetchDetails(encodeURIComponent(exerciseName), encodeURIComponent(exerciseId))
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -75,24 +76,34 @@ export const ExerciseStats = ({}) => {
                 {isLoading ? (
                     <LoadingPage />
                 ) : exerciseData ? (
-                    <>
+                    <div className="flex relative flex-col w-full align-middle justify-center">
                         <section style={{ flex: 1, minHeight: '300px' }}>
-                            <ResponsiveContainer width="100%" height={400}>
+
+                            <ResponsiveContainer
+                                className={'my-chart'}
+                                width="100%"
+                                height={400}
+                                style={{ border: 'none', outline: 'none' }}>
+
                                 <AreaChart>
-                                    <CartesianGrid strokeDasharray="3 3" />
+
                                     <XAxis
+                                        axisLine={true}
                                         dataKey="startDate"
                                         type="category"
                                         ticks={allDates}
+                                        interval={0}
                                         tickFormatter={(date) => {
                                             const d = new Date(date);
                                             return `${d.getDate()}/${d.getMonth() + 1}`;
                                         }}
                                     />
-                                    <YAxis label={{ value: 'Weight (kg)', angle: -90, position: 'insideLeft' }} />
+                                    <YAxis axisLine={true}  label={{ value: 'Weight (kg)', angle: -90, position: 'insideLeft' }} />
+
                                     <Tooltip
                                         content={<CustomTooltip/>}
                                     />
+
                                     <Legend />
 
                                     {Object.entries(selectedReps).map(([repsKey, data], index) => (
@@ -103,41 +114,50 @@ export const ExerciseStats = ({}) => {
                                             dataKey="weight"
                                             stroke={lineColors[index % lineColors.length]}
                                             fill={lineColors[index % lineColors.length]}
-                                            fillOpacity={0.3} // makes overlapping easier to read
+                                            fillOpacity={0.3}
                                             name={`${repsKey} reps`}
-                                            connectNulls
                                         />
                                     ))}
                                 </AreaChart>
                             </ResponsiveContainer>
                         </section>
 
+                        {Object.keys(exerciseData).length === 0 && (
 
+                            <div className="absolute top-1/2 left-1/2 flex flex-row gap-5 align-middle justify-center -translate-x-1/2 -translate-y-1/2" >
+                                <h4
+                                    style={{ color: 'var(--color-text-muted)'}}
+                                    className="text-2xl"
+                                >
+                                    No data recorded yet
+                                </h4>
 
-                        {exerciseData && (
-                            <div className="flex flex-row m-auto gap-5 p-5">
-                                {Object.entries(exerciseData).map(([repsKey, repsData], index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => {
-                                            handleClick(repsKey, repsData);
-                                        }}
-                                        className={`button-intellij ${selectedReps[repsKey] ? 'active-button' : ''}`}
-                                   >
-                                        {repsKey} reps
-                                    </button>
-                                ))}
+                                <svg style={{fill: 'var(--color-text-muted)'}} className={'my-auto'} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M160-160v-440h160v440H160Zm240 0v-400l160 160v240H400Zm160-354L400-674v-126h160v286Zm240 240L640-434v-6h160v166Zm-9 219L55-791l57-57 736 736-57 57Z"/></svg>
+
                             </div>
+
                         )}
 
-                    </>
+                        <div className="flex flex-row m-auto gap-5 p-5">
+                            {Object.entries(exerciseData).map(([repsKey, repsData], index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => {
+                                        handleClick(repsKey, repsData);
+                                    }}
+                                    className={`button-intellij ${selectedReps[repsKey] ? 'active-button' : ''}`}
+                                >
+                                    {repsKey} reps
+                                </button>
+                            ))}
+                        </div>
+                    </div>
                 ) : (
                     <h4 style={{ color: 'var(--color-text-muted)' }} className="flex align-middle m-auto text-color-muted">
-                        No data recorded yet
+                        Error loading data: {error.message || 'Server error'}
                     </h4>
                 )}
             </main>
         </div>
     );
-
 }

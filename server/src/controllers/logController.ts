@@ -274,6 +274,12 @@ export const updateWorkout = async (req: AuthenticatedRequest, res: Response) =>
             exercises
         } = req.body;
 
+        if (notes.length > 1000) {
+            return res.status(400).json({
+                success: false,
+                message: 'Notes exceed allowed length'
+            });
+        }
 
         const updatedWorkout = await prisma.workout.update({
             data: {
@@ -439,7 +445,12 @@ export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
         } = req.body;
 
 
-        console.log(req.body);
+        if (notes.length > 1000) {
+            return res.status(400).json({
+                success: false,
+                message: 'Notes exceed allowed length'
+            });
+        }
 
         const newWorkout = await prisma.workout.create({
             data: {

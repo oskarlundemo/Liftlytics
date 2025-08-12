@@ -14,7 +14,6 @@ type CheckedCalenderProps = {
 
 export const CheckedCalender = ({boxIndex}: CheckedCalenderProps) => {
 
-
     const {checkedCalenderDates} = useStatsContext();
 
     return (
@@ -30,8 +29,9 @@ export const CheckedCalender = ({boxIndex}: CheckedCalenderProps) => {
                 disabled
                 modifiers={{ highlighted: checkedCalenderDates.map(d => new Date(d.startDate)) }}
                 modifiersClassNames={{ highlighted: 'highlighted-day' }}
+                className={'dp-full-width'}
+                wrapperClassName={'dp-full-width'}
             />
-
 
             <h3 className={'!text-sm text-center'}style={{color: 'var(--color-text-muted)'}}>Every dot is a completed workout</h3>
         </div>
