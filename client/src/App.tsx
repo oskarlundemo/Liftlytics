@@ -5,7 +5,6 @@ import {PrivateRoute} from "./contexts/PrivateRoute.tsx";
 
 import './App.css'
 import {Toaster} from "react-hot-toast";
-import {Home} from "./pages/Home.tsx";
 import {LogPage} from "./pages/LogPage.tsx";
 import {ProfilePage} from "./pages/ProfilePage.tsx";
 import {StatsPage} from "./pages/StatsPage.tsx";
@@ -33,17 +32,6 @@ function App() {
                     path="/"
                     element={
                             <LandingPage/>
-                    }
-                />
-
-
-
-                <Route
-                    path="/home"
-                    element={
-                        <PrivateRoute>
-                            <Home />
-                        </PrivateRoute>
                     }
                 />
 

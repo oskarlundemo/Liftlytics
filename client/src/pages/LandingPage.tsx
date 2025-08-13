@@ -3,6 +3,9 @@
 import {LandingHeader} from "../components/LandingPageComponents/LandingHeader.tsx";
 import {Carousel} from '../components/LandingPageComponents/Carousel.tsx'
 import '../styles/LandingPage/Landing.css'
+import {LogUsp} from '../components/LandingPageComponents/LogUsp.tsx'
+import {ProgressUsp} from "../components/LandingPageComponents/ProgressUsp.tsx";
+import {ChartUsp} from "../components/LandingPageComponents/ChartUsp";
 
 export const LandingPage = () => {
 
@@ -49,7 +52,7 @@ export const LandingPage = () => {
             }
         ];
 
-
+        const allReviews = [...reviews, ...reviews];
 
     return (
 
@@ -57,22 +60,30 @@ export const LandingPage = () => {
 
             <LandingHeader />
 
+            <div className={'landing-page'}>
 
+                <main className={'landing-page-main'}>
 
-            <main className={'landing-page'}>
+                    <LogUsp/>
 
+                    <ChartUsp/>
+
+                    <ProgressUsp/>
+
+                </main>
+
+            </div>
+
+            <footer className={'footer'}>
                 <Carousel>
-                    {reviews.map((review, index) => (
+                    {allReviews.map((review, index) => (
                         <div className={'flex flex-col gap-5 review-card'} key={index}>
-                            <p>"{review.comment}"</p>
+                            <p className={'text-l'}>"{review.comment}"</p>
                             <h3 style={{color: 'var(--color-text-muted)'}} className={'text-base'}>- {review.name}</h3>
                         </div>
                     ))}
                 </Carousel>
-
-
-
-            </main>
+            </footer>
 
         </div>
     )
