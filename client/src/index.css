@@ -34,8 +34,8 @@
     --color-text-muted: hsl(240, 5%, 65%);
 
     /* Primary Theme Colors */
-    --color-primary: hsl(280, 60%, 75%);
-    --color-primary-light: hsl(280, 60%, 85%);
+    --color-primary: hsl(275, 55%, 45%);
+    --color-primary-light: hsl(275, 50%, 55%);
     --color-secondary: hsl(195, 100%, 75%);
     --color-accent: hsl(195, 100%, 75%);
 
@@ -81,8 +81,6 @@
     --default-box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.1),
     0 4px 6px hsla(0, 0%, 0%, 0.05);
 }
-
-
 
 #root, html, body, .App {
   width: 100%;

@@ -7,6 +7,7 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
+    overflow-y: scroll;
 }
 
 
@@ -15,6 +16,27 @@
     margin: 0 auto;
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    background-color: var(--color-bg) !important;
+}
+
+
+.landing-page-main {
+    gap: 5rem;
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+    border-radius: 25px;
+    border: 1px solid red;
+    height: 100%;
+
+    section {
+
+    }
 }
 
 
@@ -24,12 +46,21 @@
 }
 
 .review-card {
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-    background-color: var(--color-surface);
     padding: 0.5rem 1rem;
+
+    p {
+        text-align: center;
+        letter-spacing: 0.02rem;
+    }
 
     h3 {
         text-align: right;
+        font-style: italic;
     }
+}
+
+.review-card {
+    min-width: 250px;
+    padding: 1rem;
+    flex-shrink: 0;
 }
