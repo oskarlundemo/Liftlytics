@@ -14,29 +14,25 @@
 .landing-page {
     max-width: var(--max-context-width);
     margin: 0 auto;
-    width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    background-color: var(--color-bg) !important;
+    width: 100%;
 }
 
 
 .landing-page-main {
     gap: 5rem;
-    padding: 1rem 2rem;
+    padding: 4rem 2rem;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    overflow: hidden;
+    width: 100%;
     border-radius: 25px;
-    border: 1px solid red;
-    height: 100%;
-
-    section {
-
-    }
+    border: 1px var(--color-border);
+    background-color: var(--color-surface);
+    overflow: hidden;
+    box-shadow: var(--default-box-shadow)
 }
 
 
