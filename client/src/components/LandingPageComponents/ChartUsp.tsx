@@ -1,16 +1,24 @@
 
 
 import '../../styles/LandingPage/Usps.css'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
-import {Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
+import {Area, AreaChart, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis} from "recharts";
 
 
 export const ChartUsp = () => {
 
-
     const [showWeight, setShowWeight] = useState<boolean>(false);
 
+    const repsData = [
+        { date: '2025-08-01', r12: 120, r5: 150, r1: 200 },
+        { date: '2025-08-03', r12: 118, r5: 153, r1: 202 },
+        { date: '2025-08-05', r12: 122, r5: 158, r1: 207 },
+        { date: '2025-08-07', r12: 116, r5: 162, r1: 210 },
+        { date: '2025-08-09', r12: 121, r5: 168, r1: 208 },
+        { date: '2025-08-11', r12: 119, r5: 165, r1: 212 },
+        { date: '2025-08-13', r12: 123, r5: 170, r1: 215 }
+    ];
 
     const weightData = [
         { date: '2025-08-01', weight: 60.4 },
@@ -21,89 +29,140 @@ export const ChartUsp = () => {
         { date: '2025-09-13', weight: 59.3 }
     ];
 
+    useEffect(() => {
+        setTimeout(() => {
+            setShowWeight(!showWeight);
+        }, 5000)
+    }, [showWeight]);
+
+
     const areaColor = [
         getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim(),
     ];
 
-
     return (
         <section className="chart-usp usp">
-
+            {/* Text Section */}
             <div className="text-container items-center flex w-1/2">
-                <span className={'mr-auto'}>2</span>
-
+                <span className="mr-auto">2</span>
                 <h2>Own Your Numbers</h2>
-
                 <p>
                     Your body tells a story — track it all. From daily weigh-ins to strength milestones, see your
                     performance come to life in real-time data that keeps you motivated and accountable.
                 </p>
             </div>
 
+            {/* Chart Section */}
+            <div className="motion-wrapper overflow-hidden">
+                <AnimatePresence initial={false}>
+                    {showWeight ? (
+                        <motion.div
+                            className="motion w-full"
+                            key="weight"
+                            initial={{ x: 300, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            exit={{ x: -300, opacity: 0 }}
+                            transition={{ duration: 0.7, ease: "easeInOut" }}
+                        >
+                            <div style={{ flex: 1, minHeight: '300px', height: '400px' }}>
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <AreaChart data={weightData}>
+                                        <XAxis
+                                            dataKey="date"
+                                            tickFormatter={(dateStr) => {
+                                                const date = new Date(dateStr);
+                                                return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}`;
+                                            }}
+                                        />
+                                        <YAxis
+                                            label={{
+                                                value: 'Body weight (kg)',
+                                                angle: -90,
+                                                position: 'insideLeft',
+                                                offset: 10,
+                                                style: { textAnchor: 'middle', fill: '#555' }
+                                            }}
+                                        />
+                                        <Area
+                                            type="monotone"
+                                            dataKey="weight"
+                                            stroke={areaColor}
+                                            fill={areaColor}
+                                            activeDot={false}
+                                        />
+                                    </AreaChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </motion.div>
+                    ) : (
+                        <motion.div
+                            className="motion w-full"
+                            key="deadlift"
+                            initial={{ x: 300, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            exit={{ x: -300, opacity: 0 }}
+                            transition={{ duration: 0.7, ease: "easeInOut" }}
+                        >
 
-            <div className={'motion-wrapper overflow-hidden'}>
-            <AnimatePresence initial={false}>
-                {showWeight ? (
-                    <motion.div
-                        className="motion"
-                        key="login"
-                        initial={{ x: 0, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        exit={{ x: 300, opacity: 0 }}
-                        transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-                    >
-                        <div style={{ flex: 1, minHeight: '300px', height: '400px' }}>
-                            <ResponsiveContainer className={'outline-0'} width="100%" height="100%">
-                                <AreaChart data={weightData}>
-                                    <XAxis dataKey="date"
-                                           tickFormatter={(dateStr) => {
-                                               const date = new Date(dateStr);
-                                               const day = date.getDate();
-                                               const month = date.toLocaleString('default', { month: 'short' });
-                                               return `${day} ${month}`;
-                                           }}
-                                    />
-                                    <YAxis
-                                        label={{
-                                            value: 'Body weight (kg)',
-                                            angle: -90,
-                                            position: 'insideLeft',
-                                            offset: 10,
-                                            style: { textAnchor: 'middle', fill: '#555' }
-                                        }}
-                                    />
+                            <div style={{ flex: 1, minHeight: '300px', height: '400px' }}>
 
-                                    <Area
-                                        type="monotone"
-                                        dataKey="weight"
-                                        stroke={areaColor}
-                                        fill={areaColor}
-                                        activeDot={false }
-                                    />
-                                </AreaChart>
-                            </ResponsiveContainer>
-                        </div>
-                    </motion.div>
-                ) : (
-                    <motion.div
-                        className="motion w-1/2 h-full"
-                        custom={showWeight}
-                        initial={{ x: 300, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        exit={{ x: -300, opacity: 0 }}
-                        transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-                    >
-                        <p  onClick={() => setShowWeight(true)}>Reps</p>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                                <ResponsiveContainer width="100%" height="100%">
 
+                                    <LineChart data={repsData}>
+
+                                        <XAxis
+                                            dataKey="date"
+                                            tickFormatter={(dateStr) => {
+                                                const date = new Date(dateStr);
+                                                return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}`;
+                                            }}
+                                        />
+
+                                        <YAxis
+                                            label={{
+                                                value: 'Weight (kg)',
+                                                angle: -90,
+                                                position: 'insideLeft',
+                                                offset: 10,
+                                                style: { textAnchor: 'middle', fill: '#555' }
+                                            }}
+                                        />
+
+                                        <Line
+                                            type="monotone"
+                                            dataKey="r1"
+                                            stroke="hsl(195, 100%, 75%)"
+                                            name="1 rep"
+                                            activeDot={false}
+                                        />
+
+                                        <Line
+                                            type="monotone"
+                                            dataKey="r5"
+                                            stroke="hsl(275, 50%, 55%)"
+                                            name="5 reps"
+                                            activeDot={false}
+                                        />
+                                        <Line
+                                            type="monotone"
+                                            dataKey="r12"
+                                            stroke="hsl(275, 55%, 45%)"
+                                            name="12 reps"
+                                            activeDot={false}
+                                        />
+
+                                        <Legend />
+
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
+
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
-
-            <button className={'button-intellij'} onClick={() => setShowWeight(!showWeight)}>Animate</button>
-
-
         </section>
     );
+
 
 }

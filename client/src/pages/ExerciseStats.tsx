@@ -98,6 +98,7 @@ export const ExerciseStats = ({}) => {
                                             return `${d.getDate()}/${d.getMonth() + 1}`;
                                         }}
                                     />
+
                                     <YAxis axisLine={true}  label={{ value: 'Weight (kg)', angle: -90, position: 'insideLeft' }} />
 
                                     <Tooltip
