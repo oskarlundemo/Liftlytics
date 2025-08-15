@@ -82,8 +82,7 @@
     }
 }
 
-.log-usp {
-
+.log-usp, .custom-usp {
     img {
         max-height: 600px;
         height: 100%;
@@ -91,9 +90,14 @@
     }
 }
 
+.custom-usp {
+    flex-direction: row-reverse;
+}
+
 .chart-usp {
     width: 100%;
     min-height: 400px;
+    flex-direction: row-reverse;
 }
 
 .motion-wrapper {

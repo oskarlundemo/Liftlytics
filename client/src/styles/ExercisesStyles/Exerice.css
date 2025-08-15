@@ -33,6 +33,7 @@
 .exercise-form {
     max-width: var(--max-context-width);
     margin: 0 auto;
+    width: 100%;
 }
 
 

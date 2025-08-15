@@ -19,7 +19,7 @@ export const CreateConfigureForm = ({setShowCreateMenu, handleCreateExercise, ha
 
     useEffect(() => {
         setMaxLength(exerciseName.length);
-        setDisabledButton(!(exerciseName.length <= nameMaxLenght && exerciseName.trim().length > 0 && (categoryId.trim().length > 0 || true)));
+        setDisabledButton(!(exerciseName.length <= nameMaxLenght && exerciseName.trim().length > 0 && (categoryId.trim().length > 0 || !muscleGroups)));
     }, [exerciseName, categoryId]);
 
     const handleSubmit = (e) => {
@@ -67,7 +67,7 @@ export const CreateConfigureForm = ({setShowCreateMenu, handleCreateExercise, ha
                         value={exerciseName}
                         setState={setExerciseName}
                         name={exerciseName}
-                        placeholder="Give your exercise a name"
+                        placeholder={'Give it a name...'}
                         example={'Name'}
                         keyDownAction={(e) => handleKeyDown(e)}
                     />

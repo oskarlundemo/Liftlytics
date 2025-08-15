@@ -60,3 +60,34 @@
     padding: 1rem;
     flex-shrink: 0;
 }
+
+
+
+@media screen and (max-width: 800px) {
+
+
+
+    .motion-wrapper {
+        display: flex;
+        flex-grow: 1;
+        width: 100% !important;
+    }
+
+
+    .header-wrapper {
+        padding: 1rem;
+    }
+
+    .header-images {
+        display: none;
+    }
+
+    .usp {
+        flex-direction: column !important;
+        align-items: center;
+    }
+
+    .text-container {
+        width: 100%;
+    }
+}
