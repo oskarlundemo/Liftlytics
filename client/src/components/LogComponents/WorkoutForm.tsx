@@ -51,18 +51,21 @@ export const WorkoutForm = ({} ) => {
     const [notes, setNotes] = useState<string>(savedState.notes ? savedState.notes : '');
 
     useEffect(() => {
-        const workoutState = {
-            exercises,
-            workoutName,
-            startDate,
-            endDate,
-            startTime,
-            endTime,
-            notes,
-            bodyWeight,
-        };
 
-        localStorage.setItem("workoutState", JSON.stringify(workoutState));
+        if (!data?.workout) {
+            const workoutState = {
+                exercises,
+                workoutName,
+                startDate,
+                endDate,
+                startTime,
+                endTime,
+                notes,
+                bodyWeight,
+            };
+
+            localStorage.setItem("workoutState", JSON.stringify(workoutState));
+        }
 
     }, [exercises, workoutName, startDate, endDate, bodyWeight, startTime, endTime, notes]);
 
@@ -72,7 +75,6 @@ export const WorkoutForm = ({} ) => {
     useEffect(() => {
 
         if (data?.workout) {
-            console.log(data?.workout);
             const workout = data.workout;
 
             setWorkoutName(workout.name || '');
@@ -137,7 +139,7 @@ export const WorkoutForm = ({} ) => {
             transition={{ type: 'spring', stiffness: 60, damping: 20 }}
         >
             <div className="flex flex-col w-full h-full overflow-y-auto">
-            <WorkoutHeader date={startDate} />
+            <WorkoutHeader date={startDate} exercises={exercises} />
 
             <form onSubmit={handleSubmit} className="flex z-0 flex-col w-full gap-5">
                 <section className="exercise-selection-container">
@@ -173,7 +175,7 @@ export const WorkoutForm = ({} ) => {
                     <AddExcersize />
                 </section>
 
-                <button disabled={disabled} className="button-intellij" type="submit">
+                <button disabled={disabled} className="attention-button" type="submit">
                     <p style={{ margin: 0 }}>{log_id ? 'Save' : 'Create'}</p>
                 </button>
 

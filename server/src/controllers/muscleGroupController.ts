@@ -63,8 +63,6 @@ export const createMuscleGroup = async (req: AuthenticatedRequest, res: Response
             }
         });
 
-        console.log("Created muscle group:", newMuscleGroup);
-
         return res.status(201).json({
             status: "success",
             message: "Muscle group created",

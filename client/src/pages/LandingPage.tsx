@@ -7,6 +7,7 @@ import {LogUsp} from '../components/LandingPageComponents/LogUsp.tsx'
 import {CustomUsp} from "../components/LandingPageComponents/CustomUsp.tsx";
 import {ChartUsp} from "../components/LandingPageComponents/ChartUsp";
 import {LandingFooter} from "../components/LandingPageComponents/LandingFooter.tsx";
+import {FAQ} from "../components/LandingPageComponents/FAQ";
 
 export const LandingPage = () => {
 
@@ -35,6 +36,10 @@ export const LandingPage = () => {
                     </Reveal>
 
                 </main>
+
+
+                <FAQ/>
+
 
                 <LandingFooter/>
 

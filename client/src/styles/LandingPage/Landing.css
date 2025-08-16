@@ -66,6 +66,12 @@
 @media screen and (max-width: 800px) {
 
 
+    .chart-usp {
+        width: 100%;
+        min-height: 400px;
+        flex-direction: column-reverse !important;
+    }
+
 
     .motion-wrapper {
         display: flex;
@@ -83,8 +89,11 @@
     }
 
     .usp {
-        flex-direction: column !important;
         align-items: center;
+    }
+
+    .log-usp, .custom-usp {
+        flex-direction: column !important;
     }
 
     .text-container {

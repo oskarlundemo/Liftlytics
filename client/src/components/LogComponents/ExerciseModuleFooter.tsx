@@ -14,7 +14,6 @@ export const ExerciseModuleFooter = ({addSet}: ExerciseModuleFooterProps) => {
 
             <div className="exercise-module-footer-icons">
 
-
             </div>
 
         </div>

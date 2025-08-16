@@ -35,14 +35,15 @@ export const ConfigureBody = ({customData, title, setSelectedItem, setShowMenu}:
     };
 
     return (
-        <section className="w-full h-full flex flex-col">
+        <section className="w-full h-full flex flex-col flex-grow">
             <SearchBar
                 query={searchQuery}
                 setQuery={setSearchQuery}
-                placeholder="Search for an exercise..."
+                placeholder="Search..."
                 clear={() => handleClear()}
             />
 
+            <div className="flex card-cols flex-col">
             {searchQuery.trim() !== "" ? (
                 filteredResults.length > 0 ? (
                     filteredResults.map((item, index) => (
@@ -55,12 +56,14 @@ export const ConfigureBody = ({customData, title, setSelectedItem, setShowMenu}:
                         />
                     ))
                 ) : (
-                    <h2
-                        style={{ color: "var(--color-text-muted)" }}
-                        className="text-2xl m-auto"
-                    >
-                        No results found
-                    </h2>
+                    <div className="flex items-center justify-center flex-grow h-full px-4">
+                        <h2
+                            style={{ color: "var(--color-text-muted)" }}
+                            className="text-2xl bg-transparent text-center break-words my-5 w-full max-w-[600px]"
+                        >
+                            No results matched "{searchQuery}"
+                        </h2>
+                    </div>
                 )
             ) : customData.length > 0 ? (
                 customData.map((item, index) => (
@@ -80,6 +83,7 @@ export const ConfigureBody = ({customData, title, setSelectedItem, setShowMenu}:
                     {title}
                 </h2>
             )}
+            </div>
         </section>
     );
 

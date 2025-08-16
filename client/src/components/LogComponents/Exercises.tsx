@@ -36,7 +36,13 @@ export const Exercises = ({ setExercises }: ExercisesProps) => {
                                 const newEntry = {
                                     id: item.exercise.id,
                                     name: item.exercise.name || 'Unknown Exercise',
-                                    sets: [],
+                                    sets: [
+                                        {
+                                            reps: 0,
+                                            weight: 0,
+                                            notes: ''
+                                        }
+                                    ],
                                     localId: crypto.randomUUID()
                                 };
 

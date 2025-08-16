@@ -4,6 +4,90 @@ import {AuthenticatedRequest} from "../middleware/supabase";
 import { format, toZonedTime } from 'date-fns-tz';
 
 
+export const updateExerciseOrder = async (req: AuthenticatedRequest, res: Response) => {
+
+    try {
+
+        const userId = req.user.id;
+        const exercises = req.body;
+        const logId = req.params.id;
+
+
+        if (!exercises || !logId) {
+            return res.status(400).json({
+                error: 'Invalid parameters',
+            })
+        }
+
+        const isUsersWorkout = await prisma.workout.findUnique({
+            where: {
+                id: logId,
+                userId: userId,
+            }
+        })
+
+        if (!isUsersWorkout) {
+            return res.status(400).json({
+                error: 'Unauthorized action',
+            })
+        }
+
+
+
+        await prisma.$transaction(async (tx) => {
+            await tx.workoutExercise.deleteMany({
+                where: {
+                    workoutId: isUsersWorkout.id,
+                },
+            });
+
+            for (const exercise of exercises) {
+
+                const existingExercise = await prisma.strengthExercise.findUnique({
+                    where: { id: exercise.id },
+                });
+
+                if (!existingExercise) {
+                    throw new Error(`Exercise with id ${exercise.id} does not exist`);
+                }
+
+                const exerciseInWorkout = await tx.workoutExercise.create({
+                    data: {
+                        workoutId: isUsersWorkout.id,
+                        exerciseId: exercise.id,
+                    },
+                });
+
+                for (const eachSet of exercise.sets || []) {
+                    await tx.workingSetData.create({
+                        data: {
+                            workoutExerciseId: exerciseInWorkout.id,
+                            reps: eachSet.reps,
+                            weight: eachSet.weight,
+                            notes: eachSet.notes,
+                        },
+                    });
+                }
+            }
+        });
+
+        res.status(200).json({
+            message: 'Successfully updated exercise order',
+        })
+
+
+    } catch (err:any) {
+        res.status(err.statusCode || 500).json({
+            success: false,
+            message: err.message || 'Internal server error',
+            errorCode: err.code || 'UNKNOWN_ERROR',
+            details: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+        });
+    }
+
+}
+
+
 export const fetchMuscleGroups = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
