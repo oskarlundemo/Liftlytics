@@ -225,6 +225,15 @@ export const createCustomExercise = async (req: AuthenticatedRequest, res: Respo
         })
 
 
+        const newMuscleGroup = await prisma.exerciseMuscleGroup.create({
+            data: {
+                exerciseId: newExercise.id,
+                muscleGroupId: categoryId,
+            }
+        })
+
+        console.log(newExercise);
+
         const formattedExercise = await prisma.strengthExercise.findFirst({
             where: {
                 id: newExercise.id

@@ -73,6 +73,7 @@ export const ConfigureExercisesPage = ({}) => {
                     title={'Add exercise'}
                     setShowMenu={setShowCreateMenu}
                 />
+
             </main>
 
             <SlideInBottomMenu height={'50%'} showMenu={showCreateMenu}>

@@ -42,9 +42,9 @@ export const ChartUsp = () => {
 
     return (
         <section className="chart-usp usp">
-            {/* Text Section */}
+
             <div className="text-container items-center flex w-1/2">
-                <span className="mr-auto">2</span>
+                <span className="mr-auto">3</span>
                 <h2>Own Your Numbers</h2>
                 <p>
                     Your body tells a story — track it all. From daily weigh-ins to strength milestones, see your
@@ -52,7 +52,7 @@ export const ChartUsp = () => {
                 </p>
             </div>
 
-            {/* Chart Section */}
+
             <div className="motion-wrapper overflow-hidden">
                 <AnimatePresence initial={false}>
                     {showWeight ? (
@@ -64,7 +64,7 @@ export const ChartUsp = () => {
                             exit={{ x: -300, opacity: 0 }}
                             transition={{ duration: 0.7, ease: "easeInOut" }}
                         >
-                            <div style={{ flex: 1, minHeight: '300px', height: '400px' }}>
+                            <div style={{ flex: 1, minHeight: '300px', width: '100%', height: '400px' }}>
                                 <ResponsiveContainer width="100%" height="100%">
                                     <AreaChart data={weightData}>
                                         <XAxis
@@ -105,9 +105,7 @@ export const ChartUsp = () => {
                         >
 
                             <div style={{ flex: 1, minHeight: '300px', height: '400px' }}>
-
                                 <ResponsiveContainer width="100%" height="100%">
-
                                     <LineChart data={repsData}>
 
                                         <XAxis
@@ -156,7 +154,6 @@ export const ChartUsp = () => {
                                     </LineChart>
                                 </ResponsiveContainer>
                             </div>
-
                         </motion.div>
                     )}
                 </AnimatePresence>

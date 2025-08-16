@@ -51,7 +51,19 @@ export const MenuHeader = ({search = false,
                             <svg className={`hover-svg`} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/></svg>
                         ))
                     ) : (
-                        <span>Cancel</span>
+                        <span
+                            className={`subtle-grey-button !hover-text`}
+                            style={{
+                                alignSelf: 'center',
+                                justifySelf: 'center',
+                            }}
+                            type="button"
+                            onClick={() => {
+                                setShowCustomExerciseMenu(true);
+                            }}
+                        >
+                            Cancel
+                        </span>
                     )}
 
                 </button>
@@ -60,7 +72,7 @@ export const MenuHeader = ({search = false,
 
                 {addExercise && (
                     <button
-                        className={`transparent-btn hover-text`}
+                        className={`subtle-grey-button hover-text`}
                         style={{
                             alignSelf: 'center',
                             justifySelf: 'center',

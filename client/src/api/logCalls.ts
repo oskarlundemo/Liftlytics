@@ -44,7 +44,16 @@ export const getLogById = async (id: string) => {
 }
 
 
+export const updateExerciseOrder = async (exercises: object, id: string) => {
+    const res = await axiosInstance.post(`/logs/update/exercise-order/${id}`, exercises);
+    return res.data;
+}
+
+
+
+
 export const searchForExercise = async (query: string) => {
+
     if (!query || query.trim() === '') {
         return [];
     }

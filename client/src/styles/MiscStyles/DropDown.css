@@ -7,9 +7,16 @@
     overflow: hidden;
 }
 
+.card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
 .exercise-card {
     padding: 0 1rem;
     transition: var(--transition-fast);
+    font-weight: var(--font-weight-medium);
 
     &:hover {
         transform: translateX(5px);
@@ -66,5 +73,6 @@
 .dropdown-title {
     cursor: pointer;
     user-select: none;
+    font-weight: var(--font-weight-semi-bold);
 }
 

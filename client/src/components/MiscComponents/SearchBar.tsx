@@ -28,7 +28,7 @@ export const SearchBar = ({query, setQuery, placeholder, clear, setInputFocus}: 
             />
 
             {clear && (
-                <span onClick={clear} style={{color: 'var(--color-text-muted)'}} className={'hover-text flex justify-center m-auto'}>Clear</span>
+                <span onClick={clear} style={{color: 'var(--color-text-muted)'}} className={'hover-text font-semibold flex justify-center m-auto'}>Clear</span>
             )}
         </div>
     )

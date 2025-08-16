@@ -7,7 +7,7 @@ import {
     fetchLogById,
     fetchLogs,
     saveWorkout,
-    searchForExercises, updateWorkout
+    searchForExercises, updateWorkout, updateExerciseOrder
 } from "../controllers/logController";
 import {authenticateUser} from "../middleware/supabase";
 
@@ -29,6 +29,7 @@ logRoute.get('/fetch/search', authenticateUser, searchForExercises);
 
 logRoute.get('/fetch/log/:id', authenticateUser, fetchLogById);
 
+logRoute.post('/update/exercise-order/:id', authenticateUser, updateExerciseOrder);
 
 
 export default logRoute;

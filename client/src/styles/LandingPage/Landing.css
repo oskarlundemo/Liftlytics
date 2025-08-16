@@ -60,3 +60,43 @@
     padding: 1rem;
     flex-shrink: 0;
 }
+
+
+
+@media screen and (max-width: 800px) {
+
+
+    .chart-usp {
+        width: 100%;
+        min-height: 400px;
+        flex-direction: column-reverse !important;
+    }
+
+
+    .motion-wrapper {
+        display: flex;
+        flex-grow: 1;
+        width: 100% !important;
+    }
+
+
+    .header-wrapper {
+        padding: 1rem;
+    }
+
+    .header-images {
+        display: none;
+    }
+
+    .usp {
+        align-items: center;
+    }
+
+    .log-usp, .custom-usp {
+        flex-direction: column !important;
+    }
+
+    .text-container {
+        width: 100%;
+    }
+}

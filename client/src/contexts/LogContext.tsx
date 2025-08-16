@@ -1,6 +1,10 @@
-import { createContext, useContext, useState } from "react";
+import {createContext, type Dispatch, useContext, useState} from "react";
 
 type LogContextType = {
+
+    isEditing: boolean,
+    setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+
     showAddExerciseMenu: boolean;
     setAddExerciseMenu: React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -42,6 +46,7 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
     const [showCustomExerciseMenu, setShowCustomExerciseMenu] = useState<boolean>(false);
     const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<object>([]);
 
+    const [isEditing, setIsEditing] = useState<boolean>(false);
     const [selectedExercises, setSelectedExercises] = useState<object>([]);
     const [muscleGroupCategories, setMuscleGroupCategories] = useState<any>([]);
 
@@ -60,6 +65,9 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 
             showDeleteMenu,
             setShowDeleteMenu,
+
+            isEditing,
+            setIsEditing,
 
             deleteLogId,
             setDeleteLogId,

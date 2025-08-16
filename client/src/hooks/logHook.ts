@@ -5,7 +5,7 @@ import {
     fetchExerciseCategories,
     fetchLogs, getLogById,
     postNewWorkout,
-    searchForExercise, updateWorkout
+    searchForExercise, updateExerciseOrder, updateWorkout
 } from '../api/logCalls.ts'
 import toast from "react-hot-toast";
 
@@ -55,6 +55,7 @@ export const useDeleteLog = () => {
     });
 };
 
+
 export const usePostWorkout = () => {
     return useMutation({
         mutationFn: postNewWorkout,
@@ -92,6 +93,25 @@ export const useUpdateWorkout = (id: string) => {
         },
     });
 };
+
+
+export const useUpdateExercise = (id: string) => {
+    return useMutation({
+        mutationFn: (exercises:any) => updateExerciseOrder(exercises, id),
+        onMutate: () => {
+            toast.loading('Updating workout...');
+        },
+        onSuccess: () => {
+            toast.dismiss();
+            toast.success('Exercises was successfully updated!');
+        },
+        onError: () => {
+            toast.dismiss();
+            toast.error('Error updating workout');
+        },
+    });
+}
+
 
 
 export const useFetchLogById = (id: string) => {

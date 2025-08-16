@@ -58,6 +58,7 @@ export const WorkoutData = ({
                     value={workoutName}
                     name="workoutName"
                     isRequired={false}
+                    maxLength={100}
                 />
 
                 <CustomTimePicker

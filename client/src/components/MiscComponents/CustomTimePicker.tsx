@@ -36,6 +36,7 @@ export const CustomTimePicker = ({title, setTime, time, setDate, date}:CustomTim
                 disableClock={true}
                 clearIcon={null}
                 clockIcon={null}
+                format="HH:mm"
             />
         </div>
     );
