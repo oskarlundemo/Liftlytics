@@ -171,6 +171,7 @@ export const ExerciseModule = ({id, title, sets, localId, updateSets, exercises,
                     ))}
 
                     <ExerciseModuleFooter addSet={addSet} />
+
                 </div>
 
             </div>

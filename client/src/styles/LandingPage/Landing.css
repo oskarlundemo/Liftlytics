@@ -21,6 +21,15 @@
 }
 
 
+.author-credentials {
+    margin: 10rem 0 2rem 0;
+    svg {
+        fill: var(--color-text-muted);
+    }
+
+}
+
+
 .landing-page-main {
     gap: 5rem;
     padding: 4rem 2rem;
