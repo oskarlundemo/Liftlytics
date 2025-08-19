@@ -35,7 +35,7 @@ export const ConfigureBody = ({customData, title, setSelectedItem, setShowMenu}:
     };
 
     return (
-        <section className="w-full h-full flex flex-col flex-grow">
+        <section className="w-full gap-5 h-full flex flex-col flex-grow">
             <SearchBar
                 query={searchQuery}
                 setQuery={setSearchQuery}
