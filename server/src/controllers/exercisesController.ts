@@ -3,13 +3,35 @@ import { Response } from 'express';
 import {prisma} from "../clients/prismaClient";
 
 
-export const fetchCustomExercises = async (req: AuthenticatedRequest, res: Response) => {
 
+
+/**
+ * 1. What does the function do?
+ *
+ * 2. What inputs does it expect?
+ *
+ * 3. What outputs or results does it return?
+ */
+
+
+/**
+ * 1. This functions is used for loading the users custom exercises that they have created
+ *
+ * 2. It expects the users token to be passed in by the middleware
+ *
+ * 3. It returns an object containing all the custom exercises and muscle groups
+ *
+ * @param req
+ * @param res
+ */
+
+export const fetchCustomExercises = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
 
-        const userId = req.user.id;
+        const userId = req.user.id; // Get the id from the token
 
+        // Find all the exercises that the user has created
         const customExercises = await prisma.strengthExercise.findMany({
             where: {
                 userId: userId,
@@ -34,7 +56,22 @@ export const fetchCustomExercises = async (req: AuthenticatedRequest, res: Respo
             }
         });
 
-        const allMuscleGroups = await prisma.muscleGroup.findMany()
+
+        const allMuscleGroups = await prisma.muscleGroup.findMany({
+            where: {
+                OR: [
+                    { userId: userId },
+                    { isDefault: true }
+                ]
+            }
+        })
+
+
+        console.log(allMuscleGroups)
+
+
+
+        // Send all the musclegroups
 
         res.status(200).json({
             status: 'success',

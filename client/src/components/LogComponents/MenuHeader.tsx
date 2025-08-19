@@ -59,7 +59,7 @@ export const MenuHeader = ({search = false,
                             }}
                             type="button"
                             onClick={() => {
-                                setShowCustomExerciseMenu(true);
+                                setShowCustomExerciseMenu(false);
                             }}
                         >
                             Cancel

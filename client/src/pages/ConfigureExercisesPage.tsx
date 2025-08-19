@@ -29,6 +29,7 @@ export const ConfigureExercisesPage = ({}) => {
         if (exerciseData) {
             setCustomExercises(exerciseData.customExercises);
             setAllMuscleGroups(exerciseData.allMuscleGroup);
+            console.log( );
         }
     }, [exerciseData, isLoading]);
 
