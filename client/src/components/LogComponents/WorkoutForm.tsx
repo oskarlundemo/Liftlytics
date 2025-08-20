@@ -102,8 +102,8 @@ export const WorkoutForm = ({} ) => {
     }, [data]);
 
     useEffect(() => {
-        setDisabled(exercises.length === 0);
-    }, [exercises]);
+        setDisabled(exercises.length === 0 || workoutName.length > 100 || notes.length > 1000 || bodyWeight?.toString().length > 5);
+    }, [exercises, workoutName, notes, bodyWeight]);
 
     const { mutate: submitWorkout} = usePostWorkout();
     const { mutate: updateWorkout } = useUpdateWorkout(log_id!);
@@ -143,6 +143,7 @@ export const WorkoutForm = ({} ) => {
 
             <form onSubmit={handleSubmit} className="flex z-0 flex-col w-full gap-5">
                 <section className="exercise-selection-container">
+
                     <WorkoutData
                         workoutName={workoutName}
                         setWorkoutName={setWorkoutName}
