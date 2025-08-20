@@ -4,21 +4,43 @@ import {AuthenticatedRequest} from "../middleware/supabase";
 import { format, toZonedTime } from 'date-fns-tz';
 
 
+/**
+ * 1. What does the function do?
+ *
+ * 2. What inputs does it expect?
+ *
+ * 3. What outputs or results does it return?
+ */
+
+
+/**
+ * 1. This function updates the order that a user has set for their exercise
+ *
+ * 2. It expects token, an array of all the exercises and the id of the workout
+ *
+ * 3. It returns a success or error message
+ *
+ * @param req
+ * @param res
+ */
+
 export const updateExerciseOrder = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
 
-        const userId = req.user.id;
-        const exercises = req.body;
-        const logId = req.params.id;
+        const userId = req.user.id; // Token
+        const exercises = req.body; // Get the exercises from the body
+        const logId = req.params.id; // Get the id of the log
 
 
+        // If any input is missing return
         if (!exercises || !logId) {
             return res.status(400).json({
                 error: 'Invalid parameters',
             })
         }
 
+        // Make sure that it is the users workout
         const isUsersWorkout = await prisma.workout.findUnique({
             where: {
                 id: logId,
@@ -26,31 +48,37 @@ export const updateExerciseOrder = async (req: AuthenticatedRequest, res: Respon
             }
         })
 
+        // If not users workout they are changing, return
         if (!isUsersWorkout) {
             return res.status(400).json({
                 error: 'Unauthorized action',
             })
         }
 
-
-
+        // Start a transaction so either all succeed or fail
         await prisma.$transaction(async (tx) => {
+
+            // Delete all the old records
             await tx.workoutExercise.deleteMany({
                 where: {
                     workoutId: isUsersWorkout.id,
                 },
             });
 
+            // For each exercise in the array of exercises
             for (const exercise of exercises) {
 
+                // Check that it exists
                 const existingExercise = await prisma.strengthExercise.findUnique({
                     where: { id: exercise.id },
                 });
 
+                // If the exericse does not exist, return
                 if (!existingExercise) {
                     throw new Error(`Exercise with id ${exercise.id} does not exist`);
                 }
 
+                // Add the exercise to the workout
                 const exerciseInWorkout = await tx.workoutExercise.create({
                     data: {
                         workoutId: isUsersWorkout.id,
@@ -58,6 +86,7 @@ export const updateExerciseOrder = async (req: AuthenticatedRequest, res: Respon
                     },
                 });
 
+                // For each set of the exercise, add it
                 for (const eachSet of exercise.sets || []) {
                     await tx.workingSetData.create({
                         data: {
@@ -71,29 +100,40 @@ export const updateExerciseOrder = async (req: AuthenticatedRequest, res: Respon
             }
         });
 
+        // Exercise was successfully updated
         res.status(200).json({
             message: 'Successfully updated exercise order',
         })
 
 
     } catch (err:any) {
+        console.error(err);
         res.status(err.statusCode || 500).json({
             success: false,
-            message: err.message || 'Internal server error',
-            errorCode: err.code || 'UNKNOWN_ERROR',
-            details: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+            message: err.message || 'Internal server while updating exercise order ',
+            errorCode: err.code,
         });
     }
 
 }
 
 
+/**
+ * 1. This function returns all the musclegroups that the user has created or are default
+ *
+ * 2. The token from the user
+ *
+ * 3. Returns an array containg all the muscle groups that are either default or created by the user
+ */
+
+
 export const fetchMuscleGroups = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
 
-        const userId = req.user.id;
+        const userId = req.user.id; // Token
 
+        // Fetch all the muscle groups that are either default or created by the user
         const muscleGroups = await prisma.muscleGroup.findMany({
             include: {
                 exercises: {
@@ -115,6 +155,7 @@ export const fetchMuscleGroups = async (req: AuthenticatedRequest, res: Response
             }
         });
 
+        // Return all the muscle groups
         res.status(200).json({
             muscleGroups,
             message: 'Muscle groups retrieved successfully'
@@ -122,27 +163,39 @@ export const fetchMuscleGroups = async (req: AuthenticatedRequest, res: Response
 
     } catch (err: any) {
         console.error(err);
-
         res.status(err.statusCode || 500).json({
             success: false,
-            message: err.message || 'Internal server error',
+            message: err.message || 'Internal server error while fetching muscle groups',
             errorCode: err.code || 'UNKNOWN_ERROR',
-            details: process.env.NODE_ENV === 'development' ? err.stack : undefined,
         });
     }
 }
+
+
+/**
+ * 1. What does the function do?
+ *    This function returns all the exercise logs that the user has created
+ *
+ * 2. What inputs does it expect?
+ *    It expects the user to provide their token
+ *
+ * 3. What outputs or results does it return?
+ *    An array containing all the logs (objects)
+ */
+
 
 
 export const fetchLogs = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
 
+        // Find all the logs matching the user id
         const logs = await prisma.workout.findMany({
             where: {
                 userId: req.user.id,
             },
             orderBy: {
-                startDate: 'desc',
+                startDate: 'desc', // Sort them descending
             },
             include: {
                 exercises: {
@@ -154,9 +207,10 @@ export const fetchLogs = async (req: AuthenticatedRequest, res: Response) => {
             },
         });
 
-
+        // Adjust timezone
         const timeZone = 'Europe/Stockholm';
 
+        // Group them by month
         const groupedByMonth = Object.groupBy(logs, item => {
             const localDate = toZonedTime(item.startDate, timeZone);
             return format(localDate, 'yyyy-MM');
@@ -168,6 +222,7 @@ export const fetchLogs = async (req: AuthenticatedRequest, res: Response) => {
 
         const sortedGroupedByMonth = Object.fromEntries(sortedGroupedByMonthEntries);
 
+        // Success, send data to front end
         res.status(200).json({
             logs,
             message: 'Logs retrieved successfully',
@@ -184,13 +239,27 @@ export const fetchLogs = async (req: AuthenticatedRequest, res: Response) => {
 }
 
 
+/**
+ * 1. What does the function do?
+ *    This function deletes exercise logs
+ *
+ * 2. What inputs does it expect?
+ *    The id of the log and the token from the user
+ *
+ * 3. What outputs or results does it return?
+ *    Just a success or error message
+ */
+
+
+
 export const deleteLog = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
 
-        const logId = req.params.id;
-        const userId = req.user.id;
+        const logId = req.params.id; // Id of the log
+        const userId = req.user.id;  // Id of the user
 
+        // If log id is missing, fail fast
         if (!logId) {
             res.status(400).json({
                 success: false,
@@ -198,6 +267,7 @@ export const deleteLog = async (req: AuthenticatedRequest, res: Response) => {
             })
         }
 
+        // Make sure the exercise is the users
         const isUserWorkout = await prisma.workout.findUnique({
             where: {
                 id: logId,
@@ -205,6 +275,7 @@ export const deleteLog = async (req: AuthenticatedRequest, res: Response) => {
             }
         })
 
+        // If it aint their workout, return
         if (!isUserWorkout) {
             res.status(403).json({
                 success: false,
@@ -212,7 +283,7 @@ export const deleteLog = async (req: AuthenticatedRequest, res: Response) => {
             })
         }
 
-
+        // Delete the workout
         await prisma.workout.delete({
             where: {
                 id: logId,
@@ -220,6 +291,7 @@ export const deleteLog = async (req: AuthenticatedRequest, res: Response) => {
             }
         })
 
+        // Successful deletion
         res.status(200).json({
             success: true,
             message: 'Deleted log successfully',
@@ -229,20 +301,44 @@ export const deleteLog = async (req: AuthenticatedRequest, res: Response) => {
         console.error(error);
         res.status(error.statusCode || 500).json({
             success: false,
-            message: error.message || 'Internal server error while saving workout',
+            message: error.message || 'Internal server error while deleting workout',
             errorCode: error.code || 'UNKNOWN_ERROR',
         });
     }
 }
 
 
+
+/**
+ * 1. What does the function do?
+ *    This function filters and searches for exercises that matches the users search query
+ *
+ * 2. What inputs does it expect?
+ *    It expects the search query to be passed in through the request object
+ *
+ * 3. What outputs or results does it return?
+ *    An array with the matching search results (exercises [objects])
+ */
+
+
+
+
 export const searchForExercises = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
 
-        const searchQuery = req.query.query;
+        const searchQuery = req.query.query; // Extract the search query
         const searchTerm = typeof searchQuery === 'string' ? searchQuery : '';
 
+        // If the search query is missing, fail fast
+        if (!searchQuery) {
+            res.status(400).json({
+                success: false,
+                message: 'Search query required',
+            })
+        }
+
+        // Fetch the exercises that matches the term
         const searchResults = await prisma.strengthExercise.findMany({
             where: {
                 OR: [
@@ -256,6 +352,7 @@ export const searchForExercises = async (req: AuthenticatedRequest, res: Respons
             },
         });
 
+        // Return the results
         res.status(200).json({
             results: searchResults,
             message: 'Search results successfully',
@@ -264,22 +361,38 @@ export const searchForExercises = async (req: AuthenticatedRequest, res: Respons
 
 
     } catch (error : any) {
-        console.error(error);
+        console.error(error); // Log it
         res.status(error.code || 500).json({
             success: false,
-            message: 'Internal server error',
-            errorCode: 500,
+            message: error.message || 'Internal server error while filtering search',
             error: error
         })
     }
 }
 
 
+
+
+/**
+ * 1. What does the function do?
+ *    This function fetches a specific log by id
+ *
+ * 2. What inputs does it expect?
+ *    The id of the log to be fetched
+ *
+ * 3. What outputs or results does it return?
+ *    An object of the log
+ */
+
+
+
 export const fetchLogById = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
-        const logId = req.params.id;
 
+        const logId = req.params.id; // Extract the id from the params
+
+        // If it is missing, fail fast
         if (!logId) {
             res.status(400).json({
                 success: false,
@@ -287,6 +400,7 @@ export const fetchLogById = async (req: AuthenticatedRequest, res: Response) => 
             })
         }
 
+        // Find the workout we are searching for
         const workout = await prisma.workout.findUnique({
             where: {
                 id: logId,
@@ -301,6 +415,7 @@ export const fetchLogById = async (req: AuthenticatedRequest, res: Response) => 
             }
         })
 
+        // If the workout does not exist, return
         if (!workout) {
             res.status(404).json({
                 success: false,
@@ -308,6 +423,7 @@ export const fetchLogById = async (req: AuthenticatedRequest, res: Response) => 
             })
         }
 
+        // If the creator the workout is not the user, return
         if (!workout?.userId ! === req.user.id) {
             res.status(403).json({
                 success: false,
@@ -315,6 +431,7 @@ export const fetchLogById = async (req: AuthenticatedRequest, res: Response) => 
             })
         }
 
+        // Return the workout
         res.status(200).json({
             workout: workout,
             message: 'Workout successfully retrieved',
@@ -324,7 +441,7 @@ export const fetchLogById = async (req: AuthenticatedRequest, res: Response) => 
         console.error(err);
         res.status(500).json({
             success: false,
-            message: 'Internal server while fetching log',
+            message: err.message || 'Internal server while fetching log',
             errorCode: err.code || 'UNKNOWN_ERROR',
         })
     }
@@ -332,14 +449,28 @@ export const fetchLogById = async (req: AuthenticatedRequest, res: Response) => 
 
 
 
+
+/**
+ * 1. What does the function do?
+ *    This function updates an old workout
+ *
+ * 2. What inputs does it expect?
+ *    It expects the id of the exercise, token from the user and all the data relateded to the workout
+ *
+ * 3. What outputs or results does it return?
+ *    Just a success or error message
+ */
+
+
 export const updateWorkout = async (req: AuthenticatedRequest, res: Response) => {
 
 
     try {
 
-        const logId = req.params.id;
-        const userId = req.user.id;
+        const logId = req.params.id; // Id of the log
+        const userId = req.user.id; // Id of the user
 
+        // If their is no log id return
         if (!logId) {
             res.status(400).json({
                 success: false,
@@ -347,6 +478,7 @@ export const updateWorkout = async (req: AuthenticatedRequest, res: Response) =>
             })
         }
 
+        // Extract all the data
         const {
             workoutName,
             startTime,
@@ -358,6 +490,7 @@ export const updateWorkout = async (req: AuthenticatedRequest, res: Response) =>
             exercises
         } = req.body;
 
+        // Make sure that the notes don't exceed 1000 chars
         if (notes.length > 1000) {
             return res.status(400).json({
                 success: false,
@@ -365,6 +498,15 @@ export const updateWorkout = async (req: AuthenticatedRequest, res: Response) =>
             });
         }
 
+        // Make sure the name does not exceed 100 chars
+        if (workoutName.length > 100) {
+            return res.status(400).json({
+                success: false,
+                message: 'Name of workout exceed allowed length'
+            });
+        }
+
+        // Update the workout
         const updatedWorkout = await prisma.workout.update({
             data: {
                 name: workoutName,
@@ -386,23 +528,30 @@ export const updateWorkout = async (req: AuthenticatedRequest, res: Response) =>
         });
 
 
+        // Start a transaction to also update all the new exercises, but first delete the old ones, either all succeed or fail
         await prisma.$transaction(async (tx) => {
+
+            // Delete all the exercises related to this workout
             await tx.workoutExercise.deleteMany({
                 where: {
                     workoutId: updatedWorkout.id,
                 },
             });
 
+            // For each exercise
             for (const exercise of exercises) {
 
+                // Check if it exists
                 const existingExercise = await prisma.strengthExercise.findUnique({
                     where: { id: exercise.id },
                 });
 
+                // If it does not, throw an error
                 if (!existingExercise) {
                     throw new Error(`Exercise with id ${exercise.id} does not exist`);
                 }
 
+                // Create a new record of this exercise in this workout
                 const exerciseInWorkout = await tx.workoutExercise.create({
                     data: {
                         workoutId: updatedWorkout.id,
@@ -410,6 +559,7 @@ export const updateWorkout = async (req: AuthenticatedRequest, res: Response) =>
                     },
                 });
 
+                // For each set, create a record for that exercise
                 for (const eachSet of exercise.sets || []) {
                     await tx.workingSetData.create({
                         data: {
@@ -423,6 +573,7 @@ export const updateWorkout = async (req: AuthenticatedRequest, res: Response) =>
             }
         });
 
+        // Return a message
         res.status(200).json({
             message: 'Workout successfully updated',
         })
@@ -432,21 +583,33 @@ export const updateWorkout = async (req: AuthenticatedRequest, res: Response) =>
         console.error(err);
         res.status(500).json({
             success: false,
-            message: 'Internal server while fetching log',
+            message: err.message || 'Internal server while updating exercise',
             errorCode: err.code || 'UNKNOWN_ERROR',
         })
     }
 }
+
+/**
+ * 1. What does the function do?
+ *    It creates a new custom exercises by the user
+ *
+ * 2. What inputs does it expect?
+ *    It expects the id of the muscle group, name of the exercise and the token of the user
+ *
+ * 3. What outputs or results does it return?
+ *    It returns an object containing the new exercise and a success message
+ */
 
 
 export const createCustomExercise = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
 
-        const muscleGroupId = req.body.musclegroup.id;
-        const exerciseName = req.body.name;
-        const userId = req.user.id;
+        const muscleGroupId = req.body.musclegroup.id; // Extract the id
+        const exerciseName = req.body.name; // Extract the name
+        const userId = req.user.id; // Extract the users id
 
+        // If there is no muscle group id, return
         if (!muscleGroupId) {
             res.status(400).json({
                 success: false,
@@ -454,6 +617,7 @@ export const createCustomExercise = async (req: AuthenticatedRequest, res: Respo
             })
         }
 
+        // If a name is missing, return
         if (!exerciseName) {
             res.status(400).json({
                 success: false,
@@ -461,7 +625,9 @@ export const createCustomExercise = async (req: AuthenticatedRequest, res: Respo
             })
         }
 
+        // Start a transaction and return the results
         const {customExercise, exerciseMuscleGroup } = await prisma.$transaction(async (tx) => {
+            // Create the new exercise
             const customExercise = await tx.strengthExercise.create({
                 data: {
                     name: exerciseName,
@@ -471,6 +637,7 @@ export const createCustomExercise = async (req: AuthenticatedRequest, res: Respo
                 },
             });
 
+            // Link the exercise to a muscle group
             const exerciseMuscleGroup = await tx.exerciseMuscleGroup.create({
                 data: {
                     exerciseId: customExercise.id,
@@ -478,12 +645,14 @@ export const createCustomExercise = async (req: AuthenticatedRequest, res: Respo
                 },
             });
 
+            // Return theese new records
             return { customExercise, exerciseMuscleGroup };
         });
 
 
+        // Return the object and a message
         res.status(200).json({
-            message: 'Exercise created',
+            message: 'Custom exercise created',
             exercise: {
                 id: exerciseMuscleGroup.id,
                 exerciseId: customExercise.id,
@@ -503,20 +672,30 @@ export const createCustomExercise = async (req: AuthenticatedRequest, res: Respo
         console.error(err);
         res.status(err.statusCode || 500).json({
             success: false,
-            message: err.message || 'Internal server error while saving workout',
+            message: err.message || 'Internal server error while creating custom exercise',
             errorCode: err.code || 'UNKNOWN_ERROR',
-            details: process.env.NODE_ENV === 'development' ? err.stack : undefined,
         });
     }
-
-
 }
+
+
+/**
+ * 1. What does the function do?
+ *    Saves a new workout from the user
+ *
+ * 2. What inputs does it expect?
+ *    Data of the exercise from the request body and the token from the user
+ *
+ * 3. What outputs or results does it return?
+ *    Just a success or error message
+ */
 
 
 export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
 
+        // Extract all the data for the new exercise
         const {
             workoutName,
             startTime,
@@ -529,6 +708,7 @@ export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
         } = req.body;
 
 
+        // If the notes are longer than 1000 chars, return
         if (notes.length > 1000) {
             return res.status(400).json({
                 success: false,
@@ -536,6 +716,15 @@ export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
             });
         }
 
+        // If the name is longer than 100 chars, return
+        if (workoutName > 100) {
+            return res.status(400).json({
+                success: false,
+                message: 'Name exceed allowed length'
+            });
+        }
+
+        // Create a new workout with the passed data
         const newWorkout = await prisma.workout.create({
             data: {
                 name: workoutName,
@@ -551,23 +740,23 @@ export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
             }
         })
 
+        // Start a transactions
         await prisma.$transaction(async (tx) => {
-            await tx.workoutExercise.deleteMany({
-                where: {
-                    workoutId: newWorkout.id,
-                },
-            });
 
+            // For each exercise in the list of exercises
             for (const exercise of exercises) {
 
+                // Make sure the exercise exists
                 const existingExercise = await prisma.strengthExercise.findUnique({
                     where: { id: exercise.id },
                 });
 
+                // If it does not, then return
                 if (!existingExercise) {
                     throw new Error(`Exercise with id ${exercise.id} does not exist`);
                 }
 
+                // Create a new record of that exercise in this workout
                 const exerciseInWorkout = await tx.workoutExercise.create({
                     data: {
                         workoutId: newWorkout.id,
@@ -575,6 +764,7 @@ export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
                     },
                 });
 
+                // For each set of that exercise, create a new record of it
                 for (const eachSet of exercise.sets || []) {
                     await tx.workingSetData.create({
                         data: {
@@ -588,6 +778,7 @@ export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
             }
         });
 
+        // Return a success message
         res.status(200).json({
             success: true,
             message: 'Workout saved successfully'
@@ -599,7 +790,6 @@ export const saveWorkout = async (req: AuthenticatedRequest, res: Response) => {
             success: false,
             message: err.message || 'Internal server error while saving workout',
             errorCode: err.code || 'UNKNOWN_ERROR',
-            details: process.env.NODE_ENV === 'development' ? err.stack : undefined,
         });
     }
 }

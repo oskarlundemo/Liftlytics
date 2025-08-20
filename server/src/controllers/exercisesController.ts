@@ -2,9 +2,6 @@ import {AuthenticatedRequest} from "../middleware/supabase";
 import { Response } from 'express';
 import {prisma} from "../clients/prismaClient";
 
-
-
-
 /**
  * 1. What does the function do?
  *
@@ -57,6 +54,7 @@ export const fetchCustomExercises = async (req: AuthenticatedRequest, res: Respo
         });
 
 
+        // Get all the muscle groups that the user has created or are default
         const allMuscleGroups = await prisma.muscleGroup.findMany({
             where: {
                 OR: [
@@ -67,12 +65,7 @@ export const fetchCustomExercises = async (req: AuthenticatedRequest, res: Respo
         })
 
 
-        console.log(allMuscleGroups)
-
-
-
-        // Send all the musclegroups
-
+        // Send all the data to the front-end
         res.status(200).json({
             status: 'success',
             message: 'Exercises retrieved successfully',
@@ -89,13 +82,31 @@ export const fetchCustomExercises = async (req: AuthenticatedRequest, res: Respo
 }
 
 
+
+/**
+ * 1. This function deleted custom exercises createde by a user
+ *
+ * 2. It expects the user to send their token through the middleware and the id of the exercise in the params
+ *
+ * 3. It returns a success or error message
+ *
+ * 200: Successful deletion
+ * 500: A server error ocurred
+ *
+ * @param req
+ * @param res
+ */
+
+
 export const deleteCustomExercise = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
 
-        const exerciseId = req.params.id;
-        const userId = req.user.id;
+        const exerciseId = req.params.id; // Get the id of the exercise from the params
+        const userId = req.user.id; // Get the id of the user from the token
 
+
+        // If there is no exercise id, fail fast
         if (!exerciseId) {
             return res.status(400).json({
                 status: 'error',
@@ -103,6 +114,7 @@ export const deleteCustomExercise = async (req: AuthenticatedRequest, res: Respo
             });
         }
 
+        // Double chekc so the exercise that is going to be deleted is actually the users exercise
         const isUsersExercise = await prisma.strengthExercise.findFirst({
             where: {
                 id: exerciseId,
@@ -111,6 +123,7 @@ export const deleteCustomExercise = async (req: AuthenticatedRequest, res: Respo
             },
         });
 
+        // If not, return an error
         if (!isUsersExercise) {
             return res.status(403).json({
                 status: 'error',
@@ -118,12 +131,14 @@ export const deleteCustomExercise = async (req: AuthenticatedRequest, res: Respo
             });
         }
 
+        // Is users exercise, delete
         await prisma.strengthExercise.delete({
             where: {
                 id: exerciseId,
             },
         });
 
+        // Return a success message
         return res.status(200).json({
             status: 'success',
             message: 'Exercise was successfully deleted.',
@@ -131,6 +146,7 @@ export const deleteCustomExercise = async (req: AuthenticatedRequest, res: Respo
         });
 
     } catch (err:any) {
+        // Error, log it and send respons to front-end
         console.error(err);
         res.status(500).json({
             status: 'error',
@@ -140,15 +156,28 @@ export const deleteCustomExercise = async (req: AuthenticatedRequest, res: Respo
 }
 
 
+/**
+ * 1. This function updates custom exercises
+ *
+ * 2. The token from the user and the id of the exercise from the param
+ *
+ * 3. It returns a success message and the newly updates exercise as an object to be shown in the front-end
+ *
+ * @param req
+ * @param res
+ */
+
+
 export const updateCustomExercise = async (req: AuthenticatedRequest, res: Response) => {
 
 
     try {
 
-        const userId = req.user.id;
-        const exerciseId = req.params.id;
-        const {exercise, categoryId, updatedName} = req.body;
+        const userId = req.user.id; // Get token from middleware
+        const exerciseId = req.params.id; // Get id from the params
+        const {exercise, categoryId, updatedName} = req.body; // Get the category, name and old exercis data
 
+        // If any of theese are missing, fail fast
         if (!exerciseId || !exercise || !categoryId || !updatedName) {
             return res.status(400).json({
                 status: 'error',
@@ -156,6 +185,7 @@ export const updateCustomExercise = async (req: AuthenticatedRequest, res: Respo
             })
         }
 
+        // Make sure that this is the users exercise
         const isUsersExercise = await prisma.strengthExercise.findFirst({
             where: {
                 id: exerciseId,
@@ -164,6 +194,7 @@ export const updateCustomExercise = async (req: AuthenticatedRequest, res: Respo
             }
         })
 
+        // If a user tries somehow changing someelses exercise, retunr
         if (!isUsersExercise) {
             return res.status(403).json({
                 status: 'error',
@@ -171,6 +202,7 @@ export const updateCustomExercise = async (req: AuthenticatedRequest, res: Respo
             })
         }
 
+        // Update the exercise
         await prisma.strengthExercise.update({
             where: {
                 id: exerciseId,
@@ -183,12 +215,14 @@ export const updateCustomExercise = async (req: AuthenticatedRequest, res: Respo
             }
         })
 
+        // Delete the old records
         await prisma.exerciseMuscleGroup.deleteMany({
             where: {
                 exerciseId: exerciseId,
             },
         });
 
+        // Create a new exercise
         await prisma.exerciseMuscleGroup.create({
             data: {
                 exerciseId: exerciseId,
@@ -196,7 +230,7 @@ export const updateCustomExercise = async (req: AuthenticatedRequest, res: Respo
             },
         });
 
-
+        // Gather the data for the new exercise
         const updatedExercise = await prisma.strengthExercise.findFirst({
             where: {
                 userId: userId,
@@ -219,7 +253,7 @@ export const updateCustomExercise = async (req: AuthenticatedRequest, res: Respo
             },
         });
 
-
+        // Return to the front end
         res.status(200).json({
             status: 'success',
             message: 'Exercise updated successfully',
@@ -227,6 +261,7 @@ export const updateCustomExercise = async (req: AuthenticatedRequest, res: Respo
         })
 
     } catch (err:any) {
+        // Log an error if it occurs
         console.error(err);
         res.status(500).json({
             status: 'error',
@@ -236,15 +271,26 @@ export const updateCustomExercise = async (req: AuthenticatedRequest, res: Respo
 
 }
 
+/**
+ * 1. This function creates a new custom exercise
+ *
+ * 2. The users token and the id and name of the exercise through the req.body
+ *
+ * 3. Returns a new object containing data about the new exercise
+ *
+ * @param req
+ * @param res
+ */
 
 export const createCustomExercise = async (req: AuthenticatedRequest, res: Response) => {
 
 
     try {
 
-        const userId = req.user.id;
-        const {categoryId, exerciseName} = req.body;
+        const userId = req.user.id; // User id from token
+        const {categoryId, exerciseName} = req.body; // Extract from body
 
+        // If any are missing, fail fast
         if (!exerciseName || !categoryId) {
             return res.status(400).json({
                 status: 'error',
@@ -252,6 +298,7 @@ export const createCustomExercise = async (req: AuthenticatedRequest, res: Respo
             })
         }
 
+        // Create the new exercise
         const newExercise = await prisma.strengthExercise.create({
             data: {
                 userId: userId,
@@ -262,6 +309,7 @@ export const createCustomExercise = async (req: AuthenticatedRequest, res: Respo
         })
 
 
+        // Create a new insert with the category id
         const newMuscleGroup = await prisma.exerciseMuscleGroup.create({
             data: {
                 exerciseId: newExercise.id,
@@ -269,8 +317,7 @@ export const createCustomExercise = async (req: AuthenticatedRequest, res: Respo
             }
         })
 
-        console.log(newExercise);
-
+        // Extract the data
         const formattedExercise = await prisma.strengthExercise.findFirst({
             where: {
                 id: newExercise.id
@@ -292,15 +339,16 @@ export const createCustomExercise = async (req: AuthenticatedRequest, res: Respo
         });
 
 
+        // Send it to the front-end
         res.status(201).json({
             status: 'success',
             message: 'Exercise created',
-            newExercise: formattedExercise,
+            newExercise: formattedExercise, // Object containing the new exercise
         })
 
     } catch (err:any) {
-        console.error(err);
-        res.status(500).json({
+        console.error(err); // Log error
+        res.status(500).json({ // Send to the front-end
             status: 'error',
             message: err.message,
         })

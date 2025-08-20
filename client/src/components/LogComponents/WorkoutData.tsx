@@ -27,8 +27,8 @@ type WorkoutDataProps = {
     notes: string;
     setNotes: React.Dispatch<React.SetStateAction<string>>;
 
-    setExercises: React.Dispatch<React.SetStateAction<any[]>>;
-    exercises: object
+    setExercises?: React.Dispatch<React.SetStateAction<any[]>>;
+    exercises?: object
 };
 
 export const WorkoutData = ({

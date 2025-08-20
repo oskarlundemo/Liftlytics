@@ -27,7 +27,6 @@ export const CustomTextarea = ({notes, setNotes, maxInput} : NoteProps) => {
     }
 
 
-
     return (
         <section className="notes-container">
 
