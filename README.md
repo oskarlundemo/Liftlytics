@@ -106,7 +106,8 @@ The goal of this app is to provide a flexible, data-driven training log that ada
 
 ### Landing page 
 
-<img width="1612" height="1012" alt="localhost_5173_log" src="https://github.com/user-attachments/assets/c41a9f0d-8f3d-403e-8a2b-7efaa3e6a9f1" />
+<img width="2016" height="1265" alt="localhost_5173_log (1)" src="https://github.com/user-attachments/assets/e32784de-e7da-4616-95d8-6fa97bc74df1" />
+
 
 
 
