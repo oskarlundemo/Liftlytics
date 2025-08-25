@@ -61,23 +61,23 @@ The goal of this app is to provide a flexible, data-driven training log that ada
 
 ## 🏋️ Core Features
 
-###User Authentication
+### User Authentication
 
  - Sign up and log in securely using OAuth or email/password with Supabase Auth.
 
-###Custom Exercises & Muscle Groups
+### Custom Exercises & Muscle Groups
 
  - Create personalized exercises tailored to your training style.
 
  - Define custom muscle groups (e.g. add “Glutes” or “Hamstrings” if they’re not included by default).
 
-###Workout Logging
+### Workout Logging
 
  - Log workouts with sets, reps, and weights.
 
  - Keep a structured history of all training sessions.
 
-###Progress Tracking & Visualization
+### Progress Tracking & Visualization
 
  - View performance graphs and statistics powered by Recharts.
 
@@ -90,7 +90,8 @@ The goal of this app is to provide a flexible, data-driven training log that ada
 <img width="2015" height="1265" alt="localhost_5173_callback" src="https://github.com/user-attachments/assets/3023524c-4bec-4a55-be57-385a9a5277d0" />
 
 ### Create log 
-<img width="2015" height="1265" alt="localhost_5173_callback (1)" src="https://github.com/user-attachments/assets/59ce77dc-5adc-4407-b374-5d16352e2762" />
+
+<img width="2016" height="1265" alt="localhost_5173_callback (12)" src="https://github.com/user-attachments/assets/c4048a91-94b8-4d32-84ad-954338650b9b" />
 
 <img width="2015" height="1265" alt="localhost_5173_callback (2)" src="https://github.com/user-attachments/assets/a9c3585d-2fd0-4969-a089-94652e2d7227" />
 
