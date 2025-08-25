@@ -110,6 +110,10 @@ The goal of this app is to provide a flexible, data-driven training log that ada
 
 <img width="2015" height="1265" alt="localhost_5173_callback (7)" src="https://github.com/user-attachments/assets/c6aaf9be-0472-4158-90b3-f43ec74df130" />
 
+<img width="2016" height="1265" alt="localhost_5173_callback (13)" src="https://github.com/user-attachments/assets/3118eaf6-c400-489f-ba2a-5545f45db77b" />
+
+<img width="2016" height="1265" alt="localhost_5173_callback (14)" src="https://github.com/user-attachments/assets/e5f179bb-735c-4c5e-a178-a7d42f60a8f5" />
+
 ### Create account 
 <img width="2016" height="1265" alt="localhost_5173_log (3)" src="https://github.com/user-attachments/assets/169c92d8-501e-46ca-8c64-c33ebab8cd73" />
 
