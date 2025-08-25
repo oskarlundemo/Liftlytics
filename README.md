@@ -18,6 +18,8 @@ Supabase Auth (OAuth) – for handling secure user authentication and account ma
 
 Axios – as the primary HTTP client for making API requests and integrating with backend services.
 
+TypeScript – to add static typing, improve code reliability, and enhance the developer experience.
+
 This project helped me deepen my understanding of data-driven applications, combining interactive visual feedback with secure, scalable backend functionality.
 
 ## 📌 Project Overview
