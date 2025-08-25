@@ -7,6 +7,19 @@ import {CustomTooltip} from "../components/MiscComponents/CustomToolTip.tsx";
 import '../index.css'
 
 
+/**
+ * Purpose:
+ * This page shows users their statistics for a specific exercise
+ *
+ * Key components:
+ * <ResponsiveContainer> <LoadingPage>
+ * Notes:
+ * Using recharts.js for the graph
+ *
+ * @constructor
+ */
+
+
 export const ExerciseStats = ({}) => {
 
     const [exerciseData, setExerciseData] = useState<any>([]);

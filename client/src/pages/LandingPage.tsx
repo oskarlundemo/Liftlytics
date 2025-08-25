@@ -9,6 +9,22 @@ import {ChartUsp} from "../components/LandingPageComponents/ChartUsp";
 import {LandingFooter} from "../components/LandingPageComponents/LandingFooter.tsx";
 import {FAQ} from "../components/LandingPageComponents/FAQ";
 
+
+/**
+ * Purpose:
+ * This is the landing page, where users are introduced to the app
+ *
+ * Key components:
+ * <Reveal> <LandingHeader> <ChartUsp> <LogUsp> <CustomUsp>
+ *
+ * Notes:
+ * Using Framer Motion for the reveal animation on scroll
+ *
+ * @constructor
+ */
+
+
+
 export const LandingPage = () => {
 
 

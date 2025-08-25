@@ -1,6 +1,5 @@
 
 
-import { RingLoader } from "react-spinners";
 import {useNavigate} from "react-router-dom";
 import {useAuthorization} from "../../hooks/useAuthorzation.ts";
 import {useEffect, useState} from "react";
@@ -43,7 +42,6 @@ export const CallbackPage = () => {
                 }
             );
         }
-
 
         handleCallback();
     }, [navigate]);

@@ -471,3 +471,10 @@ a {
 }
 
 svg:focus, g:focus, path:focus {outline: none}
+
+.route-catcher-wrapper {
+
+    main {
+        max-width: var(--max-context-width);
+    }
+}

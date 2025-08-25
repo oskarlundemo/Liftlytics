@@ -10,14 +10,14 @@ import {
     fetchCategories,
     sendWidgetStats,
     loadMuscleVolumeMonth,
-    workoutStreakData, fetchMuscleVolumeMonth, fetchEntryDetails, averageWorkoutDuration, checkedCalenderData
+    workoutStreakData, fetchVolumeMonthSpecific, fetchEntryDetails, averageWorkoutDuration, calendarData
 } from "../controllers/statsController";
 
 const statsRoute = Router();
 
-statsRoute.get('/monthlyVolume', authenticateUser, fetchMuscleVolumeMonth);
+statsRoute.get('/monthlyVolume', authenticateUser, fetchVolumeMonthSpecific);
 
-statsRoute.get('/fetch', authenticateUser, fetchCategories, loadMuscleVolumeMonth, workoutStreakData, checkedCalenderData, averageWorkoutDuration, bestCompounds, bodyWeightData, sendWidgetStats);
+statsRoute.get('/fetch', authenticateUser, fetchCategories, loadMuscleVolumeMonth, workoutStreakData, calendarData, averageWorkoutDuration, bestCompounds, bodyWeightData, sendWidgetStats);
 
 statsRoute.get('/entry/:exerciseName/:exerciseId', authenticateUser, fetchEntryDetails);
 
