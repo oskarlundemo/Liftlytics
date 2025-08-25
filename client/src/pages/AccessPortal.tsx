@@ -7,6 +7,20 @@ import {Logo} from "../components/AccessPortalComponents/Logo.tsx";
 import {AuthorDetails} from "../components/AccessPortalComponents/AuthorDetails.tsx";
 import {useNavigate} from "react-router-dom";
 
+
+/**
+ * Purpose:
+ * This page is the access portal, where users can either sign in or create their account
+ *
+ * Key components:
+ * <Login> <CreateAccount> <AuthorDetails>
+ *
+ * Notes:
+ * Using Framer Motions for transitions betweens forms, useNavigate for routing and CSS for styling
+ *
+ * @constructor
+ */
+
 export const AccessPortal = () => {
 
     const [showLogin, setShowLogin] = useState<boolean>(true);
@@ -15,11 +29,9 @@ export const AccessPortal = () => {
     return (
         <main className="access-portal main-container">
 
-
             <div className={'home-icon'}>
                 <svg onClick={() => navigate('/')} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>
             </div>
-
 
             <section className="access-portal-left-container"/>
 
@@ -53,6 +65,7 @@ export const AccessPortal = () => {
                             <CreateAccount setLogin={setShowLogin} />
                         </motion.div>
                     )}
+
                 </AnimatePresence>
 
                 <AuthorDetails/>

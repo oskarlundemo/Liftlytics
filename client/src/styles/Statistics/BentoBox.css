@@ -275,35 +275,26 @@
 }
 
 
-.dp-full-width {
-    width: 100% !important;
-}
 
 .dp-full-width {
     width: 100% !important;
     display: flex !important;
     flex-wrap: nowrap;
-    justify-content: stretch;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
 }
 
-.dp-full-width {
+.rdp-months {
     width: 100% !important;
-    max-width: none !important;
-    display: block !important;
+    flex-grow: 1;
 }
 
-.checked-calender {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
 
-    align-self: stretch;
-    justify-self: stretch;
-}
+
+
 
 .highlighted-day {
-
     svg {
         fill: var(--color-accent) !important;
     }
@@ -312,31 +303,24 @@
     border-radius: 50%;
 }
 
-.dp-full-width .rdp-day {
-    color: white;
-}
-
 
 .dp-full-width .rdp-day_today {
     color: var(--color-accent) !important;
     font-weight: bold;
 }
 
-.rdp-month, .rdp-month_grid {
-    width: 100% !important;
+
+.rdp-today, .rdp-nav {
+    button {
+        color: var(--color-accent) !important;
+        font-weight: var(--font-weight-extra-bold);
+    }
+
+    svg {
+        fill: var(--color-accent) !important;
+    }
 }
 
-.dp-full-width .rdp-months {
-    display: flex !important;
-    width: 100%;
-    flex: 1 1 auto;
-}
-
-.dp-full-width .rdp-month {
-    flex: 1 1 auto;
-    width: auto !important;
-    max-width: none !important;
-}
 
 .rdp-month_caption {
     font-size: var(--text-2xl) !important;
@@ -364,6 +348,42 @@
             text-wrap: nowrap;
         }
     }
+
+    .dp-full-width,
+    .rdp-months,
+    .rdp-month {
+        width: 100% !important;
+    }
+
+    .rdp-month_grid {
+        width: 100% !important;
+        table-layout: fixed;
+    }
+
+    .highlighted-day {
+
+        svg {
+            fill: var(--color-accent) !important;
+        }
+
+        background-color: transparent;
+        border-radius: 50%;
+
+
+        button {
+            background-color: var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            margin: 0 auto;
+        }
+
+    }
+
+
+    .rdp-day_button {
+        margin: 0 auto !important;
+    }
+
 
     .weekly-volume {
         min-height: 300px;

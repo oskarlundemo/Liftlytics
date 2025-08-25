@@ -13,6 +13,18 @@ import {useEffect} from "react";
 import {ConfigureBody} from "../components/ConfigureComponents/ConfigureBody.tsx";
 import {ConfigureHeader} from "../components/ConfigureComponents/ConfigureHeader.tsx";
 
+/**
+ * Purpose:
+ * This page let's users configure their custom muscle groups, changing names or deleting them altogether
+ *
+ * Key components:
+ * <ConfigureBody> <ConfigureForm> <SlideInBottomMenu>
+ *
+ * Notes:
+ * Using css for styling and state to toggle the overlay, slide-menus and pop-ups
+ *
+ * @constructor
+ */
 
 export const ConfigureMuscleGroup = ({}) => {
 

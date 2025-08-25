@@ -5,6 +5,18 @@ import {ModuleRow} from "../components/ProfileComponents/ModuleRow.tsx";
 import {useAuth} from "../contexts/AuthContext.tsx";
 
 
+/**
+ * Purpose:
+ * This page is a navigation page where users can either check account settings, configure exercises or configure muscle groups
+ *
+ * Key components:
+ * <ProfileModule> <ModuleRow
+ *
+ *
+ * @constructor
+ */
+
+
 export const ProfilePage = () => {
 
     const {user} = useAuth();

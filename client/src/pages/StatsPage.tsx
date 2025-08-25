@@ -10,6 +10,20 @@ import {useEffect} from "react";
 import {useStatsContext} from "../contexts/StatsContext.tsx";
 
 
+/**
+ * Purpose:
+ * This page is where users can get an overview of their statistics
+ *
+ * Key components:
+ * <BentoBox> <Categories> <Categories> <NavigationBar>
+ *
+ * Notes:
+ * Using css for styles
+ *
+ * @constructor
+ */
+
+
 export const StatsPage = () => {
 
     const {data, isError, isPending, isLoading, error} = useStats();

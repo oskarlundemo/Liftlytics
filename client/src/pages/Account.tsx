@@ -8,6 +8,19 @@ import {useDeleteUser} from "../hooks/useAuthorzation.ts";
 import {useNavigate} from "react-router-dom";
 
 
+/**
+ * Purpose:
+ * This page allows users to sign out or delete their account
+ *
+ * Key components:
+ * <AccountCard> <AccountHeader> <PopUp> <Overlay>
+ *
+ * Notes:
+ * Using tailwind for styling and state to toggle the popup-up and overlay
+ *
+ * @constructor
+ */
+
 export const Account = ({}) => {
 
     const [showPopUp, setShowPopUp] = useState<boolean>(false);

@@ -13,6 +13,20 @@ import {PopUp} from "../components/MiscComponents/PopUp.tsx";
 import {AddItem} from "../components/ConfigureComponents/AddItem.tsx";
 import {CreateConfigureForm} from "../components/ConfigureComponents/CreateConfigureForm.tsx";
 
+
+/**
+ * Purpose:
+ * This page let's users configure their custom exercises, changing names, muscle groups or deleting them altogether
+ *
+ * Key components:
+ * <ConfigureBody> <ConfigureForm> <SlideInBottomMenu>
+ *
+ * Notes:
+ * Using css for styling and state to toggle the overlay, slide-menus and pop-ups
+ *
+ * @constructor
+ */
+
 export const ConfigureExercisesPage = ({}) => {
 
     const {setCustomExercises, customExercises, setSelectedExercise, showMenu, allMuscleGroups, setAllMuscleGroups, showCreateMenu,

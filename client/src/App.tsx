@@ -19,6 +19,8 @@ import {ConfigureMuscleGroup} from "./pages/ConfigureMuscleGroup.tsx";
 import {MuscleGroupProvider} from "./contexts/MuscleGroupContext.tsx";
 import {ExerciseStats} from "./pages/ExerciseStats.tsx";
 import {LandingPage} from "./pages/LandingPage.tsx";
+import {RouteCatcher} from "./pages/RouteCatcher.tsx";
+
 
 function App() {
 
@@ -138,6 +140,15 @@ function App() {
                                 <ConfigureMuscleGroup />
                             </MuscleGroupProvider>
                         </PrivateRoute>
+                    }
+                />
+
+
+                <Route
+                    path="/*"
+                    element={
+
+                        <RouteCatcher/>
                     }
                 />
 

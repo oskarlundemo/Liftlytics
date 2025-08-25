@@ -11,6 +11,21 @@ import {LoadingPage} from "../components/MiscComponents/LoadingPage.tsx";
 import {ErrorPage} from "../components/MiscComponents/ErrorPage.tsx";
 import {LogModule} from "../components/LogComponents/LogModule.tsx";
 
+/**
+ * Purpose:
+ * This is the page where users can inspect their logs
+ *
+ * Key components:
+ * <LogModule> <SlideBottomMenu> <DeleteButtonContainer> <NavigationBar>
+ *
+ * Notes:
+ * Using css for styling and state to toggle slide-menu
+ *
+ * @constructor
+ */
+
+
+
 export const LogPage = () => {
 
     const { data, isLoading, isError, error } = useLogs();
