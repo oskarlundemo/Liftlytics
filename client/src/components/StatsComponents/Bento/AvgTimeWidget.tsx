@@ -4,13 +4,11 @@ import {useEffect, useState} from "react";
 
 type AvgTimeWidgetProps = {
     boxIndex: number
-    avgTime?: number
 }
 
+export const AvgTimeWidget = ({boxIndex}: AvgTimeWidgetProps) => {
 
-export const AvgTimeWidget = ({boxIndex, avgTime}: AvgTimeWidgetProps) => {
-
-    const {averageDuration} = useStatsContext();
+    const { averageDuration } = useStatsContext();
     const [isTrending, setIsTrending] = useState(false);
 
     useEffect(() => {
@@ -18,7 +16,7 @@ export const AvgTimeWidget = ({boxIndex, avgTime}: AvgTimeWidgetProps) => {
             setIsTrending(averageDuration?.avgThisMonth?.avgMinutes > averageDuration?.avgAllTime?.avgMinutes);
     }, [averageDuration]);
 
-    const parseTime = (minutes) => {
+    const parseTime = (minutes:any) => {
 
         if (minutes <= 60) {
             return `${Math.round(minutes)} m`;

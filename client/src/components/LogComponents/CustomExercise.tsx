@@ -38,13 +38,12 @@ export const CustomExercise = ({}) => {
         setDisabledButton(!(exerciseName.length <= nameMaxLenght && exerciseName.trim().length > 0));
     }, [exerciseName]);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleSubmit = () => {
         createExercise({
             muscleGroup: selectedMuscleGroup,
             name: exerciseName,
         });
-    }
+    };
 
     return (
         <section className="custom-exercise">
@@ -77,8 +76,16 @@ export const CustomExercise = ({}) => {
                     {maxLength} / 100
                 </h4>
 
-                <button disabled={disabledButton} onClick={handleSubmit} className="button-intellij">Save</button>
-
+                <button
+                    disabled={disabledButton}
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                        e.preventDefault();
+                        handleSubmit();
+                    }}
+                    className="button-intellij"
+                >
+                    Save
+                </button>
             </div>
 
         </section>

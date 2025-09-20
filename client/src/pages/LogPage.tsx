@@ -25,19 +25,17 @@ import {LogModule} from "../components/LogComponents/LogModule.tsx";
  */
 
 
-
 export const LogPage = () => {
 
     const { data, isLoading, isError, error } = useLogs();
     const {showDeleteMenu, setShowDeleteMenu} = useLogContext();
-
 
     if (isError) {
         return (
             <ErrorPage
                 title="An error occurred while retrieving your logs"
                 errorMessage={error.message}
-                details={error.code}
+                details={error?.message}
             />
         );
     }

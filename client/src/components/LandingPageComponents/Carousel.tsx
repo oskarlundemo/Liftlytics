@@ -2,10 +2,14 @@
 
 
 import '../../styles/MiscStyles/Carousel.css'
+import React from "react";
 
 
-export const Carousel = ({children}) => {
+type Props = {
+    children: ReactNode;
+};
 
+export const Carousel = ({children}:Props) => {
 
     return (
         <div className={'carousel-wrapper'}>

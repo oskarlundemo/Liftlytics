@@ -49,7 +49,7 @@ export const StatsPage = () => {
                 <ErrorPage
                     title="An error occurred while retrieving your stats"
                     errorMessage={error.message}
-                    details={error.code}
+                    details={error.message}
                 />
             ) : isLoading || isPending ? (
                 <LoadingPage title="Loading stats..." />

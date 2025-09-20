@@ -53,7 +53,7 @@ export const CategorySelection = ({setExercises} : CategorySelectionProps) => {
                                     <LoadingResults size={20}/>
                                 ) : (
                                     searchResults?.results && searchResults.results.length > 0 ? (
-                                    searchResults.results.map((item, index) => (
+                                    searchResults.results.map((item : {name: string, id: any}) => (
                                         <ExerciseCard
                                             title = {item.name}
                                             key={item.id}

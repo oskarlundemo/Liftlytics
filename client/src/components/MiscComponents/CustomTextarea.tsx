@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 type NoteProps = {
     notes: string
     setNotes: (notes: string) => void
-    maxInput?: number
+    maxInput: number
 }
 
 

@@ -50,8 +50,6 @@ export const updateExerciseOrder = async (exercises: object, id: string) => {
 }
 
 
-
-
 export const searchForExercise = async (query: string) => {
 
     if (!query || query.trim() === '') {

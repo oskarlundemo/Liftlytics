@@ -102,19 +102,18 @@ export const updateExerciseOrder = async (req: AuthenticatedRequest, res: Respon
 
         // Exercise was successfully updated
         res.status(200).json({
+            success: true,
             message: 'Successfully updated exercise order',
         })
 
-
-    } catch (err:any) {
-        console.error(err);
-        res.status(err.statusCode || 500).json({
+    } catch (error:any) {
+        console.error(error);
+        res.status(error.statusCode || 500).json({
             success: false,
-            message: err.message || 'Internal server while updating exercise order ',
-            errorCode: err.code,
+            message: error.message || 'Internal server while updating exercise order ',
+            errorCode: error.code,
         });
     }
-
 }
 
 

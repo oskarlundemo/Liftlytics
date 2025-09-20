@@ -28,12 +28,7 @@ type ExerciseModuleProps = {
 
 export const ExerciseModule = ({id, title, sets, localId, updateSets, exercises, index, setExercises, deleteExercise}: ExerciseModuleProps) => {
 
-
     const {isEditing} = useLogContext();
-
-    useEffect(() => {
-        console.log('Ändrar')
-    }, [isEditing]);
 
     const addSet = () => {
         const newSet: ExerciseSet = {

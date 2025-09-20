@@ -25,6 +25,7 @@ export const CheckedCalender = ({boxIndex}: CheckedCalenderProps) => {
 
             <DayPicker
                 mode="single"
+                // @ts-ignore
                 selected={checkedCalenderDates.map(d => new Date(d.startDate))}
                 disabled
                 modifiers={{ highlighted: checkedCalenderDates.map(d => new Date(d.startDate)) }}

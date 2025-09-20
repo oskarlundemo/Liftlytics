@@ -36,9 +36,7 @@ export const ChartUsp = () => {
     }, [showWeight]);
 
 
-    const areaColor = [
-        getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim(),
-    ];
+    const areaColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim();
 
     return (
         <section className="chart-usp usp">

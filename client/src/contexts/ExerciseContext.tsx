@@ -1,11 +1,14 @@
 
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import { createContext, useState, useContext } from "react";
+import type { ReactNode } from "react";
+
+
 
 type ExerciseContextType = {
     customExercises: any[];
     setCustomExercises: (data: any[]) => void;
 
-    selectedExercise: object
+    selectedExercise: any
     setSelectedExercise: (data: object) => void;
 
     allMuscleGroups: object
@@ -30,7 +33,7 @@ type Props = {
 export const ExerciseProvider = ({ children }: Props) => {
 
     const [customExercises, setCustomExercises] = useState<any[]>([]);
-    const [selectedExercise, setSelectedExercise] = useState<object>(null);
+    const [selectedExercise, setSelectedExercise] = useState<object | null>(null);
     const [showMenu, setShowMenu] = useState<boolean>(false);
     const [showPopUp, setShowPopUp] = useState(false);
     const [allMuscleGroups, setAllMuscleGroups] = useState<object[]>([]);

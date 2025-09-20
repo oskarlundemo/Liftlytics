@@ -4,25 +4,43 @@ import {useUpdateCustomExercise} from "../../hooks/exerciseHook.ts";
 
 
 type ExerciseFormProps = {
-    selectedItem: object
-    setShowMenu: (showMenu: boolean) => void
-    setCustomData: (data: any[]) => void
+    selectedItem?: SelectedItem;
+    setShowMenu: (showMenu: boolean) => void;
+    setCustomData: (data: any[]) => void;
+    muscleGroups?: MuscleGroup[];
+    setShowPopUp: (showPopUp: boolean) => void;
+};
+
+
+type MuscleGroup = {
+    id: string;
+    name?: string;
+};
+
+type SelectedItem = {
+    id: string;
+    name: string;
     muscleGroups: any
-    setShowPopUp: (showPopUp: boolean) => void
-}
+};
 
 
-export const ConfigureUpdateForm = ({selectedItem,  setShowMenu, setCustomData, muscleGroups, setShowPopUp}:ExerciseFormProps) => {
+export const ConfigureUpdateForm = ({
+                                        selectedItem,  setShowMenu,
+                                        setCustomData, muscleGroups,
+                                        setShowPopUp}:ExerciseFormProps) => {
 
-    const [exerciseName, setExerciseName] = useState<string>(selectedItem.name);
-    const [disabledButton, setDisabledButton] = useState<boolean>(false);
-    const [maxLength, setMaxLength ] = useState<number>(0);
-    const { mutate: updateExercise } = useUpdateCustomExercise(setCustomData);
-    const [originalName, setOriginalName] = useState<string>(selectedItem.name);
-    const [originalCategoryId, setOriginalCategoryId] = useState<string>();
+    // @ts-ignore
+    const { mutate: updateExercise } = useUpdateCustomExercise(setCustomData) as any;
 
-    const defaultCategoryId = selectedItem?.muscleGroups?.[0]?.muscleGroup?.id ?? '';
+    const [exerciseName, setExerciseName] = useState<string>(selectedItem?.name ?? '');
+    const [originalName, setOriginalName] = useState<string>(selectedItem?.name ?? '');
+
+    // @ts-ignore
+    const defaultCategoryId = selectedItem?.muscleGroups?.[0]?.muscleGroup?.[0]?.id ?? '';
     const [categoryId, setCategoryId] = useState<string>(defaultCategoryId);
+    const [originalCategoryId, setOriginalCategoryId] = useState<string>(defaultCategoryId);
+    const [disabledButton, setDisabledButton] = useState<boolean>(false);
+    const [maxLength, setMaxLength] = useState<number>(0);
 
     useEffect(() => {
         const nameUnchanged = originalName === exerciseName.trim();
@@ -47,13 +65,17 @@ export const ConfigureUpdateForm = ({selectedItem,  setShowMenu, setCustomData, 
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!selectedItem) return;
+
         updateExercise({
             id: selectedItem.id,
             categoryId,
             exercise: selectedItem,
             updatedName: exerciseName,
         });
-    }
+    };
+
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (
@@ -82,7 +104,7 @@ export const ConfigureUpdateForm = ({selectedItem,  setShowMenu, setCustomData, 
                     value={exerciseName}
                     setState={setExerciseName}
                     name={exerciseName}
-                    placeholder={selectedItem.name}
+                    placeholder={selectedItem!.name}
                     example={'Name'}
                     keyDownAction={(e) => handleKeyDown(e)}
                 />
@@ -120,8 +142,9 @@ export const ConfigureUpdateForm = ({selectedItem,  setShowMenu, setCustomData, 
 
 
             <div className="form-footer flex gap-3 justify-center w-full p-5">
+
                 <button
-                    onClick={(e) => handleSubmit(e)}
+                    type="submit"
                     className="button-intellij flex-grow h-full !p-4 button-confirm !w-1/2"
                     disabled={disabledButton}>
                     Update

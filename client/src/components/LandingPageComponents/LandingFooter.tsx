@@ -1,5 +1,4 @@
 import {Carousel} from "./Carousel.tsx";
-import {Link} from "react-router-dom";
 
 
 export const LandingFooter = () => {

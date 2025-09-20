@@ -27,6 +27,9 @@ import {CreateConfigureForm} from "../components/ConfigureComponents/CreateConfi
  * @constructor
  */
 
+
+
+
 export const ConfigureExercisesPage = ({}) => {
 
     const {setCustomExercises, customExercises, setSelectedExercise, showMenu, allMuscleGroups, setAllMuscleGroups, showCreateMenu,
@@ -34,10 +37,7 @@ export const ConfigureExercisesPage = ({}) => {
 
     const {data: exerciseData, isLoading, isError, error} = useExercises();
     const { mutate: createExercise } = useCreateCustomExercise(setCustomExercises);
-
-    const {
-        mutate: deleteExercise,
-    } = useDeleteExercise(setCustomExercises);
+    const {mutate: deleteExercise,} = useDeleteExercise(setCustomExercises);
 
     useEffect(() => {
         if (exerciseData) {
@@ -69,6 +69,9 @@ export const ConfigureExercisesPage = ({}) => {
         )
     }
 
+    // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
     return (
         <div className={'flex overflow-y-auto h-full gap-4 flex-col'}>
 
@@ -101,8 +104,10 @@ export const ConfigureExercisesPage = ({}) => {
 
             <SlideInBottomMenu height={'50%'} showMenu={showMenu}>
                 <ConfigureUpdateForm
+                    // @ts-ignore
                     selectedItem={selectedExercise}
                     setShowMenu={setShowMenu}
+                    // @ts-ignore
                     muscleGroups={allMuscleGroups}
                     setShowPopUp={setShowPopUp}
                     setCustomData={setCustomExercises}

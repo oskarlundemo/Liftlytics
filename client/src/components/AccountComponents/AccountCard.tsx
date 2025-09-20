@@ -6,7 +6,6 @@ type AccountCardProps = {
     svg?: any
 }
 
-
 export const AccountCard = ({title, svg, onClick}:AccountCardProps) => {
 
     return (
@@ -17,5 +16,4 @@ export const AccountCard = ({title, svg, onClick}:AccountCardProps) => {
             <h2 className={'text-2xl font-bold'}>{title}</h2>
         </article>
     )
-
 }

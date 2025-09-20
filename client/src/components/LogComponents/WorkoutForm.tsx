@@ -85,7 +85,7 @@ export const WorkoutForm = ({} ) => {
             setBodyWeight(workout.bodyWeight);
             setNotes(workout.notes || '');
 
-            const transformedExercises: ExerciseEntry[] = workout.exercises.map((exerciseEntry: { exercise: { name: any; }; metrics: any[]; }) => ({
+            const transformedExercises: ExerciseEntry[] = workout.exercises.map((exerciseEntry: { exercise: { name: any; id: any }; metrics: any[]; }) => ({
                 id: exerciseEntry.exercise.id,
                 localId: uuidv4(),
                 name: exerciseEntry.exercise.name,
@@ -102,6 +102,7 @@ export const WorkoutForm = ({} ) => {
     }, [data]);
 
     useEffect(() => {
+        // @ts-ignore
         setDisabled(exercises.length === 0 || workoutName.length > 100 || notes.length > 1000 || bodyWeight?.toString().length > 5);
     }, [exercises, workoutName, notes, bodyWeight]);
 

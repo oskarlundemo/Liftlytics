@@ -1,5 +1,5 @@
 
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import { createContext, useState, useContext, type ReactNode } from "react";
 
 
 
@@ -11,8 +11,8 @@ type MuscleGroupContextType = {
     muscleGroups: any
     setMuscleGroups: (data: any[]) => void;
 
-    selectedMuscleGroup: object
-    setSelectedMuscleGroup: (data: object) => void;
+    selectedMuscleGroup: any
+    setSelectedMuscleGroup: any;
 
     allMuscleGroups: object
     setAllMuscleGroups: (data: any[]) => void;
@@ -40,7 +40,7 @@ export const MuscleGroupProvider = ({ children }: Props) => {
     const [muscleGroups, setMuscleGroups] = useState<any>([])
 
     const [customMuscleGroups, setCustomMuscleGroups] = useState<any[]>([]);
-    const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<object>(null);
+    const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<any>(null);
     const [showMenu, setShowMenu] = useState<boolean>(false);
     const [showPopUp, setShowPopUp] = useState(false);
     const [allMuscleGroups, setAllMuscleGroups] = useState<object[]>([]);

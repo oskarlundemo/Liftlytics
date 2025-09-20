@@ -9,7 +9,7 @@ import '../../styles/Workout/NewWorkout.css'
 type CustomTimePickerProps = {
     title: string,
     date: Date,
-    setDate: (date: Date) => void,
+    setDate: (date: Date | null) => void,
     time: Date,
     setTime: (time: Date) => void,
 }
