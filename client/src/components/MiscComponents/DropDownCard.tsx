@@ -42,7 +42,7 @@ export const DropDownCard = ({list, title, arrow, singleElement}:DropDownCardPro
                 <div className="sub-menu-inner">
 
                     {list && (
-                        (list.map((item, i) => (
+                        (list.map((item:any, i:number) => (
                                 <div onClick={() => navigate(`./${encodeURI(item.exercise.name)}/${encodeURI(item.exercise.id)}`)} key={i} className="exercise-card">
                                     <h4>{item.exercise?.name || 'Unnamed'}</h4>
                                 </div>

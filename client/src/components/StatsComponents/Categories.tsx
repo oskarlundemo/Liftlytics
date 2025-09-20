@@ -17,7 +17,7 @@ export const Categories = ({}) => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const {categories} = useStatsContext();
     const [debouncedQuery] = useDebounce(searchTerm, 400);
-    const { data: searchResults, isPending: isSearchPending, isLoading, isError } = useSearchExercises(debouncedQuery);
+    const { data: searchResults, isPending: isSearchPending, isError } = useSearchExercises(debouncedQuery);
     const [showSearchResults, setShowSearchResults] = useState<boolean>(true);
 
     useEffect(() => {
@@ -49,7 +49,7 @@ export const Categories = ({}) => {
                         An error occurred while retrieving your search results.
                     </h4>
                 ) : searchResults?.results?.length > 0 ? (
-                    searchResults.results.map((item, index) => (
+                    searchResults.results.map((item:any) => (
                         <ExerciseResultsCard name={item.name} id={item.id}/>
                     ))
                 ) : (

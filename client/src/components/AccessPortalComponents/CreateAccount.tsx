@@ -34,7 +34,6 @@ export const CreateAccount = ({setLogin} : CreateAccountProps) => {
 
         if (result.success && result.user) {
             syncUser({ id: result.user.id, email: result.user.email });
-
             toast.loading("Redirecting to start page...");
         } else {
             toast.error(result.error || "Sign-in failed.");

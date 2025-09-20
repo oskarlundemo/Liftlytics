@@ -3,10 +3,12 @@ import {createCustomMuscleGroup, deleteCustomMuscleGroup, fetchMuscleGroups} fro
 import toast from "react-hot-toast";
 
 
+
+
 export const useFetchMuscleGroups = (userId:string) => {
     return useQuery({
         queryKey: ['categories', userId],
-        queryFn: () => fetchMuscleGroups(userId),
+        queryFn: () => fetchMuscleGroups(),
     })
 }
 
@@ -23,8 +25,7 @@ export const useCreateMuscleGroup = (setCustomMuscleGroups: any) => {
             toast.dismiss();
             toast.success('Muscle group successfully updated!');
             const newExercise = response.muscleGroup;
-
-            setCustomMuscleGroups(prev => [
+            setCustomMuscleGroups((prev: any) => [
                 ...prev, newExercise
             ])
         },
@@ -47,7 +48,7 @@ export const useDeleteMuscleGroup = (setCustomMuscleGroups: any) => {
             toast.dismiss();
             toast.success('Muscle group successfully updated!');
             const deleteId = response.deletedId;
-            setCustomMuscleGroups(prev => prev.filter(c => c.id !== deleteId));
+            setCustomMuscleGroups((prev: any[]) => prev.filter((c: { id: any; }) => c.id !== deleteId));
         },
         onError: () => {
             toast.dismiss();

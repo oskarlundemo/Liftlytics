@@ -1,7 +1,7 @@
-import React, {createContext, useState, ReactNode, useContext} from "react";
+import { createContext, useState, useContext, type ReactNode } from "react";
 
 type StatsContextType = {
-    volumeData: any[];
+    volumeData: any;
     setVolumeData: (data: any[]) => void;
 
     categories: any[]
@@ -13,11 +13,12 @@ type StatsContextType = {
     bodyWeightData: any[];
     setBodyWeightData: (data: any[]) => void;
 
-    workoutStreakData: any[];
+    workoutStreakData: any;
+
     setWorkoutStreakData: (data: any[]) => void;
 
-    averageDuration: any[];
-    setAverageDuration: (data: any[]) => void;
+    averageDuration: any;
+    setAverageDuration: any;
 
     checkedCalenderDates: any[]
     setCheckedCalenderDates: (data:  Date[]) => void;
@@ -29,8 +30,13 @@ type StatsProviderProps = {
     children: ReactNode;
 };
 
+type VolumeData = {
+    summary: any[]
+    numberOfSets: number
+}
+
 export const StatsProvider = ({ children }: StatsProviderProps) => {
-    const [volumeData, setVolumeData] = useState<any[]>([]);
+    const [volumeData, setVolumeData] = useState<VolumeData[]>([]);
     const [categories, setCategories] = useState<any[]>([]);
     const [best1RM, setBest1RM] = useState<any>([]);
     const [bodyWeightData, setBodyWeightData] = useState<any[]>([]);

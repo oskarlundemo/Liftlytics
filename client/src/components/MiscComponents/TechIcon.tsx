@@ -2,7 +2,7 @@
 
 
 type TechIconProps = {
-    svg?: React.SVGProps<SVGSVGElement>,
+    svg?: React.ReactNode,
     name: string,
 }
 

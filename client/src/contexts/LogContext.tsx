@@ -1,4 +1,4 @@
-import {createContext, type Dispatch, useContext, useState} from "react";
+import {createContext, useContext, useState} from "react";
 
 type LogContextType = {
 
@@ -14,18 +14,16 @@ type LogContextType = {
     showConfigureExerciseMenu: boolean;
     setShowConfigureExerciseMenu: React.Dispatch<React.SetStateAction<boolean>>;
 
-
     deleteLogId: string;
     setDeleteLogId: React.Dispatch<React.SetStateAction<string>>;
 
     showDeleteMenu: boolean;
     setShowDeleteMenu: React.Dispatch<React.SetStateAction<boolean>>;
 
-
     showCustomExerciseMenu: boolean;
     setShowCustomExerciseMenu: React.Dispatch<React.SetStateAction<boolean>>;
 
-    selectedExercises: object[];
+    selectedExercises: any;
     setSelectedExercises: React.Dispatch<React.SetStateAction<object[]>>;
 
     selectedMuscleGroup: object;

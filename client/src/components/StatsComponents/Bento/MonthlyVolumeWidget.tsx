@@ -8,12 +8,12 @@ type WeeklyVolumeProps = {
     boxIndex: number;
 };
 
-// @ts-ignore
+
 export const MonthlyVolumeWidget = ({ boxIndex }: WeeklyVolumeProps) => {
 
     const { volumeData, setVolumeData } = useStatsContext();
-    const [numberOfSets, setSetNumberOfSets] = useState<number | null>(volumeData.numberOfSets || 0);
-    const [muscleGroupVolume, setMuscleGroupVolume] = useState<any | null>(volumeData.summary || []);
+    const [numberOfSets, setNumberOfSets] = useState<number>(volumeData.numberOfSets || 0);
+    const [muscleGroupVolume, setMuscleGroupVolume] = useState<any[]>(volumeData.summary || []);
 
     const [quickLoading, setQuickLoading] = useState<boolean>(false);
     const [headerDate, setHeaderDate] = useState<Date>(new Date());
@@ -38,7 +38,7 @@ export const MonthlyVolumeWidget = ({ boxIndex }: WeeklyVolumeProps) => {
             const volume = data.data;
             setQuickLoading(false);
             setVolumeData(volume);
-            setSetNumberOfSets(volume.numberOfSets ?? 0);
+            setNumberOfSets(volume.numberOfSets ?? 0);
             setMuscleGroupVolume([...volume.summary ?? []]);
         }
     }, [data]);
@@ -79,7 +79,7 @@ export const MonthlyVolumeWidget = ({ boxIndex }: WeeklyVolumeProps) => {
                 ) : (
                 <div className={'weekly-volume-wrapper'}>
                     {muscleGroupVolume.length > 0 ? (
-                        muscleGroupVolume.map((item, index) => (
+                        muscleGroupVolume.map((item:any) => (
                             <VolumeCard
                                 key={item.id}
                                 sets={item.totalSets}

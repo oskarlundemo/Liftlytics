@@ -1,5 +1,5 @@
 // AuthContext.tsx
-import React, {
+import {
     createContext,
     useState,
     useEffect,
@@ -11,13 +11,17 @@ import type { User } from "@supabase/supabase-js";
 import {useNavigate} from "react-router-dom";
 
 
+
+
 type AuthContextType = {
     user: User | null;
     loading: boolean;
     token: string | null;
     logout: () => Promise<void>;
     loginWithEmail: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-    signUpWithEmail: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+    signUpWithEmail: (email: string, password: string) => Promise<{
+        user?: { id: string; email: string; };
+        success: boolean; error?: string }>;
     loginWithGoogle: () => Promise<{ success: boolean; error?: string }>;
 };
 

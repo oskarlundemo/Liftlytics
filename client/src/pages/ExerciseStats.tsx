@@ -19,11 +19,13 @@ import '../index.css'
  * @constructor
  */
 
-
 export const ExerciseStats = ({}) => {
 
     const [exerciseData, setExerciseData] = useState<any>([]);
-    const { 'exercise-name': exerciseName, 'exercise-id': exerciseId } = useParams();
+    const { 'exercise-name': exerciseName, 'exercise-id': exerciseId } = useParams() as {
+        'exercise-name': string;
+        'exercise-id': string;
+    };
     const [selectedReps, setSelectedReps] = useState<{ [repsKey: string]: any[] }>({});
 
     const {data, isLoading, error} = useFetchDetails(encodeURIComponent(exerciseName), encodeURIComponent(exerciseId))
@@ -31,7 +33,6 @@ export const ExerciseStats = ({}) => {
 
     useEffect(() => {
         if (data?.data) {
-            console.log(data?.data);
             setExerciseData(data?.data);
         }
     }, [data]);
@@ -49,7 +50,7 @@ export const ExerciseStats = ({}) => {
         getComputedStyle(document.documentElement).getPropertyValue('--chart-cyan').trim(),
     ];
 
-    const handleClick = (repsKey, repsData) => {
+    const handleClick = (repsKey:any, repsData:any) => {
         setSelectedReps(prev => {
             const updated = { ...prev };
             if (updated[repsKey]) {
@@ -63,7 +64,8 @@ export const ExerciseStats = ({}) => {
 
     const allDates = Array.from(
         new Set(Object.values(selectedReps).flat().map(d => d.startDate))
-    ).sort((a, b) => new Date(a) - new Date(b));
+    ).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+
 
     return (
         <div className="exercise-stats-wrapper justify-center w-full h-full flex flex-col">
@@ -168,7 +170,7 @@ export const ExerciseStats = ({}) => {
                     </div>
                 ) : (
                     <h4 style={{ color: 'var(--color-text-muted)' }} className="flex align-middle m-auto text-color-muted">
-                        Error loading data: {error.message || 'Server error'}
+                        Error loading data: {error?.message || 'Server error'}
                     </h4>
                 )}
             </main>

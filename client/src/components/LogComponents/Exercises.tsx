@@ -10,7 +10,7 @@ type ExercisesProps = {
 
 export const Exercises = ({ setExercises }: ExercisesProps) => {
 
-    const { setShowExerciseMenu, setAddExerciseMenu, selectedExercises, selectedMuscleGroup } = useLogContext();
+    const { setShowExerciseMenu, setAddExerciseMenu, selectedExercises, selectedMuscleGroup } = useLogContext() as any;
 
     return (
         <section className="exercises-container flex-grow h-full">
@@ -28,7 +28,7 @@ export const Exercises = ({ setExercises }: ExercisesProps) => {
                 {selectedExercises.length === 0 ? (
                     <h3 style={{color: 'var(--color-text-muted)'}} className={'text-xl flex align-middle justify-center my-auto'}>No exercises found for this muscle group</h3>
                 ) : (
-                    selectedExercises.map((item) => (
+                    selectedExercises.map((item:any) => (
                         <ExerciseCard
                             key={item.id}
                             title={item?.exercise.name || 'Unknown Exercise'}

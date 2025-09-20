@@ -23,7 +23,6 @@ export const useVolumeDataLazy = () => {
         mutateAsync,
         data,
         error,
-        isLoading,
         isError,
         isPending,
     } = useMutation({
@@ -35,7 +34,6 @@ export const useVolumeDataLazy = () => {
         data,
         error,
         isPending,
-        isLoading,
         isError,
     };
 };

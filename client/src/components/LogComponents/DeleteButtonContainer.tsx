@@ -5,7 +5,7 @@ import '../../styles/MiscStyles/DeleteButtonContainer.css'
 
 export const DeleteButtonContainer = ({}) => {
 
-    const { mutate: deleteLog, isPending, isError } = useDeleteLog();
+    const { mutate: deleteLog } = useDeleteLog();
     const {setShowDeleteMenu, deleteLogId} = useLogContext();
 
     const handleDelete = () => {

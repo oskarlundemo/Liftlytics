@@ -15,7 +15,7 @@ export const BentoBox = ({}) => {
     return (
         <section className={'bento-box-stats'}>
 
-            <AvgTimeWidget boxIndex={6} avgTime={10}/>
+            <AvgTimeWidget boxIndex={6}/>
 
             <PRCompoundsWidget boxIndex={2}/>
 

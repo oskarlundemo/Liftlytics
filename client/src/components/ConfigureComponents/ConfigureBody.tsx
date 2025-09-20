@@ -10,7 +10,6 @@ type ExerciseBodyProps = {
     setShowMenu: (showCreateMenu: boolean) => void;
 }
 
-
 export const ConfigureBody = ({customData, title, setSelectedItem, setShowMenu}: ExerciseBodyProps) => {
 
     const [searchQuery, setSearchQuery] = useState<string>("");
@@ -22,7 +21,7 @@ export const ConfigureBody = ({customData, title, setSelectedItem, setShowMenu}:
             return;
         }
 
-        const filtered = customData.filter(item =>
+        const filtered = customData.filter((item: { name: string; }) =>
             item.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
@@ -46,7 +45,7 @@ export const ConfigureBody = ({customData, title, setSelectedItem, setShowMenu}:
             <div className="flex card-cols flex-col">
             {searchQuery.trim() !== "" ? (
                 filteredResults.length > 0 ? (
-                    filteredResults.map((item, index) => (
+                    filteredResults.map((item:any, index:number) => (
                         <CustomConfigureCard
                             item={item || null}
                             key={item.id || index }
@@ -66,7 +65,7 @@ export const ConfigureBody = ({customData, title, setSelectedItem, setShowMenu}:
                     </div>
                 )
             ) : customData.length > 0 ? (
-                customData.map((item, index) => (
+                customData.map((item:any, index:number) => (
                     <CustomConfigureCard
                         item={item || null}
                         key={item.id || index }

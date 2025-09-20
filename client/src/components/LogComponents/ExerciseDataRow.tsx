@@ -9,7 +9,7 @@ type ExerciseDataRowProps = {
     weight?: number;
     notes?: string;
     onChange: (reps: number | null, weight: number | null, notes: string) => void;
-    duplicate?: (object: any) => void;
+    duplicate?: void;
     removeSet: (id: number) => void;
 };
 

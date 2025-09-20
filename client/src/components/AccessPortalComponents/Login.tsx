@@ -7,7 +7,6 @@ import {AuthOption} from "./AuthOption.tsx";
 import toast from "react-hot-toast";
 import {useAuth} from "../../contexts/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
-import {useAuthorization} from "../../hooks/useAuthorzation.ts";
 
 
 type LoginProps = {

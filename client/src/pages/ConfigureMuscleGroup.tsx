@@ -33,12 +33,13 @@ export const ConfigureMuscleGroup = ({}) => {
         setShowCreateMenu, selectedMuscleGroup,setCustomMuscleGroups,
         showMenu, setShowMenu, showPopUp, setShowPopUp} = useMuscleGroupsContext();
 
+    // @ts-ignore
     const {data: fetchedData, isLoading, isError, error} = useFetchMuscleGroups(user.id);
     const {mutate: createMuscleGroup} = useCreateMuscleGroup(setCustomMuscleGroups);
     const {mutate: deleteCustomMuscleGroup} = useDeleteMuscleGroup(setCustomMuscleGroups);
 
     const handleDelete = () => {
-        deleteCustomMuscleGroup(selectedMuscleGroup.id || 'Oskar')
+        deleteCustomMuscleGroup(selectedMuscleGroup.id)
     }
 
     useEffect(() => {
@@ -46,10 +47,8 @@ export const ConfigureMuscleGroup = ({}) => {
             setCustomMuscleGroups(fetchedData.data);
     }, [fetchedData])
 
-
-
     if (isError) {
-        return <ErrorPage title={'There was an error loading the muscle groups'} errorMessage={error.message} details={error.code}/>
+        return <ErrorPage title={'There was an error loading the muscle groups'} errorMessage={error.message}/>
     }
 
     if (isLoading) {
