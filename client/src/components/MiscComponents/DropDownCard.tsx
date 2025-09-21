@@ -14,6 +14,7 @@ type DropDownCardProps = {
 export const DropDownCard = ({list, title, arrow, singleElement}:DropDownCardProps) => {
 
     const [isOpen, setIsOpen] = useState(false);
+    // @ts-ignore
     const [numberOfExercises, setNumberOfExercises] = useState<number>(list?.length || []);
     const toggleDropdown = () => setIsOpen(prev => !prev);
     const navigate = useNavigate();

@@ -4,17 +4,15 @@ import '../../styles/LogPage/Exercises.css'
 
 type ExerciseDataRowProps = {
     index: number;
-    setId: string;
     reps?: number;
     weight?: number;
     notes?: string;
     onChange: (reps: number | null, weight: number | null, notes: string) => void;
-    duplicate?: void;
-    removeSet: (id: number) => void;
+    duplicate?: any;
+    removeSet: any;
 };
 
 export const ExerciseDataRow = ({
-                                    setId,
                                     index,
                                     reps,
                                     weight,
@@ -64,7 +62,7 @@ export const ExerciseDataRow = ({
 
 
             <div className="remove-set flex flex-row gap-2">
-                <svg onClick={() => removeSet(setId)} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                <svg onClick={removeSet} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
                     <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
                 </svg>
             </div>

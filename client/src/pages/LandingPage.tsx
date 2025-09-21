@@ -42,7 +42,6 @@ export const LandingPage = () => {
                         <LogUsp/>
                     </Reveal>
 
-
                     <Reveal width={'100%'}>
                         <CustomUsp/>
                     </Reveal>
@@ -53,9 +52,7 @@ export const LandingPage = () => {
 
                 </main>
 
-
                 <FAQ/>
-
 
                 <LandingFooter/>
 

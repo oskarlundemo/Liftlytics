@@ -9,7 +9,7 @@ import '../../styles/Workout/NewWorkout.css'
 type CustomTimePickerProps = {
     title: string,
     date: Date,
-    setDate: (date: Date | null) => void,
+    setDate: any,
     time: Date,
     setTime: (time: Date) => void,
 }
@@ -22,7 +22,7 @@ export const CustomTimePicker = ({title, setTime, time, setDate, date}:CustomTim
             <DatePicker enableTabLoop={false} selected={date} onChange={(date) => setDate(date)} />
 
             <TimePicker
-                onChange={(newTime) => {
+                onChange={(newTime:any) => {
                     if (newTime instanceof Date) {
                         setTime(newTime);
                     } else if (typeof newTime === 'string') {

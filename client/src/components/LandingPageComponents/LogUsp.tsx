@@ -14,7 +14,7 @@ export const LogUsp = () => {
 
                 <div className="relative w-fit">
 
-                    <img src="./log-showcase.png" alt="Showcase" className="max-w-full max-h-full" />
+                    <img src="./log.avif" alt="Showcase" className="max-w-full max-h-full" />
 
                     <div className={'adjusted-image-shadow w-1/2'}></div>
                 </div>

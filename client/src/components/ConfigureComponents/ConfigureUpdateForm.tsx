@@ -33,6 +33,8 @@ export const ConfigureUpdateForm = ({
     const { mutate: updateExercise } = useUpdateCustomExercise(setCustomData) as any;
 
     const [exerciseName, setExerciseName] = useState<string>(selectedItem?.name ?? '');
+
+    // @ts-ignore
     const [originalName, setOriginalName] = useState<string>(selectedItem?.name ?? '');
 
     // @ts-ignore

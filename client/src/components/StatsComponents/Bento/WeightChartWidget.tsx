@@ -28,9 +28,9 @@ export const WeightChartWidget = ({boxIndex}:WeightChartWidgetProps) => {
         handleDateChange('1m', 0)
     }, [bodyWeightData]);
 
-    const areaColor = [
-        getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim(),
-    ];
+    const areaColor = getComputedStyle(document.documentElement)
+        .getPropertyValue("--color-primary")
+        .trim();
 
     const handleDateChange = (range:string, index:number) => {
 

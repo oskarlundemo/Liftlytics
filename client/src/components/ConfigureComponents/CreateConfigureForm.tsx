@@ -22,7 +22,7 @@ export const CreateConfigureForm = ({setShowCreateMenu, handleCreateExercise, ha
         setDisabledButton(!(exerciseName.length <= nameMaxLenght && exerciseName.trim().length > 0 && (categoryId.trim().length > 0 || !muscleGroups)));
     }, [exerciseName, categoryId]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (handleCreateExercise)
@@ -108,12 +108,12 @@ export const CreateConfigureForm = ({setShowCreateMenu, handleCreateExercise, ha
 
             <div className="form-footer flex gap-3 justify-center w-full mt-auto">
                     <button
-                        onClick={(e) => handleSubmit(e)}
+                        onClick={(e:any) => handleSubmit(e)}
                         className="button-intellij !p-4 button-confirm !w-1/2"
                         disabled={disabledButton}>
                         Create
                     </button>
-                </div>
+            </div>
 
         </form>
     )

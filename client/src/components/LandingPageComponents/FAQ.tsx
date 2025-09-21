@@ -137,18 +137,6 @@ export const FAQ = ({}) => {
                 />
 
                 <DropDownCard
-                    title={'Be honest, how much AI did you use? 🤖'}
-                    singleElement={
-                        <div className={'text-faq-wrapper p-5'}>
-                            <p>
-                                I definitely used AI as part of my workflow but mainly as a learning tool and for speeding up styling or figuring out TypeScript patterns. The majority of the code, the architecture, and the problem-solving were all written by me. AI helped me explore concepts faster and streamline some repetitive tasks, but the core logic and implementation are entirely my own.
-                            </p>
-                        </div>
-                    }
-                    arrow={true}
-                />
-
-                <DropDownCard
                     title={'Last question, can we hire you?! 🤯'}
                     singleElement={
                         <div className={'p-5'}>

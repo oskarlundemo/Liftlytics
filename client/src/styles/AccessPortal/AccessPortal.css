@@ -11,7 +11,7 @@
 .access-portal-left-container {
     width: 50%;
     height: 100%;
-    background-image: url('/gym.jpg');
+    background-image: url('/gym.avif');
     background-size: cover;
     background-position: center;
     filter: blur(2px);

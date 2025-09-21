@@ -14,7 +14,7 @@ export const WorkoutHeader = ({date, exercises} : WorkoutHederProps) => {
     const navigate = useNavigate();
     const {setIsEditing, isEditing} = useLogContext();
     const {log_id} = useParams();
-    const {mutate: updateExercise} = useUpdateExercise(log_id);
+    const {mutate: updateExercise} = useUpdateExercise(log_id!);
 
     const formattedDate = date.toLocaleDateString('en-GB', {
         day: 'numeric',

@@ -16,7 +16,7 @@ export const LogModule = ({logs, date}:LogModuleProps) => {
 
             {logs.length > 0 ? (
                 <div className="flex flex-col log-card-wrapper">
-                    {logs.map((log, index) => (
+                    {logs.map((log:any, index:number) => (
                         <LogCard
                             key={log.id || index}
                             id={log.id}

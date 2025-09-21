@@ -24,6 +24,7 @@ export const CustomInput = ({ type = '', isRequired = true, name = '', maxLength
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (
+            // @ts-ignore
             value.length >= maxLength &&
             !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter'].includes(e.key)
         ) {

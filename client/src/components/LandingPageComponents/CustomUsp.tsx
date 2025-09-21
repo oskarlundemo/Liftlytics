@@ -9,7 +9,7 @@ export const CustomUsp = () => {
             <div className="image-container flex items-center justify-center my-auto w-1/2 h-full relative ">
 
                 <div className="relative w-fit">
-                    <img src="./custom.png" alt="Showcase" className="max-w-full max-h-full" />
+                    <img src="./edit-exercise.avif" alt="Showcase" className="max-w-full max-h-full" />
                     <div className={'adjusted-image-shadow w-1/2'}></div>
                 </div>
 
