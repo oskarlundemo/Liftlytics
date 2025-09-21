@@ -19,9 +19,7 @@ type AuthContextType = {
     token: string | null;
     logout: () => Promise<void>;
     loginWithEmail: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-    signUpWithEmail: (email: string, password: string) => Promise<{
-        user?: { id: string; email: string; };
-        success: boolean; error?: string }>;
+    signUpWithEmail: any,
     loginWithGoogle: () => Promise<{ success: boolean; error?: string }>;
 };
 
@@ -93,6 +91,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const signUpWithEmail = async (email: string, password: string): Promise<{ success: boolean; error?: string; user?: User }> => {
+
         const { data, error } = await supabase.auth.signUp({
             email,
             password,

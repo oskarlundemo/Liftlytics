@@ -3,13 +3,11 @@ import '../../styles/LogPage/Exercises.css'
 
 type ExerciseModuleHeaderProps = {
     title: string;
-    deleteExercise: (exerciseId: string) => void;
-    localId: string;
 }
 
 
 
-export const ExerciseModuleHeader = ({title, localId, deleteExercise} : ExerciseModuleHeaderProps) => {
+export const ExerciseModuleHeader = ({title} : ExerciseModuleHeaderProps) => {
 
     return (
         <div className="exercise-module-header">

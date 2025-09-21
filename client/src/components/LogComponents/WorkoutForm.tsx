@@ -109,7 +109,7 @@ export const WorkoutForm = ({} ) => {
     const { mutate: submitWorkout} = usePostWorkout();
     const { mutate: updateWorkout } = useUpdateWorkout(log_id!);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
         e.preventDefault();
 
@@ -206,9 +206,7 @@ export const WorkoutForm = ({} ) => {
             <SlideInSideMenu
                 showMenu={showCustomExerciseMenu}
                 children={
-                    <CustomExercise
-                        setExercises={setExercises}
-                    />
+                    <CustomExercise/>
                 }
                 fromLeft={true}
             />

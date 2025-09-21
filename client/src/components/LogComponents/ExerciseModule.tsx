@@ -18,15 +18,15 @@ type ExerciseModuleProps = {
     setExercises: React.Dispatch<React.SetStateAction<any[]>>
     index: number;
     exercises: Array<any>
-    id: string;
+    id?: string;
     title: string;
     sets: ExerciseSet[];
-    updateSets: (exerciseId: string, sets: ExerciseSet[]) => void;
+    updateSets: any;
     deleteExercise: (exerciseId: string) => void;
     localId: string;
 };
 
-export const ExerciseModule = ({id, title, sets, localId, updateSets, exercises, index, setExercises, deleteExercise}: ExerciseModuleProps) => {
+export const ExerciseModule = ({title, sets, localId, updateSets, exercises, index, setExercises, deleteExercise}: ExerciseModuleProps) => {
 
     const {isEditing} = useLogContext();
 
@@ -41,7 +41,7 @@ export const ExerciseModule = ({id, title, sets, localId, updateSets, exercises,
         updateSets(localId, [...(sets || []), newSet]);
     };
 
-    const duplicateSets = (set) => {
+    const duplicateSets = (set:any) => {
 
         const duplicatedSet: ExerciseSet = {
             id: uuidv4(),
@@ -57,7 +57,7 @@ export const ExerciseModule = ({id, title, sets, localId, updateSets, exercises,
         updateSets(localId, updatedSets);
     }
 
-    const removeSet = (setId: string) => {
+    const removeSet = (setId: string | number) => {
         updateSets(localId, sets.filter(s => s.id !== setId));
     };
 
@@ -144,18 +144,17 @@ export const ExerciseModule = ({id, title, sets, localId, updateSets, exercises,
 
                 <div className={`exercise-module ${isEditing ? 'editing' : ''}`}>
 
-                    <ExerciseModuleHeader localId={localId} deleteExercise={deleteExercise} title={title} />
+                    <ExerciseModuleHeader title={title} />
 
                     {(sets).map((set, index) => (
                         <ExerciseDataRow
                             key={set.id}
                             index={index + 1}
-                            setId={set.id}
                             reps={set.reps}
                             weight={set.weight}
                             notes={set.notes}
                             onChange={(reps, weight, notes) => {
-                                const updatedSets = sets.map(s =>
+                                const updatedSets:any = sets.map(s =>
                                     s.id === set.id ? { ...s, reps, weight, notes } : s
                                 );
                                 updateSets(localId, updatedSets);

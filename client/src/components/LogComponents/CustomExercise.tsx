@@ -57,7 +57,7 @@ export const CustomExercise = ({}) => {
                 addExercise={false}
             />
 
-            <div onSubmit={(e) => handleSubmit(e)} className="custom-exercise-form">
+            <div className="custom-exercise-form">
 
                 <CustomInput
                     type={'text'}

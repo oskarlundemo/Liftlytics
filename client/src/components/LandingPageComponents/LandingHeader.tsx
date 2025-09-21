@@ -12,9 +12,8 @@ export const LandingHeader = () => {
         <header className={'landing-header'}>
 
             <div className="video-background">
-                <video autoPlay muted loop playsInline>
-                    <source src="hero-video.mp4" type="video/mp4"/>
-                </video>
+
+                <img src={'gym.avif'} alt="image-of-gym" />
 
                 <div className="video-fade"></div>
 
@@ -41,11 +40,11 @@ export const LandingHeader = () => {
                     <div className={'header-images'}>
 
                         <div className="first-image-wrapper">
-                            <img  alt={'image from the app'} src='./mock-logs.png'></img>
+                            <img  alt={'image from the app'} src='./overview-log.avif'></img>
                         </div>
 
                         <div className="second-image-wrapper">
-                            <img alt={'image from the app'} src='./mock-stats.png'></img>
+                            <img alt={'image from the app'} src='./stats.avif'></img>
                         </div>
 
                         <div className={'image-shadow'}></div>

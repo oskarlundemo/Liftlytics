@@ -8,7 +8,7 @@ import {useNavigate} from "react-router-dom";
 type LogCardProps = {
     startTime: string,
     workoutName: string
-    exercises: object[]
+    exercises: any
     id: string
 }
 
@@ -35,7 +35,7 @@ export const LogCard = ({startTime, id, workoutName, exercises}: LogCardProps) =
                 <h4>{parseWorkoutName(workoutName, startTime) || 'Undefined'}</h4>
 
                 {exercises && exercises.length > 0 && (
-                    exercises.map((exercise, index) => (
+                    exercises.map((exercise:any, index:number) => (
                         <h5 key={index}>{exercise.metrics.length} x {exercise.exercise.name}</h5>
                     ))
                 )}

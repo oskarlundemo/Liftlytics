@@ -57,7 +57,6 @@ export const MenuHeader = ({search = false,
                                 alignSelf: 'center',
                                 justifySelf: 'center',
                             }}
-                            type="button"
                             onClick={() => {
                                 setShowCustomExerciseMenu(false);
                             }}

@@ -10,7 +10,7 @@ type WorkoutDataProps = {
     setWorkoutName: React.Dispatch<React.SetStateAction<string>>;
 
     startDate: Date;
-    setStartDate: React.Dispatch<React.SetStateAction<Date>>;
+    setStartDate: any;
 
     endDate: Date;
     setEndDate: React.Dispatch<React.SetStateAction<Date>>;

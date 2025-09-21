@@ -1,8 +1,8 @@
-import {JSX, useRef, useEffect} from "react";
+import { type ReactNode, useRef, useEffect } from "react";
 import {motion, useInView, useAnimation} from "framer-motion";
 
 type Props = {
-    children: JSX.Element
+    children: ReactNode;
     width?: string
 }
 
