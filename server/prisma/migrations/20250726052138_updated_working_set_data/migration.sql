@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "WorkingSetData" ALTER COLUMN "metricType" DROP NOT NULL,
+ALTER COLUMN "metricType" SET DEFAULT 'WEIGHT_REPS';

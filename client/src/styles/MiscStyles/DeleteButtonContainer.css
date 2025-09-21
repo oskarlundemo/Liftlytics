@@ -1,0 +1,16 @@
+
+
+
+.delete-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.button-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
