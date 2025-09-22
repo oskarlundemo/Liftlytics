@@ -13,8 +13,6 @@ export const LandingHeader = () => {
 
             <div className="video-background">
 
-                <img src={'gym.avif'} alt="image-of-gym" />
-
                 <div className="video-fade"></div>
 
             </div>
