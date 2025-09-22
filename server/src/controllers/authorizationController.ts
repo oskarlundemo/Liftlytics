@@ -30,7 +30,6 @@ export const syncUserWithDb = async (req: Request, res: Response) => {
 
     try {
 
-
         const { email, id } = req.body;  // Extract email and id from body
 
         if (!id || !email) { // If either are missing, fail fast
@@ -107,3 +106,14 @@ export const deleteUserFromDB = async (req: AuthenticatedRequest, res: Response)
         return res.status(500).json({ error: "Internal server error", message: err.message}); // Send the error message to the user
     }
 }
+
+/**
+ * 1. This functions is used when someone wants to log in to the guest account
+ *
+ * 2. It expects nothing
+ *
+ * 3. It returns a success message saying that the user logged in and the token associated
+ *
+ * @param req
+ * @param res
+ */

@@ -20,6 +20,7 @@ type AuthContextType = {
     logout: () => Promise<void>;
     loginWithEmail: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
     signUpWithEmail: any,
+    loginGuest: any,
     loginWithGoogle: () => Promise<{ success: boolean; error?: string }>;
 };
 
@@ -76,7 +77,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         navigate('/')
     };
 
-    const loginWithEmail = async (email: string , password: string): Promise<{ success: boolean; error?: string }> => {
+    const loginWithEmail = async (
+        email: string,
+        password: string
+    ): Promise<{ success: boolean; error?: string }> => {
         const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
@@ -84,9 +88,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         if (error) {
             return { success: false, error: error.message };
-        } else {
-            return { success: true };
         }
+
+        if (data.session?.access_token) {
+            // store token immediately
+            localStorage.setItem("token", data.session.access_token);
+        } else {
+            return { success: false, error: "No session token returned" };
+        }
+
+        return { success: true };
     };
 
     const signUpWithEmail = async (email: string, password: string): Promise<{ success: boolean; error?: string; user?: User }> => {
@@ -99,7 +110,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (error) {
             return { success: false, error: error.message };
         } else {
-            console.log('Signed in:', data);
             return { success: true, user: data?.user ?? data?.session?.user };
         }
     };

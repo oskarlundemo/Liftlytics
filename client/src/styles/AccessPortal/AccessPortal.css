@@ -8,14 +8,21 @@
     flex-grow: 1;
 }
 
+
+
 .access-portal-left-container {
     width: 50%;
     height: 100%;
-    background-image: url('/gym.avif');
     background-size: cover;
     background-position: center;
     filter: blur(2px);
     z-index: -5;
+
+    img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
 }
 
 .access-portal-right-container {
@@ -189,6 +196,16 @@
 }
 
 
+.guest-button {
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    color: var(--color-text-muted);
+
+    &:hover {
+        color: var(--color-primary)
+    }
+}
+
 @keyframes fadeInUp {
     0% { opacity: 0; transform: translateY(20px); }
     100% { opacity: 1; transform: translateY(0); }
@@ -203,7 +220,7 @@
         transform: translateY(-20px);
 
         h1 {
-            background: linear-gradient(45deg, var(--color-primary), #ff6ec7);
+            background: var(--color-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: clamp(5rem, 5vw + 1rem, 6rem);
@@ -229,7 +246,7 @@
         height: 70%;
         bottom: 0 !important;
         align-self: end;
-        border-radius: 0px;
+        border-radius: 0;
         gap: 2rem;
     }
 
