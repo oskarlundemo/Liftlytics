@@ -8,10 +8,20 @@ import exerciseRoute from "./routes/exerciseRoute";
 import muscleGroupRoute from "./routes/muscleGroupRoute";
 dotenv.config();
 
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://liftlytics.se',
+    'https://liftlytics-client.onrender.com'
+];
+
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) return callback(null, true);
+        callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
 }));
 
@@ -22,7 +32,6 @@ app.use('/api/logs', logRoute);
 app.use('/api/exercises', exerciseRoute);
 app.use('/api/stats', statsRoute)
 app.use('/api/muscle-groups', muscleGroupRoute)
-app.use(cors());
 
 
 const PORT = process.env.PORT || 3001;

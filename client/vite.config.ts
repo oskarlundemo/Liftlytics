@@ -10,7 +10,7 @@ export default defineConfig({
       react(),
       svgr(),
       tailwindcss(),
-      checker({ typescript: true, enableBuild: false }), // <- disables TS errors blocking build
+      checker({ typescript: true, enableBuild: false }),
   ],
     esbuild: {
         logOverride: { 'tsconfig.json': 'silent' },
