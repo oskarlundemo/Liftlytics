@@ -78,8 +78,6 @@ export const AccessPortal = () => {
 
                 </AnimatePresence>
 
-                <AuthorDetails/>
-
             </section>
 
         </main>
