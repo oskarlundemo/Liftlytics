@@ -6,7 +6,6 @@ export const syncUser = async (userData:object) => {
     return res.data;
 }
 
-
 export const deleteUser = async () => {
     const res = await axiosInstance.delete('/authorization/delete-user');
     return res.data;

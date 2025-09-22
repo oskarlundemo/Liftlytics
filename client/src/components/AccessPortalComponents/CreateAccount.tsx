@@ -7,6 +7,7 @@ import {AuthOption} from "./AuthOption.tsx";
 import toast from "react-hot-toast";
 import {useAuth} from "../../contexts/AuthContext.tsx";
 import {useAuthorization} from "../../hooks/useAuthorzation.ts";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -17,10 +18,11 @@ type CreateAccountProps = {
 export const CreateAccount = ({setLogin} : CreateAccountProps) => {
 
     const {loginWithGoogle, signUpWithEmail} = useAuth();
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const { mutate: syncUser } = useAuthorization();
+    const { mutate: syncUser, isSuccess } = useAuthorization();
     const [disabled, setDisabled] = useState<boolean>(true);
 
     useEffect(() => {
@@ -35,6 +37,11 @@ export const CreateAccount = ({setLogin} : CreateAccountProps) => {
         if (result.success && result.user) {
             syncUser({ id: result.user.id, email: result.user.email });
             toast.loading("Redirecting to start page...");
+            toast.dismiss();
+
+            if (isSuccess)
+                navigate("/log");
+
         } else {
             toast.error(result.error || "Sign-in failed.");
         }

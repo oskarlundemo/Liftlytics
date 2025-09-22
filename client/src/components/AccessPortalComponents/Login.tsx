@@ -7,6 +7,7 @@ import {AuthOption} from "./AuthOption.tsx";
 import toast from "react-hot-toast";
 import {useAuth} from "../../contexts/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
+import {supabase} from "../../services/supabase.ts";
 
 
 type LoginProps = {
@@ -18,7 +19,7 @@ export const Login = ({setLogin}: LoginProps) => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const navigate = useNavigate();
-    const {loginWithGoogle, loginWithEmail} = useAuth();
+    const {loginWithGoogle, loginWithEmail, loginGuest} = useAuth();
 
     const [disabled, setDisabled] = useState<boolean>(true);
 
@@ -29,18 +30,23 @@ export const Login = ({setLogin}: LoginProps) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (email.trim().length < 0 || password.trim().length < 0)
-            return;
+        if (email.trim().length === 0 || password.trim().length === 0) return;
 
-        const result = await loginWithEmail(email, password);
+        try {
+            const result = await loginWithEmail(email, password);
 
-        if (!result.success) {
-            toast.error(result.error || "Login failed.");
-        } else {
-            toast.success("Successfully logged in!");
-            navigate("/home");
+            if (result.success) {
+                toast.success("Successfully logged in!");
+                navigate("/log");
+            } else {
+                toast.error(result.error || "Login failed.");
+            }
+        } catch (err) {
+            console.error("Unexpected login error:", err);
+            toast.error("Unexpected error during login.");
         }
     };
+
 
     const handleGoogleLogin = async () => {
         const result = await loginWithGoogle();
@@ -48,6 +54,26 @@ export const Login = ({setLogin}: LoginProps) => {
             toast.error(result.error || "Google sign-in failed.");
         } else {
             toast.loading("Redirecting to Google login...");
+        }
+    };
+
+
+    const handleGuestLogin = async () => {
+        const email = import.meta.env.VITE_GUEST_EMAIL;
+        const password = import.meta.env.VITE_GUEST_PASSWORD;
+
+        try {
+            const result = await loginWithEmail(email, password);
+
+            if (result.success) {
+                toast.success("Successfully logged in!");
+                navigate("/log");
+            } else {
+                toast.error(result.error || "Login failed.");
+            }
+        } catch (err) {
+            console.error("Unexpected guest login error:", err);
+            toast.error("Unexpected error during guest login.");
         }
     };
 
@@ -81,6 +107,7 @@ export const Login = ({setLogin}: LoginProps) => {
                     name="password"
                 />
 
+
                 <button
                     className="button-intellij"
                     disabled={disabled}
@@ -107,6 +134,12 @@ export const Login = ({setLogin}: LoginProps) => {
                     Click me
                 </span>
             </h3>
+
+            <span
+                onClick={() => handleGuestLogin()}
+                className={'guest-button'}
+            >
+                Continue as guest</span>
 
         </section>
     )

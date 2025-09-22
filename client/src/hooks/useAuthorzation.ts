@@ -8,7 +8,6 @@ export const useAuthorization = () => {
     });
 };
 
-
 export const useDeleteUser = () => {
     return useMutation({
         mutationFn: deleteUser,

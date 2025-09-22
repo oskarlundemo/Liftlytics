@@ -41,6 +41,7 @@ export const CallbackPage = () => {
                     },
                 }
             );
+            navigate("/log");
         }
 
         handleCallback();
@@ -64,6 +65,4 @@ export const CallbackPage = () => {
 
         </main>
     )
-
-
 }

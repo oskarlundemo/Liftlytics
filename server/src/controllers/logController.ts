@@ -188,6 +188,7 @@ export const fetchLogs = async (req: AuthenticatedRequest, res: Response) => {
 
     try {
 
+
         // Find all the logs matching the user id
         const logs = await prisma.workout.findMany({
             where: {

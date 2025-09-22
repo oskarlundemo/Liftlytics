@@ -1,5 +1,3 @@
-
-
 import '../../styles/LandingPage/LandingHeader.css'
 import {useNavigate} from "react-router-dom";
 
