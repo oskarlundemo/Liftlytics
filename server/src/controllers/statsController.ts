@@ -22,9 +22,16 @@ export const fetchCategories = async (req: AuthenticatedRequest, res: Response, 
     try {
 
         const userId = req.user.id; // Id of the user
+        console.log('Fetching Categories');
 
         // Find the muscle groups
         const muscleGroups = await prisma.muscleGroup.findMany({
+            where: {
+                OR: [
+                    { isDefault: true }, // default muscle groups
+                    { userId: userId }   // muscle groups created by this user
+                ]
+            },
             include: {
                 exercises: {
                     include: {
@@ -33,8 +40,8 @@ export const fetchCategories = async (req: AuthenticatedRequest, res: Response, 
                     where: {
                         exercise: {
                             OR: [
-                                { isDefault: true },
-                                { userId: userId }
+                                { isDefault: true },  // default exercises
+                                { userId: userId }    // exercises created by this user
                             ]
                         }
                     }
@@ -669,12 +676,6 @@ export const workoutStreakData = async (req: AuthenticatedRequest, res: Response
                 startDate: 'asc'
             }
         })
-
-        console.log(usersWorkouts);
-
-        for (const workout of usersWorkouts) {
-            console.log(workout.startDate);
-        }
 
         let longestStreak = 0; // Their longest streak
         let currentStreak = 0; // Their current streak

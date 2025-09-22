@@ -242,8 +242,8 @@
     .access-portal-box {
         position: relative;
         width: 100%;
+        height: 100%;
         margin: 0;
-        height: 70%;
         bottom: 0 !important;
         align-self: end;
         border-radius: 0;
