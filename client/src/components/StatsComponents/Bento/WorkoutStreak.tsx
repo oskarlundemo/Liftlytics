@@ -20,11 +20,11 @@ export const WorkoutStreak = ({boxIndex}: WorkoutsThisWeekWidgetProps) => {
             <h3 className={'widget-title p-4'}>Workout streak</h3>
 
             <h4 className={"flex-grow h-fit flex items-center justify-center"}>
-                {workoutStreakData?.currentStreak || 'Undefined'}
+                {workoutStreakData?.currentStreak || 'No data'}
             </h4>
 
             <h5 className={'text-sm font-semibold'} style={{color: 'var(--color-text-muted)'}}>
-                Record: {workoutStreakData?.longestStreak || 'Undefined'}
+                Record: {workoutStreakData?.longestStreak || 'No data<'}
             </h5>
         </div>
     )
