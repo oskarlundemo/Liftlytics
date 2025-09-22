@@ -85,7 +85,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (error) {
             return { success: false, error: error.message };
         } else {
-            console.log('Signed in:', data);
             return { success: true };
         }
     };
