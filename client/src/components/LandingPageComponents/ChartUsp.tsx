@@ -3,7 +3,7 @@
 import '../../styles/LandingPage/Usps.css'
 import {useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
-import {Area, AreaChart, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis} from "recharts";
+import { Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis} from "recharts";
 
 
 export const ChartUsp = () => {
@@ -20,23 +20,12 @@ export const ChartUsp = () => {
         { date: '2025-08-13', r12: 123, r5: 170, r1: 215 }
     ];
 
-    const weightData = [
-        { date: '2025-08-01', weight: 60.4 },
-        { date: '2025-08-04', weight: 74.1 },
-        { date: '2025-08-07', weight: 66.8 },
-        { date: '2025-08-10', weight: 71.5 },
-        { date: '2025-09-13', weight: 80.3 },
-        { date: '2025-09-13', weight: 59.3 }
-    ];
-
     useEffect(() => {
         setTimeout(() => {
             setShowWeight(!showWeight);
         }, 5000)
     }, [showWeight]);
 
-
-    const areaColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim();
 
     return (
         <section className="chart-usp usp">
@@ -51,109 +40,72 @@ export const ChartUsp = () => {
             </div>
 
 
-            <div className="motion-wrapper overflow-hidden">
+            <div className="motion-wrapper justify-between flex flex-col">
+
+
+                <h3 style={{color: 'var(--color-text-muted)'}} className={'text-xl text-center font-semibold'}>Deadlift</h3>
                 <AnimatePresence initial={false}>
-                    {showWeight ? (
-                        <motion.div
-                            className="motion w-full"
-                            key="weight"
-                            initial={{ x: 300, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            exit={{ x: -300, opacity: 0 }}
-                            transition={{ duration: 0.7, ease: "easeInOut" }}
-                        >
-                            <div style={{ flex: 1, minHeight: '300px', width: '100%', height: '400px' }}>
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <AreaChart data={weightData}>
-                                        <XAxis
-                                            dataKey="date"
-                                            tickFormatter={(dateStr) => {
-                                                const date = new Date(dateStr);
-                                                return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}`;
-                                            }}
-                                        />
-                                        <YAxis
-                                            label={{
-                                                value: 'Body weight (kg)',
-                                                angle: -90,
-                                                position: 'insideLeft',
-                                                offset: 10,
-                                                style: { textAnchor: 'middle', fill: '#555' }
-                                            }}
-                                        />
-                                        <Area
-                                            type="monotone"
-                                            dataKey="weight"
-                                            stroke={areaColor}
-                                            fill={areaColor}
-                                            activeDot={false}
-                                        />
-                                    </AreaChart>
-                                </ResponsiveContainer>
-                            </div>
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            className="motion w-full"
-                            key="deadlift"
-                            initial={{ x: 300, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            exit={{ x: -300, opacity: 0 }}
-                            transition={{ duration: 0.7, ease: "easeInOut" }}
-                        >
 
-                            <div style={{ flex: 1, minHeight: '300px', height: '400px' }}>
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <LineChart data={repsData}>
+                    <motion.div
+                        className="motion w-full"
+                        key="deadlift"
+                        initial={{ x: 300, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        exit={{ x: -300, opacity: 0 }}
+                        transition={{ duration: 0.7, ease: "easeInOut" }}
+                    >
 
-                                        <XAxis
-                                            dataKey="date"
-                                            tickFormatter={(dateStr) => {
-                                                const date = new Date(dateStr);
-                                                return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}`;
-                                            }}
-                                        />
+                        <div style={{ flex: 1, minHeight: '300px', height: '400px' }}>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <LineChart data={repsData}>
 
-                                        <YAxis
-                                            label={{
-                                                value: 'Weight (kg)',
-                                                angle: -90,
-                                                position: 'insideLeft',
-                                                offset: 10,
-                                                style: { textAnchor: 'middle', fill: '#555' }
-                                            }}
-                                        />
+                                    <XAxis
+                                        dataKey="date"
+                                        tickFormatter={(dateStr) => {
+                                            const date = new Date(dateStr);
+                                            return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}`;
+                                        }}
+                                    />
 
-                                        <Line
-                                            type="monotone"
-                                            dataKey="r1"
-                                            stroke="hsl(195, 100%, 75%)"
-                                            name="1 rep"
-                                            activeDot={false}
-                                        />
+                                    <YAxis
+                                        label={{
+                                            value: 'Weight (kg)',
+                                            angle: -90,
+                                            position: 'insideLeft',
+                                            offset: 10,
+                                            style: { textAnchor: 'middle', fill: '#555' }
+                                        }}
+                                    />
 
-                                        <Line
-                                            type="monotone"
-                                            dataKey="r5"
-                                            stroke="hsl(275, 50%, 55%)"
-                                            name="5 reps"
-                                            activeDot={false}
-                                        />
-                                        <Line
-                                            type="monotone"
-                                            dataKey="r12"
-                                            stroke="hsl(275, 55%, 45%)"
-                                            name="12 reps"
-                                            activeDot={false}
-                                        />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="r1"
+                                        stroke="hsl(195, 100%, 75%)"
+                                        name="1 rep"
+                                        activeDot={false}
+                                    />
 
-                                        <Legend />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="r5"
+                                        stroke="hsl(275, 50%, 55%)"
+                                        name="5 reps"
+                                        activeDot={false}
+                                    />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="r12"
+                                        stroke="hsl(275, 55%, 45%)"
+                                        name="12 reps"
+                                        activeDot={false}
+                                    />
 
-                                    </LineChart>
-                                </ResponsiveContainer>
-                            </div>
-                        </motion.div>
-                    )}
+                                    <Legend />
+
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </motion.div>
                 </AnimatePresence>
             </div>
         </section>

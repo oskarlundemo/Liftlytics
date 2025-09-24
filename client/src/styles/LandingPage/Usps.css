@@ -101,6 +101,6 @@
 }
 
 .motion-wrapper {
-    height: 400px;
     width: 50%;
+    height: auto;
 }
