@@ -4,9 +4,7 @@ import {Login} from "../components/AccessPortalComponents/Login.tsx";
 import {CreateAccount} from "../components/AccessPortalComponents/CreateAccount.tsx";
 import {AnimatePresence, motion} from "framer-motion";
 import {Logo} from "../components/AccessPortalComponents/Logo.tsx";
-import {AuthorDetails} from "../components/AccessPortalComponents/AuthorDetails.tsx";
 import {useNavigate} from "react-router-dom";
-
 
 /**
  * Purpose:
