@@ -6,14 +6,12 @@ export const CustomUsp = () => {
     return (
         <section className={'custom-usp usp'}>
 
-            <div className="image-container flex items-center justify-center my-auto w-1/2 h-full relative ">
+            <div className="flex flex-col w-1/2 items-center align-middle">
 
-                <div className="relative w-fit">
-                    <img src="./edit-exercise.avif" alt="Showcase" className="max-w-full max-h-full" />
-                    <div className={'adjusted-image-shadow w-1/2'}></div>
-                </div>
+                <img src="./edit-exercise.avif" alt="Showcase" className="max-w-full max-h-full" />
 
             </div>
+
 
             <div className={'text-container w-1/2'}>
 

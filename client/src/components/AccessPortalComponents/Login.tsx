@@ -7,7 +7,6 @@ import {AuthOption} from "./AuthOption.tsx";
 import toast from "react-hot-toast";
 import {useAuth} from "../../contexts/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
-import {supabase} from "../../services/supabase.ts";
 
 
 type LoginProps = {
@@ -85,9 +84,6 @@ export const Login = ({setLogin}: LoginProps) => {
 
             <form
                 className={'access-portal-form'}
-                style={{
-                    overflow: 'hidden'
-                }}
 
                 onSubmit={handleSubmit}>
 
@@ -129,17 +125,19 @@ export const Login = ({setLogin}: LoginProps) => {
                 action={handleGoogleLogin}
             />
 
-            <h3 className={'text-base m-4'}>Not signed up yet? {}
-                <span className={'hover-text'} onClick={() => setLogin(false)}>
-                    Click me
+            <h3 className={'text-base'}>Not signed up yet? {}
+                <span style={{color: 'var(--color-accent)'}} className={'hover-text font-bold'} onClick={() => setLogin(false)}>
+                    Click here
                 </span>
             </h3>
 
-            <span
+            <h4
+                style={{color: 'var(--color-text-muted)'}}
                 onClick={() => handleGuestLogin()}
-                className={'guest-button'}
+                className={'guest-button m-0 text-sm font-bold'}
             >
-                Continue as guest</span>
+                Continue as guest</h4>
+
 
         </section>
     )

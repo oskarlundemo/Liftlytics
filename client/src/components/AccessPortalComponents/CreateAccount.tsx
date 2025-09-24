@@ -101,9 +101,9 @@ export const CreateAccount = ({setLogin} : CreateAccountProps) => {
                 action={handleGoogleSignUp}
             />
 
-            <h3 className={'text-base m-4'}>Already have an account? {}
-                <span className={'hover-text'} onClick={() => setLogin(true)}>
-                    Click me
+            <h3 className={'text-base whitespace-nowrap text-center m-4'}>Already have an account? {}
+                <span style={{color: 'var(--color-accent)'}} className={'hover-text font-bold'} onClick={() => setLogin(true)}>
+                    Click here
                 </span>
             </h3>
 
