@@ -6,6 +6,7 @@ import authorizationRoute from "./routes/authorizationRoute";
 import statsRoute from "./routes/statsRoute";
 import exerciseRoute from "./routes/exerciseRoute";
 import muscleGroupRoute from "./routes/muscleGroupRoute";
+
 dotenv.config();
 
 const allowedOrigins = [
@@ -25,14 +26,13 @@ app.use(cors({
     credentials: true,
 }));
 
+
 app.use(express.json());
 app.use('/api/authorization', authorizationRoute);
-app.use(express.json());
 app.use('/api/logs', logRoute);
 app.use('/api/exercises', exerciseRoute);
 app.use('/api/stats', statsRoute)
 app.use('/api/muscle-groups', muscleGroupRoute)
-
 
 const PORT = process.env.PORT || 3001;
 
