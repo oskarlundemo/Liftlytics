@@ -84,9 +84,9 @@
 
 .log-usp, .custom-usp {
     img {
-        max-height: 600px;
         height: 100%;
-        object-fit: contain;
+        max-height: 600px;
+        filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.3));
     }
 }
 

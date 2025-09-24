@@ -20,12 +20,12 @@ export const DropDownCard = ({list, title, arrow, singleElement}:DropDownCardPro
     const navigate = useNavigate();
 
     return (
-        <div className="card-container">
+        <div onClick={toggleDropdown} className="card-container">
 
 
             <div className={'drop-down-header justify-between flex flex-row gap-5'}>
 
-                <h3 onClick={toggleDropdown} className="dropdown-title flex gap-1">
+                <h3 className="dropdown-title flex gap-1">
                     {title}
                     {list && (
                         <span>({numberOfExercises})</span>

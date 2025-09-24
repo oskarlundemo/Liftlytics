@@ -10,14 +10,9 @@ export const LogUsp = () => {
     return (
         <section className={'log-usp usp'}>
 
-            <div className="image-container flex items-center justify-center my-auto w-1/2 h-full my-auto relative ">
+            <div className="flex flex-col w-1/2 items-center align-middle">
 
-                <div className="relative w-fit">
-
-                    <img src="./log.avif" alt="Showcase" className="max-w-full max-h-full" />
-
-                    <div className={'adjusted-image-shadow w-1/2'}></div>
-                </div>
+                <img src="./log.avif" alt="Showcase" className="max-w-full max-h-full" />
 
             </div>
 

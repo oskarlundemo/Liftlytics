@@ -34,13 +34,6 @@ export const AccessPortal = () => {
             <section className="access-portal-left-container">
 
 
-                <img
-                    src={'gym.avif'}
-                    loading="lazy"
-                    alt={'Image of gym'}
-                />
-
-
             </section>
 
             <section className="access-portal-right-container">
