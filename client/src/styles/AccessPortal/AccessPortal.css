@@ -8,7 +8,14 @@
     flex-grow: 1;
 }
 
+.guest-button {
+    transition: var(--default-transition-duration);
 
+    &:hover {
+        cursor: pointer;
+        color: var(--color-accent) !important;
+    }
+}
 
 .access-portal-left-container {
     width: 50%;

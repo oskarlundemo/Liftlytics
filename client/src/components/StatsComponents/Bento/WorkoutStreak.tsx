@@ -24,7 +24,7 @@ export const WorkoutStreak = ({boxIndex}: WorkoutsThisWeekWidgetProps) => {
             </h4>
 
             <h5 className={'text-sm font-semibold'} style={{color: 'var(--color-text-muted)'}}>
-                Record: {workoutStreakData?.longestStreak || 'No data<'}
+                Record: {workoutStreakData?.longestStreak || 'No data'}
             </h5>
         </div>
     )
