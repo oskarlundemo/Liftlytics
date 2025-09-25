@@ -52,7 +52,7 @@ export const MenuHeader = ({search = false,
                         ))
                     ) : (
                         <span
-                            className={`subtle-grey-button !hover-text`}
+                            className={`subtle-grey-button !hover-text `}
                             style={{
                                 alignSelf: 'center',
                                 justifySelf: 'center',
@@ -67,7 +67,7 @@ export const MenuHeader = ({search = false,
 
                 </button>
 
-                <h1 className={'text-2xl font-bold m-4'}>{header}</h1>
+                <h1 className={'text-xl font-bold m-2'}>{header}</h1>
 
                 {addExercise && (
                     <button
