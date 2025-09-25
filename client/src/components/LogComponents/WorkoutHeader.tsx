@@ -29,8 +29,6 @@ export const WorkoutHeader = ({date, exercises} : WorkoutHederProps) => {
         }
 
         updateExercise(exercises);
-
-        console.log('Save to this');
         setIsEditing(false);
     }
 
@@ -72,7 +70,7 @@ export const WorkoutHeader = ({date, exercises} : WorkoutHederProps) => {
                 {formattedDate}
             </h1>
 
-            <div className={`edit-icon`}>
+            <div className={`edit-icon flex flex-col self-center`}>
 
                 {!isEditing ? (
                     <button onClick={() => setIsEditing(true)} className={'flex subtle-grey-button font-semibold gap-2 flex-row-reverse items-center'} type={'button'}>

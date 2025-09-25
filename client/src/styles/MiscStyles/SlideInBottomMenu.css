@@ -14,5 +14,5 @@
     background-color: var(--color-bg);
     border-radius: var(--border-radius);
     z-index: 999;
-    overflow: hidden;
+    overflow-y: scroll;
 }
