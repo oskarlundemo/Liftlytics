@@ -1,10 +1,6 @@
 # Liftlytics - React & Node.js
 
-## Live demo 
-
-Note that the project spins down with inactivity, so it might take 50 seconds before everything is running
-
-### 💡 What I have learnt 
+### What I have learnt 
 
 While building Liftlytics, I strengthened my skills and became more familiar with several modern frontend and backend tools:
 
@@ -22,36 +18,36 @@ TypeScript – to add static typing, improve code reliability, and enhance the d
 
 This project helped me deepen my understanding of data-driven applications, combining interactive visual feedback with secure, scalable backend functionality.
 
-## 📌 Project Overview
+##  Project Overview
 
 This project is a fullstack weightlifting exercise logger built to make training more structured and personalized. With this app, users can:
 
-📊 Log sets and reps for each exercise to track workout sessions.
+Log sets and reps for each exercise to track workout sessions.
 
-🏋️ Create custom exercises that fit their training style.
+Create custom exercises that fit their training style.
 
-🧩 Define custom muscle groups — for example, if only “Legs” exist by default, users can add specific groups like “Glutes” or “Hamstrings.”
-
-📈 Visualize progress over time to stay consistent and motivated.
+Define custom muscle groups — for example, if only “Legs” exist by default, users can add specific groups like “Glutes” or “Hamstrings.”
+ 
+Visualize progress over time to stay consistent and motivated.
 
 The goal of this app is to provide a flexible, data-driven training log that adapts to the user’s needs, making it easier to build routines, measure progress, and stay accountable in the gym.
 
 
-## 🛠 Tech Stack
+## Tech Stack
 
-### 🎨 Frontend
+### Frontend
 
 <img src="https://github.com/user-attachments/assets/8e9dc8b3-34f3-4d8a-85ee-b6855f5cfd9f" width="20" height="20"> React
 
 <img src="https://github.com/user-attachments/assets/2fa439e3-c53c-43dd-a9b3-15640b7df4e1" width="20" height="20"> Vite
 
-### 👨‍🎨 Styling
+### Styling
 
 <img src="https://github.com/user-attachments/assets/fbf0b28a-c829-4c27-b6e8-400eda2095ee" width="20" height="20"> CSS 
 
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original-wordmark.svg" width="20" height="20" /> Tailwind
 
-### 💾 Backend
+### Backend
 
 <img src="https://github.com/user-attachments/assets/a9f78615-dbff-4047-bc6f-f83386718c14" width="20" height="20"> Node.js 
 
@@ -61,7 +57,7 @@ The goal of this app is to provide a flexible, data-driven training log that ada
 
 <img src="https://github.com/user-attachments/assets/d6d75482-506f-4456-9a2a-ac04db885285" width="20" height="20"> Supabase
 
-## 🏋️ Core Features
+## Core Features
 
 ### User Authentication
 
@@ -86,7 +82,7 @@ The goal of this app is to provide a flexible, data-driven training log that ada
  - Track improvements over time with clear, data-driven insights.
 
 
-## Screenshots 📸
+## Screenshots 
 
 ### Log
 <img width="2015" height="1265" alt="localhost_5173_callback" src="https://github.com/user-attachments/assets/3023524c-4bec-4a55-be57-385a9a5277d0" />
